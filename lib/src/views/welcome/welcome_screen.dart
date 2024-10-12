@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
@@ -21,55 +23,41 @@ class WelcomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Expanded(
-                flex: 3,
-                child: Center(
-                  child: TitleText(title: AppStrings.appTitle),
+              const Center(
+                child: TitleText(title: AppStrings.appTitle),
+              ),
+              Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
+                child: const SubtitleText(subtitle: AppStrings.appBrand),
+              ),
+              Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
+                child: Image.asset(
+                  AssetsAccess.bookshareIcon,
+                  height: MediaQuery.of(context).size.width / 2,
+                  width: MediaQuery.of(context).size.width / 2,
                 ),
               ),
-              const Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SubtitleText(subtitle: AppStrings.appBrand),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Image.asset(
-                    AssetsAccess.bookshareIcon,
-                    height: 400,
-                    width: 400,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width / 10),
-                  child: CustomButton(
-                      onPressed: () => {
-                            context.pushNamed(RouteNames.loginScreenRoute),
-                            debugPrint("Ir a iniciar sesion")
-                          },
-                      text: AppStrings.login),
-                ),
-              ),
+              CustomButton(
+                  onPressed: () => {
+                        log("Welcome Screen: Navigating to Login Screen"),
+                        context.pushNamed(RouteNames.loginScreenRoute),
+                      },
+                  text: AppStrings.login),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(AppStrings.noAccount),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
+                    padding:
+                        EdgeInsets.all(MediaQuery.of(context).size.width / 25),
+                    child: TextLink(
+                      text: AppStrings.createAccount,
                       onTap: () => {
+                        log("Welcome Screen: Navigating to Sign Up Screen"),
                         context.pushNamed(RouteNames.signupScreenRoute),
                       },
-                      child: const TextLink(text: AppStrings.signUp),
                     ),
                   ),
                 ],

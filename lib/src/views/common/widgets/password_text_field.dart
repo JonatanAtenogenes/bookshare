@@ -6,10 +6,16 @@ class PasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        label: Text(AppStrings.password),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.height / 25,
+        vertical: MediaQuery.of(context).size.width / 25,
+      ),
+      child: const TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          label: Text(AppStrings.password),
+        ),
       ),
     );
   }
@@ -20,12 +26,17 @@ class ConfirmPasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        label: Text(AppStrings.confirmPassword),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.height / 25,
+        vertical: MediaQuery.of(context).size.width / 25,
+      ),
+      child: const TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          label: Text(AppStrings.confirmPassword),
+        ),
       ),
     );
-    ;
   }
 }

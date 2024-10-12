@@ -5,19 +5,24 @@ class TextLink extends StatelessWidget {
   const TextLink({
     super.key,
     required this.text,
+    required this.onTap,
   });
 
   final String text;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.lato(
-        textStyle: TextStyle(
-            fontStyle: FontStyle.italic,
-            fontSize: 18,
-            color: Theme.of(context).colorScheme.primary),
+    return GestureDetector(
+      onTap: onTap,
+      child: Text(
+        text,
+        style: GoogleFonts.lato(
+          textStyle: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.primary),
+        ),
       ),
     );
   }

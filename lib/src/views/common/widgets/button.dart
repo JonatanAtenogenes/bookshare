@@ -13,12 +13,15 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: GoogleFonts.lato(
-          fontSize: 20,
+    return Padding(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: GoogleFonts.lato(
+            fontSize: 20,
+          ),
         ),
       ),
     );

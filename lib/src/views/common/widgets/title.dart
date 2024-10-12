@@ -16,6 +16,7 @@ class TitleText extends StatelessWidget {
       style: GoogleFonts.lato(
         textStyle: const TextStyle(
           fontSize: 50,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

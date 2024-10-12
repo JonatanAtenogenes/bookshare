@@ -6,9 +6,15 @@ class EmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      decoration: InputDecoration(
-        label: Text(AppStrings.email),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.height / 25,
+        vertical: MediaQuery.of(context).size.width / 25,
+      ),
+      child: const TextField(
+        decoration: InputDecoration(
+          label: Text(AppStrings.email),
+        ),
       ),
     );
   }
