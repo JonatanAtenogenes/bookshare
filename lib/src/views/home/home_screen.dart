@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
             subtitle: AppStrings.availableBooks,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 1.85,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: bookList.length,

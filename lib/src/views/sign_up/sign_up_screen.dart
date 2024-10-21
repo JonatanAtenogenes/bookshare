@@ -46,7 +46,10 @@ class SignUpScreen extends StatelessWidget {
                           MediaQuery.of(context).size.width / 25),
                       child: TextLink(
                         text: AppStrings.login,
-                        onTap: () => {},
+                        onTap: () => {
+                          log('Sign Up Screen: Navigation to Login Screen'),
+                          context.pushNamed(RouteNames.loginScreenRoute),
+                        },
                       ),
                     ),
                   ],

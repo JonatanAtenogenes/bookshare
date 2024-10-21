@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/books/book_screen.dart';
@@ -29,11 +30,21 @@ class _MainScreenState extends State<MainScreen> {
           title: const Text(AppStrings.appTitle),
           actions: [
             IconButton(
-              onPressed: () => {},
+              onPressed: () async {
+                await showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
+              },
               icon: const FaIcon(FontAwesomeIcons.magnifyingGlass),
             ),
             IconButton(
-              onPressed: () => {},
+              onPressed: () => {
+                log('Navigating to User Profile Screen'),
+                context.pushNamed(
+                  RouteNames.userProfileScreenRoute,
+                )
+              },
               icon: const FaIcon(FontAwesomeIcons.user),
             ),
           ],

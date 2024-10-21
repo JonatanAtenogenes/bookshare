@@ -1,4 +1,4 @@
-import 'package:bookshare/src/models/temp/temp.dart';
+import 'package:bookshare/src/models/temp/temp_classes.dart';
 
 final List<BookUser> bookList = [
   BookUser(

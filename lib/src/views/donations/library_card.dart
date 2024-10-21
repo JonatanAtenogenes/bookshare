@@ -1,4 +1,4 @@
-import 'package:bookshare/src/models/temp/temp.dart';
+import 'package:bookshare/src/models/temp/temp_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,6 +32,7 @@ class LibraryCard extends StatelessWidget {
               children: [
                 Text(
                   library.getLibrary['name'],
+                  overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(

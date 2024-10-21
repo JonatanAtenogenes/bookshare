@@ -28,8 +28,8 @@ class PersonalDataRegisterScreen extends StatelessWidget {
                 Padding(
                   padding:
                       EdgeInsets.all(MediaQuery.of(context).size.width / 10),
-                  child: const CircleAvatar(
-                    radius: 50,
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.width / 6,
                   ),
                 ),
                 const CustomTextField(

@@ -36,5 +36,6 @@ class AppStrings {
   static const String availableExchanges = 'Intercambios Disponibles';
   static const String realizedExchanges = 'Intercambios Realizados';
   static const String availableDonations = 'Donaciones en Espera';
-  static const String realizedDonations = 'Donaciones Realizados';
+  static const String realizedDonations = 'Donaciones Realizadas';
+  static const String userProfile = 'Perfil de Usuario';
 }

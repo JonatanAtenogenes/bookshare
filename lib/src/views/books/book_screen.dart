@@ -22,7 +22,7 @@ class _BookScreenState extends State<BookScreen> {
             subtitle: AppStrings.booksInMyCollection,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 1.3,
+            height: MediaQuery.of(context).size.height / 1.4,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: bookList.length,

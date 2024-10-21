@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/temp/temp.dart';
+import 'package:bookshare/src/models/temp/temp_classes.dart';
 import 'package:bookshare/src/views/common/widgets/text_link.dart';
 import 'package:flutter/material.dart';
 
@@ -34,10 +34,12 @@ class BookCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Image.network(
-                        bookUser.getBookUser['uri'],
-                        height: MediaQuery.of(context).size.height / 7,
-                        width: MediaQuery.of(context).size.width / 3,
+                      Expanded(
+                        child: Image.network(
+                          bookUser.getBookUser['uri'],
+                          height: MediaQuery.of(context).size.height / 7,
+                          width: MediaQuery.of(context).size.width / 3,
+                        ),
                       ),
                     ],
                   ),

@@ -14,7 +14,7 @@ class ExchangeScreen extends StatelessWidget {
         children: [
           const SubtitleText(subtitle: AppStrings.availableExchanges),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 6,
+            height: MediaQuery.of(context).size.height / 5.5,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: bookList.length,
