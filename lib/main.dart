@@ -1,23 +1,34 @@
+import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:bookshare/src/routes/routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    // wrap the entire app with a ProviderScope so that widgets
+    // will be able to read providers
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    final isDarkMode = ref.watch(darkModeProvider);
+
     return MaterialApp.router(
       title: AppStrings.appTitle,
       theme: GlobalThemeData.lightThemeData,
-      themeMode: ThemeMode.system,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       darkTheme: GlobalThemeData.darkThemeData,
-      routerConfig: routes,
+      routerConfig: router,
     );
   }
 }

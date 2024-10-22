@@ -20,7 +20,8 @@ class ExchangeScreen extends StatelessWidget {
               itemCount: bookList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: bookList[index],
+                  onTap: () => {},
+                  book: bookList[index],
                 );
               },
             ),
@@ -33,7 +34,8 @@ class ExchangeScreen extends StatelessWidget {
               itemCount: bookList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: bookList[index],
+                  onTap: () => {},
+                  book: bookList[index],
                 );
               },
             ),

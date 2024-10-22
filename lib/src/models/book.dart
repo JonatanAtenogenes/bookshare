@@ -1,20 +1,34 @@
-import 'enum/book_attributes.dart';
+import 'enum/enums.dart';
 
 class Book {
-  String? _id;
-  String? _isbn;
-  String? _title;
-  List<String>? _authors;
-  String? _synopsis;
-  String? _image;
-  String? _publisher;
-  String? _userId;
-  int? _condition; // The condition can change over time
-  int? _value; // The value can increment or decrement
-  bool _status = true; // Available or not available
+  final String id;
+  final String isbn;
+  final String title;
+  final List<String> authors;
+  final String synopsis;
+  final String image;
+  final String publisher;
+  final String userId;
+  final int condition; // The condition can change over time
+  final int value; // The value can increment or decrement
+  final bool status = true; // Available or not available
 
   // Constructor
   Book({
+    required this.id,
+    required this.isbn,
+    required this.title,
+    required this.authors,
+    required this.synopsis,
+    required this.image,
+    required this.publisher,
+    required this.userId,
+    required this.condition,
+    required this.value,
+  });
+
+  // CopyWith
+  Book copyWith({
     String? id,
     String? isbn,
     String? title,
@@ -25,80 +39,35 @@ class Book {
     String? userId,
     int? condition,
     int? value,
-    bool status = true,
   }) {
-    _id = id;
-    _isbn = isbn;
-    _title = title;
-    _authors = authors;
-    _synopsis = synopsis;
-    _image = image;
-    _publisher = publisher;
-    _userId = userId;
-    _condition = condition;
-    _value = value;
-    _status = status;
-  }
-
-  // Setters
-  void setId(String id) {
-    _id = id;
-  }
-
-  void setIsbn(String isbn) {
-    _isbn = isbn;
-  }
-
-  void setTitle(String title) {
-    _title = title;
-  }
-
-  void setAuthors(List<String> authors) {
-    _authors = authors;
-  }
-
-  void setSynopsis(String synopsis) {
-    _synopsis = synopsis;
-  }
-
-  void setImage(String image) {
-    _image = image;
-  }
-
-  void setPublisher(String publisher) {
-    _publisher = publisher;
-  }
-
-  void setUserId(String userId) {
-    _userId = userId;
-  }
-
-  void setCondition(int condition) {
-    _condition = condition;
-  }
-
-  void setValue(int value) {
-    _value = value;
-  }
-
-  void setStatus(bool status) {
-    _status = status;
+    return Book(
+      id: id ?? this.id,
+      isbn: isbn ?? this.isbn,
+      title: title ?? this.title,
+      authors: authors ?? this.authors,
+      synopsis: synopsis ?? this.synopsis,
+      image: image ?? this.image,
+      publisher: publisher ?? this.publisher,
+      userId: userId ?? this.userId,
+      condition: condition ?? this.condition,
+      value: value ?? this.value,
+    );
   }
 
   // Getter for the donation as a map
   Map<String, dynamic> get book {
     return {
-      BookAttributes.id.name: _id,
-      BookAttributes.isbn.name: _isbn,
-      BookAttributes.title.name: _title,
-      BookAttributes.authors.name: _authors,
-      BookAttributes.synopsis.name: _synopsis,
-      BookAttributes.image.name: _image,
-      BookAttributes.publisher.name: _publisher,
-      BookAttributes.userId.name: _userId,
-      BookAttributes.condition.name: _condition,
-      BookAttributes.value.name: _value,
-      BookAttributes.status.name: _status,
+      BookAttributes.id.name: id,
+      BookAttributes.isbn.name: isbn,
+      BookAttributes.title.name: title,
+      BookAttributes.authors.name: authors,
+      BookAttributes.synopsis.name: synopsis,
+      BookAttributes.image.name: image,
+      BookAttributes.publisher.name: publisher,
+      BookAttributes.userId.name: userId,
+      BookAttributes.condition.name: condition,
+      BookAttributes.value.name: value,
+      BookAttributes.status.name: status,
     };
   }
 }

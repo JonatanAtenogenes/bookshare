@@ -1,18 +1,31 @@
-import 'enum/exchange_attributes.dart';
+import 'enum/enums.dart';
 
 class Exchange {
-  String? _id;
-  String? _offeringUserId;
-  String? _receivingUserId;
-  List<String>? _offeredBooksIds;
-  List<String>? _offeringUserBooksIds;
-  String? _exchangeAddress;
-  DateTime? _exchangeDate;
-  bool? _receivedExchange;
-  String? _status;
+  final String id;
+  final String offeringUserId;
+  final String receivingUserId;
+  final List<String> offeredBooksIds;
+  final List<String> offeringUserBooksIds;
+  final String exchangeAddress;
+  final DateTime exchangeDate;
+  final bool receivedExchange;
+  final String status;
 
   // Constructor
   Exchange({
+    required this.id,
+    required this.offeringUserId,
+    required this.receivingUserId,
+    required this.offeredBooksIds,
+    required this.offeringUserBooksIds,
+    required this.exchangeAddress,
+    required this.exchangeDate,
+    required this.receivedExchange,
+    required this.status,
+  });
+
+  // CopyWith
+  Exchange copyWith({
     String? id,
     String? offeringUserId,
     String? receivingUserId,
@@ -22,65 +35,32 @@ class Exchange {
     DateTime? exchangeDate,
     bool? receivedExchange,
     String? status,
-  })  : _id = id,
-        _offeringUserId = offeringUserId,
-        _receivingUserId = receivingUserId,
-        _offeredBooksIds = offeredBooksIds,
-        _offeringUserBooksIds = offeringUserBooksIds,
-        _exchangeAddress = exchangeAddress,
-        _exchangeDate = exchangeDate,
-        _receivedExchange = receivedExchange,
-        _status = status;
-
-  // Setters
-  void setId(String id) {
-    _id = id;
-  }
-
-  void setOfferingUserId(String userId) {
-    _offeringUserId = userId;
-  }
-
-  void setReceivingUserId(String userId) {
-    _receivingUserId = userId;
-  }
-
-  void setOfferedBooksIds(List<String> books) {
-    _offeredBooksIds = books;
-  }
-
-  void setOfferingUserBooksIds(List<String> books) {
-    _offeringUserBooksIds = books;
-  }
-
-  void setExchangeAddress(String address) {
-    _exchangeAddress = address;
-  }
-
-  void setExchangeDate(DateTime date) {
-    _exchangeDate = date;
-  }
-
-  void setReceivedExchange(bool received) {
-    _receivedExchange = received;
-  }
-
-  void setStatus(String status) {
-    _status = status;
+  }) {
+    return Exchange(
+      id: id ?? this.id,
+      offeringUserId: offeringUserId ?? this.offeringUserId,
+      receivingUserId: receivingUserId ?? this.receivingUserId,
+      offeredBooksIds: offeredBooksIds ?? this.offeredBooksIds,
+      offeringUserBooksIds: offeringUserBooksIds ?? this.offeringUserBooksIds,
+      exchangeAddress: exchangeAddress ?? this.exchangeAddress,
+      exchangeDate: exchangeDate ?? this.exchangeDate,
+      receivedExchange: receivedExchange ?? this.receivedExchange,
+      status: status ?? this.status,
+    );
   }
 
   // Getter for the exchange as a map
   Map<String, dynamic> get exchange {
     return {
-      ExchangeAttributes.id.name: _id,
-      ExchangeAttributes.offeringUserId.name: _offeringUserId,
-      ExchangeAttributes.receivingUserId.name: _receivingUserId,
-      ExchangeAttributes.offeredBooksIds.name: _offeredBooksIds,
-      ExchangeAttributes.offeringUserBooksIds.name: _offeringUserBooksIds,
-      ExchangeAttributes.exchangeAddress.name: _exchangeAddress,
-      ExchangeAttributes.exchangeDate.name: _exchangeDate,
-      ExchangeAttributes.receivedExchange.name: _receivedExchange,
-      ExchangeAttributes.status.name: _status,
+      ExchangeAttributes.id.name: id,
+      ExchangeAttributes.offeringUserId.name: offeringUserId,
+      ExchangeAttributes.receivingUserId.name: receivingUserId,
+      ExchangeAttributes.offeredBooksIds.name: offeredBooksIds,
+      ExchangeAttributes.offeringUserBooksIds.name: offeringUserBooksIds,
+      ExchangeAttributes.exchangeAddress.name: exchangeAddress,
+      ExchangeAttributes.exchangeDate.name: exchangeDate,
+      ExchangeAttributes.receivedExchange.name: receivedExchange,
+      ExchangeAttributes.status.name: status,
     };
   }
 }

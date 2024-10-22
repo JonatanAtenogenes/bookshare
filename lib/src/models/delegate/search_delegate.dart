@@ -1,4 +1,5 @@
-import 'package:bookshare/src/models/temp/temp_classes.dart';
+import 'package:bookshare/src/models/book.dart';
+import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/temp/temp_data.dart';
 import 'package:bookshare/src/views/common/widgets/book_card.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // This method is responsible for displaying the search results.
-    final List<BookUser> searchResult = bookList
-        .where((book) => book.getBookUser['bookName']
+    final List<Book> searchResult = bookList
+        .where((book) => book.book[BookAttributes.title.name]
             .toLowerCase()
             .contains(query.toLowerCase()))
         .toList();
@@ -48,7 +49,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               itemCount: searchResult.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: searchResult[index],
+                  onTap: () => {},
+                  book: searchResult[index],
                 );
               },
             ),
@@ -61,10 +63,10 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // The buildSuggestions method is used to provide search suggestions as the user types.
-    final List<BookUser> suggestionList = query.isEmpty
+    final List<Book> suggestionList = query.isEmpty
         ? []
         : bookList
-            .where((book) => book.getBookUser['bookName']
+            .where((book) => book.book[BookAttributes.title.name]
                 .toLowerCase()
                 .contains(query.toLowerCase()))
             .toList();
@@ -78,7 +80,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               itemCount: suggestionList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: suggestionList[index],
+                  onTap: () => {},
+                  book: suggestionList[index],
                 );
               },
             ),

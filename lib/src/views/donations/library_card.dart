@@ -1,4 +1,5 @@
-import 'package:bookshare/src/models/temp/temp_classes.dart';
+import 'package:bookshare/src/models/enum/library_attributes.dart';
+import 'package:bookshare/src/models/library.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -31,7 +32,7 @@ class LibraryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  library.getLibrary['name'],
+                  library.library[LibraryAttributes.name.name],
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
@@ -41,7 +42,7 @@ class LibraryCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  library.getLibrary['address'],
+                  library.library[LibraryAttributes.street.name],
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
                       fontSize: MediaQuery.of(context).size.width / 28,
@@ -50,7 +51,7 @@ class LibraryCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  library.getLibrary['city'],
+                  library.library[LibraryAttributes.city.name],
                   textAlign: TextAlign.right,
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
@@ -60,7 +61,7 @@ class LibraryCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  library.getLibrary['state'],
+                  library.library[LibraryAttributes.state.name],
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(
                       fontSize: MediaQuery.of(context).size.width / 35,

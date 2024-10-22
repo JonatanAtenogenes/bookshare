@@ -1,16 +1,27 @@
-import 'enum/address_attributes.dart';
+import 'enum/enums.dart';
 
 class Address {
-  String? _street;
-  String? _interiorNumber;
-  String? _exteriorNumber;
-  String? _postalCode;
-  String? _locality;
-  String? _city;
-  String? _state;
+  final String street;
+  final String interiorNumber;
+  final String exteriorNumber;
+  final String postalCode;
+  final String locality;
+  final String city;
+  final String state;
 
   // Constructor
   Address({
+    required this.street,
+    required this.interiorNumber,
+    required this.exteriorNumber,
+    required this.postalCode,
+    required this.locality,
+    required this.city,
+    required this.state,
+  });
+
+  // CopyWith
+  Address copyWith({
     String? street,
     String? interiorNumber,
     String? exteriorNumber,
@@ -19,54 +30,42 @@ class Address {
     String? city,
     String? state,
   }) {
-    _street = street;
-    _interiorNumber = interiorNumber;
-    _exteriorNumber = exteriorNumber;
-    _postalCode = postalCode;
-    _locality = locality;
-    _city = city;
-    _state = state;
-  }
-
-  // Setters
-  void setStreet(String street) {
-    _street = street;
-  }
-
-  void setInteriorNumber(String interiorNumber) {
-    _interiorNumber = interiorNumber;
-  }
-
-  void setExteriorNumber(String exteriorNumber) {
-    _exteriorNumber = exteriorNumber;
-  }
-
-  void setPostalCode(String postalCode) {
-    _postalCode = postalCode;
-  }
-
-  void setLocality(String locality) {
-    _locality = locality;
-  }
-
-  void setCity(String city) {
-    _city = city;
-  }
-
-  void setState(String state) {
-    _state = state;
+    return Address(
+      street: street ?? this.street,
+      interiorNumber: interiorNumber ?? this.interiorNumber,
+      exteriorNumber: exteriorNumber ?? this.exteriorNumber,
+      postalCode: postalCode ?? this.postalCode,
+      locality: locality ?? this.locality,
+      city: city ?? this.city,
+      state: state ?? this.state,
+    );
   }
 
   // Getter for the address as a map
   Map<String, dynamic> get address {
     return {
-      AddressAttributes.street.name: _street,
-      AddressAttributes.interiorNumber.name: _interiorNumber,
-      AddressAttributes.exteriorNumber.name: _exteriorNumber,
-      AddressAttributes.postalCode.name: _postalCode,
-      AddressAttributes.locality.name: _locality,
-      AddressAttributes.city.name: _city,
-      AddressAttributes.state.name: _state,
+      AddressAttributes.street.name: street,
+      AddressAttributes.interiorNumber.name: interiorNumber,
+      AddressAttributes.exteriorNumber.name: exteriorNumber,
+      AddressAttributes.postalCode.name: postalCode,
+      AddressAttributes.locality.name: locality,
+      AddressAttributes.city.name: city,
+      AddressAttributes.state.name: state,
     };
+  }
+
+  // To String
+  @override
+  String toString() {
+    return '''
+    Address: 
+      Street: $street
+      Interior Number: $interiorNumber
+      Exterior Number: $exteriorNumber
+      Postal Code: $postalCode
+      Locality: $locality
+      City: $city
+      State: $state
+      ''';
   }
 }

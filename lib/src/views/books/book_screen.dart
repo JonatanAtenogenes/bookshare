@@ -28,7 +28,8 @@ class _BookScreenState extends State<BookScreen> {
               itemCount: bookList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: bookList[index],
+                  onTap: () => {},
+                  book: bookList[index],
                 );
               },
             ),

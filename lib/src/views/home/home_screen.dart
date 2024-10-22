@@ -1,9 +1,14 @@
+import 'dart:developer';
+
+import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/temp/temp_data.dart';
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/widgets/book_card.dart';
 import 'package:bookshare/src/views/common/widgets/subtitle.dart';
 import 'package:bookshare/src/views/donations/library_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,7 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: bookList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  bookUser: bookList[index],
+                  onTap: () => {
+                    log('Info book: ${bookList[index].book[BookAttributes.userId.name]}'),
+                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+                  },
+                  book: bookList[index],
                 );
               },
             ),

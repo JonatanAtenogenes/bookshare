@@ -1,96 +1,74 @@
 import 'address.dart';
-import 'enum/roles.dart';
-import 'enum/user_attributes.dart';
+import 'enum/enums.dart';
 
 class User {
-  String? _id;
-  String? _name;
-  String? _paternalSurname;
-  String? _maternalSurname;
-  DateTime? _birthdate;
-  String? _email;
-  String? _password;
-  Address? _address;
-  String? _image;
-  final String _role = Roles.user.name;
-  bool _status = true;
+  final String id;
+  final String name;
+  final String paternalSurname;
+  final String maternalSurname;
+  final DateTime birthdate;
+  final String email;
+  final String password;
+  final Address address;
+  final String image;
+  final String role = Roles.user.name;
+  final bool status;
 
   // Constructor
   User({
+    required this.id,
+    required this.name,
+    required this.paternalSurname,
+    required this.maternalSurname,
+    required this.image,
+    required this.birthdate,
+    required this.address,
+    required this.email,
+    required this.password,
+    required this.status,
+  });
+
+  // CopyWith
+  User copyWith({
     String? id,
     String? name,
     String? paternalSurname,
     String? maternalSurname,
-    String? image,
     DateTime? birthdate,
-    Address? address,
     String? email,
     String? password,
-  })  : _id = id,
-        _name = name,
-        _paternalSurname = paternalSurname,
-        _maternalSurname = maternalSurname,
-        _image = image,
-        _birthdate = birthdate,
-        _address = address,
-        _email = email,
-        _password = password;
-
-  // Setters
-  void setId(String id) {
-    _id = id;
-  }
-
-  void setName(String name) {
-    _name = name;
-  }
-
-  void setPaternalSurname(String paternalSurname) {
-    _paternalSurname = paternalSurname;
-  }
-
-  void setMaternalSurname(String maternalSurname) {
-    _maternalSurname = maternalSurname;
-  }
-
-  void setBirthdate(DateTime birthdate) {
-    _birthdate = birthdate;
-  }
-
-  void setEmail(String email) {
-    _email = email;
-  }
-
-  void setPassword(String password) {
-    _password = password;
-  }
-
-  void setAddress(Address address) {
-    _address = address;
-  }
-
-  void setImage(String image) {
-    _image = image;
-  }
-
-  void setStatus(bool status) {
-    _status = status;
+    Address? address,
+    String? image,
+    bool? status,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      paternalSurname: paternalSurname ?? this.paternalSurname,
+      maternalSurname: maternalSurname ?? this.maternalSurname,
+      image: image ?? this.image,
+      birthdate: birthdate ?? this.birthdate,
+      address: address ?? this.address,
+      email: email ?? this.password,
+      password: password ?? this.password,
+      status: status ?? this.status,
+    );
   }
 
   // Getter for the user as a map
   Map<String, dynamic> get user {
     return {
-      UserAttributes.id.name: _id,
-      UserAttributes.name.name: _name,
-      UserAttributes.paternalSurname.name: _paternalSurname,
-      UserAttributes.maternalSurname.name: _maternalSurname,
-      UserAttributes.birthdate.name: _birthdate,
-      UserAttributes.address.name: _address?.address,
-      UserAttributes.email.name: _email,
-      UserAttributes.password.name: _password,
-      UserAttributes.image.name: _image,
-      UserAttributes.role.name: _role,
-      UserAttributes.status.name: _status,
+      UserAttributes.id.name: id,
+      UserAttributes.name.name: name,
+      UserAttributes.paternalSurname.name: paternalSurname,
+      UserAttributes.maternalSurname.name: maternalSurname,
+      UserAttributes.birthdate.name: birthdate,
+      UserAttributes.address.name: address.address,
+      UserAttributes.email.name: email,
+      UserAttributes.password.name: password,
+      UserAttributes.image.name: image,
+      UserAttributes.role.name: role,
+      UserAttributes.status.name: status,
     };
   }
 }

@@ -1,146 +1,279 @@
-import 'package:bookshare/src/models/temp/temp_classes.dart';
+import 'package:bookshare/src/models/models.dart';
+import 'package:bookshare/src/utils/assets_access.dart';
 
-final List<BookUser> bookList = [
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'The Shining',
-    author: 'Stephen King',
-    uri:
+final List<Book> bookList = [
+  Book(
+    id: '1',
+    isbn: '9780307743657',
+    title: 'The Shining',
+    authors: ['Stephen King'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '3',
+    synopsis: "",
+    publisher: "",
+    condition: 4,
     value: 5,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'It',
-    author: 'Stephen King',
-    uri:
+  Book(
+    id: '2',
+    isbn: '9780450411434',
+    title: 'It',
+    authors: ['Stephen King'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '4',
+    synopsis: "",
+    publisher: "",
+    condition: 3,
     value: 50,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: '1984',
-    author: 'George Orwell',
-    uri:
+  Book(
+    id: '3',
+    isbn: '9780451524935',
+    title: '1984',
+    authors: ['George Orwell'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '1',
+    synopsis: "",
+    publisher: "",
+    condition: 5,
     value: 25,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    uri:
+  Book(
+    id: '4',
+    isbn: '9780061120084',
+    title: 'To Kill a Mockingbird',
+    authors: ['Harper Lee'],
+    image:
         'https://m.media-amazon.com/images/I/81YPgi4vpDL._AC_UF1000,1000_QL80_.jpg',
+    userId: '2',
+    synopsis: "",
+    publisher: "",
+    condition: 4,
     value: 20,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'Pride and Prejudice',
-    author: 'Jane Austen',
-    uri:
+  Book(
+    id: '5',
+    isbn: '9780141439518',
+    title: 'Pride and Prejudice',
+    authors: ['Jane Austen'],
+    image:
         'https://m.media-amazon.com/images/I/91HHqVTAJQL._AC_UF1000,1000_QL80_.jpg',
+    userId: '3',
+    synopsis: "",
+    publisher: "",
+    condition: 5,
     value: 30,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    uri:
+  Book(
+    id: '6',
+    isbn: '9780345339683',
+    title: 'The Hobbit',
+    authors: ['J.R.R. Tolkien'],
+    image:
         'https://m.media-amazon.com/images/I/911bSgYftRL._AC_UF1000,1000_QL80_.jpg',
+    userId: '4',
+    synopsis: "",
+    publisher: "",
+    condition: 4,
     value: 40,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    uri:
+  Book(
+    id: '7',
+    isbn: '9780743273565',
+    title: 'The Great Gatsby',
+    authors: ['F. Scott Fitzgerald'],
+    image:
         'https://m.media-amazon.com/images/I/71FTb9X6wsL._AC_UF1000,1000_QL80_.jpg',
+    userId: '1',
+    synopsis: "",
+    publisher: "",
+    condition: 3,
     value: 15,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'Moby-Dick',
-    author: 'Herman Melville',
-    uri:
+  Book(
+    id: '8',
+    isbn: '9781503280786',
+    title: 'Moby-Dick',
+    authors: ['Herman Melville'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '2',
+    synopsis: "",
+    publisher: "",
+    condition: 3,
     value: 35,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'War and Peace',
-    author: 'Leo Tolstoy',
-    uri:
+  Book(
+    id: '9',
+    isbn: '9781400079988',
+    title: 'War and Peace',
+    authors: ['Leo Tolstoy'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '3',
+    synopsis: "",
+    publisher: "",
+    condition: 5,
     value: 45,
   ),
-  BookUser(
-    name: 'Jonatan',
-    bookName: 'The Catcher in the Rye',
-    author: 'J.D. Salinger',
-    uri:
+  Book(
+    id: '10',
+    isbn: '9780316769488',
+    title: 'The Catcher in the Rye',
+    authors: ['J.D. Salinger'],
+    image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+    userId: '4',
+    synopsis: "",
+    publisher: "",
+    condition: 2,
     value: 10,
+  ),
+];
+
+final List<User> userList = [
+  User(
+    id: '1',
+    name: 'Jonatan',
+    paternalSurname: 'Gómez',
+    maternalSurname: 'López',
+    birthdate: DateTime(1995, 5, 15),
+    email: 'jonatan.gomez@example.com',
+    image: AssetsAccess.defaultUserImage,
+    address: Address(
+        street: "street",
+        interiorNumber: "interiorNumber",
+        exteriorNumber: "exteriorNumber",
+        postalCode: "postalCode",
+        locality: "locality",
+        city: "city",
+        state: "state"),
+    password: "password",
+    status: true,
+  ),
+  User(
+    id: '2',
+    name: 'María',
+    paternalSurname: 'Pérez',
+    maternalSurname: 'Sánchez',
+    birthdate: DateTime(1992, 3, 10),
+    email: 'maria.perez@example.com',
+    image: AssetsAccess.defaultUserImage,
+    address: Address(
+        street: "street",
+        interiorNumber: "interiorNumber",
+        exteriorNumber: "exteriorNumber",
+        postalCode: "postalCode",
+        locality: "locality",
+        city: "city",
+        state: "state"),
+    password: "password",
+    status: true,
+  ),
+  User(
+    id: '3',
+    name: 'Carlos',
+    paternalSurname: 'Ramírez',
+    maternalSurname: 'Hernández',
+    birthdate: DateTime(1990, 7, 25),
+    email: 'carlos.ramirez@example.com',
+    image: AssetsAccess.defaultUserImage,
+    address: Address(
+        street: "street",
+        interiorNumber: "interiorNumber",
+        exteriorNumber: "exteriorNumber",
+        postalCode: "postalCode",
+        locality: "locality",
+        city: "city",
+        state: "state"),
+    password: "password",
+    status: true,
+  ),
+  User(
+    id: '4',
+    name: 'Lucía',
+    paternalSurname: 'Fernández',
+    maternalSurname: 'Díaz',
+    birthdate: DateTime(1988, 11, 20),
+    email: 'lucia.fernandez@example.com',
+    image: AssetsAccess.defaultUserImage,
+    address: Address(
+        street: "street",
+        interiorNumber: "interiorNumber",
+        exteriorNumber: "exteriorNumber",
+        postalCode: "postalCode",
+        locality: "locality",
+        city: "city",
+        state: "state"),
+    password: "password",
+    status: true,
   ),
 ];
 
 final List<Library> libraries = [
   Library(
     name: 'The Book Nook',
-    address: '123 Main St',
+    street: '123 Main St',
     state: 'California',
     city: 'Los Angeles',
+    id: '1',
+    collectionId: 120,
+    postalCode: '',
   ),
   Library(
     name: 'City Lights Booksellers',
-    address: '261 Columbus Ave',
+    street: '261 Columbus Ave',
     state: 'California',
     city: 'San Francisco',
   ),
   Library(
     name: 'Powell’s City of Books',
-    address: '1005 W Burnside St',
+    street: '1005 W Burnside St',
     state: 'Oregon',
     city: 'Portland',
   ),
   Library(
     name: 'Strand Bookstore',
-    address: '828 Broadway',
+    street: '828 Broadway',
     state: 'New York',
     city: 'New York',
   ),
   Library(
     name: 'Elliott Bay Book Company',
-    address: '1521 10th Ave',
+    street: '1521 10th Ave',
     state: 'Washington',
     city: 'Seattle',
   ),
   Library(
     name: 'Tattered Cover Book Store',
-    address: '2526 E Colfax Ave',
+    street: '2526 E Colfax Ave',
     state: 'Colorado',
     city: 'Denver',
   ),
   Library(
     name: 'Books & Books',
-    address: '265 Aragon Ave',
+    street: '265 Aragon Ave',
     state: 'Florida',
     city: 'Coral Gables',
   ),
   Library(
     name: 'BookPeople',
-    address: '603 N Lamar Blvd',
+    street: '603 N Lamar Blvd',
     state: 'Texas',
     city: 'Austin',
   ),
   Library(
     name: 'Politics and Prose',
-    address: '5015 Connecticut Ave NW',
+    street: '5015 Connecticut Ave NW',
     state: 'District of Columbia',
     city: 'Washington',
   ),
   Library(
     name: 'Parnassus Books',
-    address: '3900 Hillsboro Pike',
+    street: '3900 Hillsboro Pike',
     state: 'Tennessee',
     city: 'Nashville',
   ),

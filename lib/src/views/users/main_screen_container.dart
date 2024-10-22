@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bookshare/src/models/delegate/search_delegate.dart';
+import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/books/book_screen.dart';
@@ -9,21 +10,21 @@ import 'package:bookshare/src/views/donations/donation_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchange_screen.dart';
 import 'package:bookshare/src/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  int currentPageIndex = 0;
-
+class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final currentPageIndex = ref.watch(indexContentProvider);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -45,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
                   RouteNames.userProfileScreenRoute,
                 )
               },
-              icon: const FaIcon(FontAwesomeIcons.user),
+              icon: const FaIcon(FontAwesomeIcons.gear),
             ),
           ],
         ),
@@ -73,9 +74,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
         bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) => {
-            setState(() {
-              currentPageIndex = index;
-            })
+            ref
+                .read(indexContentProvider.notifier)
+                .update((state) => state = index),
           },
           indicatorColor: Theme.of(context).colorScheme.primary,
           selectedIndex: currentPageIndex,
