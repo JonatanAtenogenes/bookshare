@@ -1,7 +1,7 @@
 import 'package:bookshare/src/models/book.dart';
 import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/temp/temp_data.dart';
-import 'package:bookshare/src/views/common/widgets/book_card.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';

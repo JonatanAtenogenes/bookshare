@@ -2,14 +2,9 @@ import 'dart:developer';
 
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/views/common/widgets/button.dart';
-import 'package:bookshare/src/views/common/widgets/email_text_field.dart';
-import 'package:bookshare/src/views/common/widgets/password_text_field.dart';
-import 'package:bookshare/src/views/common/widgets/subtitle.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../common/widgets/text_link.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

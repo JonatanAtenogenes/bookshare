@@ -1,11 +1,11 @@
-export 'user_information_card.dart';
-export 'address_information_card.dart';
-export 'settings_card.dart';
-export 'book_card.dart';
 export 'button.dart';
-export 'email_text_field.dart';
-export 'password_text_field.dart';
-export 'subtitle.dart';
-export 'text_field.dart';
-export 'text_link.dart';
-export 'title.dart';
+export 'show_information.dart';
+
+// Includes all of the text field custom widgets (password, email, etc)
+export 'text_field_widgets.dart';
+
+// Includes all type of defined text widgets
+export "text_widgets.dart";
+
+// Includes cards that provide information about specific type of data
+export 'custom_cards.dart';

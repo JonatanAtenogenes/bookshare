@@ -1,7 +1,6 @@
 import 'package:bookshare/src/models/temp/temp_data.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/views/common/widgets/book_card.dart';
-import 'package:bookshare/src/views/common/widgets/subtitle.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeScreen extends StatelessWidget {

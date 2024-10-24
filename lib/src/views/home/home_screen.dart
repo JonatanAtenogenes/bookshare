@@ -4,9 +4,7 @@ import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/temp/temp_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/views/common/widgets/book_card.dart';
-import 'package:bookshare/src/views/common/widgets/subtitle.dart';
-import 'package:bookshare/src/views/donations/library_card.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

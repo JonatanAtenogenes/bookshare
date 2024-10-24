@@ -1,8 +1,6 @@
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/views/common/widgets/button.dart';
-import 'package:bookshare/src/views/common/widgets/subtitle.dart';
-import 'package:bookshare/src/views/common/widgets/text_field.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AddingBookScreen extends StatelessWidget {

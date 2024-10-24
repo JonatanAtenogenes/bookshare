@@ -3,10 +3,7 @@ import 'dart:developer';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
-import 'package:bookshare/src/views/common/widgets/button.dart';
-import 'package:bookshare/src/views/common/widgets/subtitle.dart';
-import 'package:bookshare/src/views/common/widgets/text_link.dart';
-import 'package:bookshare/src/views/common/widgets/title.dart';
+import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

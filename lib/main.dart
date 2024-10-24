@@ -1,4 +1,3 @@
-import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/themes/theme.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +20,11 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    final isDarkMode = ref.watch(darkModeProvider);
 
     return MaterialApp.router(
       title: AppStrings.appTitle,
       theme: GlobalThemeData.lightThemeData,
-      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ThemeMode.system,
       darkTheme: GlobalThemeData.darkThemeData,
       routerConfig: router,
     );

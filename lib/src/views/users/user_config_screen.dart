@@ -13,25 +13,20 @@ class UserConfigScreen extends ConsumerWidget {
         appBar: AppBar(
           title: const Text(AppStrings.appTitle),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const UserInformationCard(),
-            Divider(
-              color: Theme.of(context).colorScheme.primary,
-              thickness: 2,
-              indent: 20,
-              endIndent: 20,
-            ),
-            const AddressInformationCard(),
-            Divider(
-              color: Theme.of(context).colorScheme.primary,
-              thickness: 2,
-              indent: 20,
-              endIndent: 20,
-            ),
-            const SettingsCard(),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const UserInformationCard(),
+              Divider(
+                color: Theme.of(context).colorScheme.primary,
+                thickness: 2,
+                indent: 20,
+                endIndent: 20,
+              ),
+              const AddressInformationCard(),
+            ],
+          ),
         ),
       ),
     );
