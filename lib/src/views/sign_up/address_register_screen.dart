@@ -1,15 +1,34 @@
 import 'dart:developer';
 
 import 'package:bookshare/src/routes/route_names.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 enum Localidades { toluca, metepec, lerma }
 
-class AddressRegisterScreen extends StatelessWidget {
+class AddressRegisterScreen extends StatefulWidget {
   const AddressRegisterScreen({super.key});
+
+  @override
+  State<AddressRegisterScreen> createState() => _AddressRegisterScreenState();
+}
+
+class _AddressRegisterScreenState extends State<AddressRegisterScreen> {
+  final streetController = TextEditingController();
+  final _interiorNumber = TextEditingController();
+  final _exteriorNumber = TextEditingController();
+  final _postalCode = TextEditingController();
+
+  @override
+  void dispose() {
+    streetController.dispose();
+    _interiorNumber.dispose();
+    _exteriorNumber.dispose();
+    _postalCode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +42,41 @@ class AddressRegisterScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SubtitleText(subtitle: AppStrings.addressData),
-                const CustomTextField(label: AppStrings.street),
-                const Row(
+                CustomTextField(
+                  label: AppStrings.street,
+                  controller: streetController,
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: NumberTextField(label: AppStrings.interiorNumber),
+                      child: NumberTextField(
+                        label: AppStrings.interiorNumber,
+                        maxLength: 5,
+                        controller: _interiorNumber,
+                      ),
                     ),
                     Expanded(
-                      child: NumberTextField(label: AppStrings.exteriorNumber),
+                      child: NumberTextField(
+                        label: AppStrings.exteriorNumber,
+                        maxLength: 5,
+                        controller: _exteriorNumber,
+                      ),
                     ),
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    Spacer(flex: 1),
+                    const Spacer(flex: 1),
                     Expanded(
                       flex: 2,
-                      child: NumberTextField(label: AppStrings.postalCode),
+                      child: NumberTextField(
+                        label: AppStrings.postalCode,
+                        maxLength: 5,
+                        controller: _postalCode,
+                      ),
                     ),
-                    Spacer(flex: 1),
+                    const Spacer(flex: 1),
                   ],
                 ),
                 Row(

@@ -7,9 +7,11 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.label,
+    required this.controller,
   });
 
   final String label;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class CustomTextField extends StatelessWidget {
         vertical: MediaQuery.of(context).size.width / 25,
       ),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           label: Text(
             label,
@@ -38,9 +41,15 @@ class NumberTextField extends StatelessWidget {
   const NumberTextField({
     super.key,
     required this.label,
+    required this.controller,
+    required this.maxLength,
+    this.onSubmitted,
   });
 
   final String label;
+  final TextEditingController controller;
+  final int maxLength;
+  final ValueChanged<String>? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +60,9 @@ class NumberTextField extends StatelessWidget {
       ),
       child: TextField(
         keyboardType: const TextInputType.numberWithOptions(),
+        controller: controller,
+        onSubmitted: onSubmitted,
+        maxLength: maxLength,
         decoration: InputDecoration(
           label: Text(
             label,
@@ -70,9 +82,11 @@ class DisabledTextField extends StatelessWidget {
   const DisabledTextField({
     super.key,
     required this.label,
+    this.controller,
   });
 
   final String label;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +96,7 @@ class DisabledTextField extends StatelessWidget {
         vertical: MediaQuery.of(context).size.width / 25,
       ),
       child: TextField(
+        controller: controller,
         enabled: false,
         decoration: InputDecoration(
           label: Text(
@@ -100,7 +115,14 @@ class DisabledTextField extends StatelessWidget {
 
 // Email Text Field
 class EmailTextField extends StatelessWidget {
-  const EmailTextField({super.key});
+  const EmailTextField({
+    super.key,
+    required this.controller,
+    this.errorText,
+  });
+
+  final TextEditingController controller;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +131,11 @@ class EmailTextField extends StatelessWidget {
         horizontal: MediaQuery.of(context).size.height / 25,
         vertical: MediaQuery.of(context).size.width / 25,
       ),
-      child: const TextField(
+      child: TextField(
+        controller: controller,
         decoration: InputDecoration(
-          label: Text(AppStrings.email),
+          label: const Text(AppStrings.email),
+          errorText: errorText,
         ),
       ),
     );

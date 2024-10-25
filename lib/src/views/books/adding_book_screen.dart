@@ -1,13 +1,40 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/viewmodels/isbn_book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddingBookScreen extends StatelessWidget {
+class AddingBookScreen extends ConsumerStatefulWidget {
   const AddingBookScreen({super.key});
 
   @override
+  ConsumerState<AddingBookScreen> createState() => _AddingBookScreenState();
+}
+
+class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
+  final _isbnController = TextEditingController();
+  final _valueController = TextEditingController();
+  final _authorController = TextEditingController();
+  final _titleController = TextEditingController();
+
+  @override
+  void dispose() {
+    _isbnController.dispose();
+    _valueController.dispose();
+    _authorController.dispose();
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isbnApiProvider = ref.watch(isbnBooksApiProvider);
+    _authorController.text = isbnApiProvider.authors.join(", ");
+    _titleController.text = isbnApiProvider.title;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -20,9 +47,9 @@ class AddingBookScreen extends StatelessWidget {
                 const SubtitleText(
                   subtitle: AppStrings.bookRegistration,
                 ),
-                const Row(
+                Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         AppStrings.isbn,
@@ -31,13 +58,21 @@ class AddingBookScreen extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: NumberTextField(label: AppStrings.isbn),
+                      child: NumberTextField(
+                        controller: _isbnController,
+                        label: AppStrings.isbn,
+                        maxLength: 13,
+                        onSubmitted: (String isbn) {
+                          log('isbn: $isbn');
+                          ref.read(isbnBooksApiProvider.notifier).getBook(isbn);
+                        },
+                      ),
                     ),
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         AppStrings.author,
@@ -46,13 +81,16 @@ class AddingBookScreen extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: DisabledTextField(label: AppStrings.author),
+                      child: DisabledTextField(
+                        label: AppStrings.author,
+                        controller: _authorController,
+                      ),
                     ),
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         AppStrings.book,
@@ -61,7 +99,10 @@ class AddingBookScreen extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: DisabledTextField(label: AppStrings.book),
+                      child: DisabledTextField(
+                        label: AppStrings.book,
+                        controller: _titleController,
+                      ),
                     ),
                   ],
                 ),
@@ -95,9 +136,9 @@ class AddingBookScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         AppStrings.bookValue,
@@ -106,7 +147,11 @@ class AddingBookScreen extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: NumberTextField(label: AppStrings.bookValue),
+                      child: NumberTextField(
+                        label: AppStrings.bookValue,
+                        controller: _valueController,
+                        maxLength: 3,
+                      ),
                     ),
                   ],
                 ),

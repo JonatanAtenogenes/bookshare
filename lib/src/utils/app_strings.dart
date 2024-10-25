@@ -39,4 +39,5 @@ class AppStrings {
   static const String realizedDonations = 'Donaciones Realizadas';
   static const String userProfile = 'Perfil de Usuario';
   static const String bookInformation = 'Informacion del Libro';
+  static const String select = 'Seleccionar';
 }

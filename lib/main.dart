@@ -1,7 +1,7 @@
+import 'package:bookshare/src/routes/routes.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/themes/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:bookshare/src/routes/routes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {

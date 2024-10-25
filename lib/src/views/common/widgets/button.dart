@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
       child: ElevatedButton(
         onPressed: onPressed,
         child: Text(
