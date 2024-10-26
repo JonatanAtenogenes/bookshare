@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'enum/book_attributes.dart';
 import 'enum/enums.dart';
 
@@ -57,15 +59,19 @@ class Book {
 
   // Factory method for JSON parsing
   factory Book.fromJson(Map<String, dynamic> json) {
+    log('json: $json');
+
     return Book(
-      id: json['book'][BookAttributes.id.name] ?? "",
+      id: json['book'][BookAttributes.id.name] ?? BookAttributes.id.name,
       isbn: json['book'][BookAttributes.isbn.name],
       title: json['book'][BookAttributes.title.name],
       authors: List<String>.from(json['book'][BookAttributes.authors.name]),
-      synopsis: json['book'][BookAttributes.synopsis.name],
+      synopsis: json['book'][BookAttributes.synopsis.name] ??
+          BookAttributes.synopsis.name,
       image: json['book'][BookAttributes.image.name],
       publisher: json['book'][BookAttributes.publisher.name],
-      userId: json['book'][BookAttributes.userId.name] ?? "",
+      userId: json['book'][BookAttributes.userId.name] ??
+          BookAttributes.userId.name,
       condition: json['book'][BookAttributes.condition.name] ?? 0,
       value: json['book'][BookAttributes.value.name] ?? 0,
     );

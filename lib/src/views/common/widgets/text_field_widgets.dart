@@ -182,3 +182,31 @@ class ConfirmPasswordTextField extends StatelessWidget {
     );
   }
 }
+
+class LabeledTextField extends StatelessWidget {
+  const LabeledTextField({
+    super.key,
+    required this.widget,
+  });
+
+  final Widget widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Expanded(
+          flex: 1,
+          child: Text(
+            AppStrings.isbn,
+            textAlign: TextAlign.end,
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: widget,
+        ),
+      ],
+    );
+  }
+}

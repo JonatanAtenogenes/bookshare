@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/utils/assets_access.dart';
 import 'package:bookshare/src/viewmodels/isbn_book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,28 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
               children: [
                 const SubtitleText(
                   subtitle: AppStrings.bookRegistration,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                      child: Image.network(
+                        isbnApiProvider.image,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const CircularProgressIndicator();
+                        },
+                        errorBuilder: (context, error, stack) {
+                          return Image.asset(AssetsAccess.defaultBookImage);
+                        },
+                      ),
+                    ),
+                  ),
                 ),
                 Row(
                   children: [
@@ -150,7 +173,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                       child: NumberTextField(
                         label: AppStrings.bookValue,
                         controller: _valueController,
-                        maxLength: 3,
+                        maxLength: 4,
                       ),
                     ),
                   ],

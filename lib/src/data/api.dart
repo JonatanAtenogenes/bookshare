@@ -4,6 +4,7 @@ class Api {
 
   // Auth Api Routes
   static const String csrfToken = 'api/csrf-token';
+  static const String login = 'api/auth/login';
 
   // ISBN Books Api Routes
   static const String isbnBook = 'api/isbndb/books/isbn/';

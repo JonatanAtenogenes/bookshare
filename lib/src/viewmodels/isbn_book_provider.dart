@@ -4,6 +4,7 @@ import 'package:bookshare/src/data/book_api_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/enum/enums.dart';
 import '../models/models.dart';
 
 final isbnApiProvider = Provider<IsbnBookApiClient>((ref) {
@@ -26,16 +27,17 @@ class IsbnBooksApiNotifier extends StateNotifier<Book> {
   IsbnBooksApiNotifier()
       : super(
           Book(
-              id: "id",
-              isbn: "ISBN",
-              title: "Title",
-              authors: [],
-              synopsis: "Synopsis",
-              image: "Image",
-              publisher: "Publisher",
-              userId: "userId",
-              condition: 0,
-              value: 0),
+            id: BookAttributes.id.name,
+            isbn: BookAttributes.isbn.name,
+            title: BookAttributes.title.name,
+            authors: [],
+            image: BookAttributes.image.name,
+            userId: BookAttributes.userId.name,
+            synopsis: BookAttributes.synopsis.name,
+            publisher: BookAttributes.publisher.name,
+            condition: 0,
+            value: 0,
+          ),
         );
 
   Future<Book> getBook(String isbn) async {
@@ -43,7 +45,6 @@ class IsbnBooksApiNotifier extends StateNotifier<Book> {
     try {
       final book = await _isbnBookApiClient.getIsbnBook(isbn);
       state = book;
-      log('Book: $book');
       return book;
     } catch (e) {
       log('Error getting book information: $e');
