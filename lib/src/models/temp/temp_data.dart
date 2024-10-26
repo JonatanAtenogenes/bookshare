@@ -1,3 +1,4 @@
+import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
 
@@ -8,7 +9,7 @@ final List<Book> bookList = [
     title: 'The Shining',
     authors: ['Stephen King'],
     image:
-        'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
+        'http://192.168.100.94:3000/uploads/123456778/profileImage/123456778-1729929867940-98907953.jpg',
     userId: '3',
     synopsis: "",
     publisher: "",
@@ -153,6 +154,7 @@ final List<User> userList = [
         state: "state"),
     password: "password",
     status: true,
+    role: Roles.user.name,
   ),
   User(
     id: '2',
@@ -172,6 +174,7 @@ final List<User> userList = [
         state: "state"),
     password: "password",
     status: true,
+    role: Roles.user.name,
   ),
   User(
     id: '3',
@@ -191,6 +194,7 @@ final List<User> userList = [
         state: "state"),
     password: "password",
     status: true,
+    role: Roles.user.name,
   ),
   User(
     id: '4',
@@ -210,6 +214,7 @@ final List<User> userList = [
         state: "state"),
     password: "password",
     status: true,
+    role: Roles.user.name,
   ),
 ];
 

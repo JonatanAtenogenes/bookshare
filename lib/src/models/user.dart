@@ -11,7 +11,7 @@ class User {
   final String password;
   final Address address;
   final String image;
-  final String role = Roles.user.name;
+  final String role;
   final bool status;
 
   // Constructor
@@ -25,6 +25,7 @@ class User {
     required this.address,
     required this.email,
     required this.password,
+    required this.role,
     required this.status,
   });
 
@@ -39,6 +40,7 @@ class User {
     String? password,
     Address? address,
     String? image,
+    String? role,
     bool? status,
   }) {
     return User(
@@ -51,8 +53,43 @@ class User {
       address: address ?? this.address,
       email: email ?? this.password,
       password: password ?? this.password,
+      role: role ?? this.role,
       status: status ?? this.status,
     );
+  }
+
+  /// Factory constructor for creating a `User` from JSON.
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      paternalSurname: json['paternalSurname'] as String,
+      maternalSurname: json['maternalSurname'] as String,
+      birthdate: DateTime.parse(json['birthdate'] as String),
+      email: json['email'] as String,
+      password: json['password'] as String,
+      address: Address.fromJson(json['address'] as Map<String, dynamic>),
+      image: json['image'] as String,
+      role: json['role'] as String? ?? Roles.user.name,
+      status: json['status'] as bool,
+    );
+  }
+
+  /// Converts the `User` object to JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'paternalSurname': paternalSurname,
+      'maternalSurname': maternalSurname,
+      'birthdate': birthdate.toIso8601String(),
+      'email': email,
+      'password': password,
+      'address': address.toJson(),
+      'image': image,
+      'role': role,
+      'status': status,
+    };
   }
 
   // Getter for the user as a map

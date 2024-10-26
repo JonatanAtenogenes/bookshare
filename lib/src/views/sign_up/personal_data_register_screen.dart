@@ -1,11 +1,14 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PersonalDataRegisterScreen extends StatefulWidget {
   const PersonalDataRegisterScreen({super.key});
@@ -22,6 +25,10 @@ class _PersonalDataRegisterScreenState
   final maternalSurnameController = TextEditingController();
   final birthdateController = TextEditingController();
 
+  // Image Picker
+  final ImagePicker _imagePicker = ImagePicker();
+  File? _selectedImage;
+
   // DatePicker
   DateTime selectedDate = DateTime.now();
 
@@ -37,6 +44,16 @@ class _PersonalDataRegisterScreenState
         selectedDate = picked;
       });
     }
+  }
+
+  Future _pickImageFromGalery() async {
+    final selectedImage =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    log("Image path: ${selectedImage!.path}");
+
+    setState(() {
+      _selectedImage = File(selectedImage.path);
+    });
   }
 
   @override
@@ -67,9 +84,14 @@ class _PersonalDataRegisterScreenState
                       EdgeInsets.all(MediaQuery.of(context).size.width / 10),
                   child: CircleAvatar(
                     radius: MediaQuery.of(context).size.width / 6,
-                    backgroundImage:
-                        const AssetImage(AssetsAccess.defaultUserImage),
+                    backgroundImage: _selectedImage != null
+                        ? FileImage(_selectedImage!)
+                        : const AssetImage(AssetsAccess.defaultUserImage),
                   ),
+                ),
+                IconButton(
+                  onPressed: () => _pickImageFromGalery(),
+                  icon: const FaIcon(FontAwesomeIcons.plus),
                 ),
                 CustomTextField(
                   label: AppStrings.name,
@@ -89,12 +111,12 @@ class _PersonalDataRegisterScreenState
                   onPressed: () => _selectDate(context),
                 ),
                 CustomButton(
-                    onPressed: () => {
-                          log('Personal Data Register Screen: Navigation to Address Register Screen'),
-                          context
-                              .pushNamed(RouteNames.addressRegisterScreenRoute),
-                        },
-                    text: AppStrings.advance)
+                  onPressed: () => {
+                    log('Personal Data Register Screen: Navigation to Address Register Screen'),
+                    context.pushNamed(RouteNames.addressRegisterScreenRoute),
+                  },
+                  text: AppStrings.advance,
+                )
               ],
             ),
           ),

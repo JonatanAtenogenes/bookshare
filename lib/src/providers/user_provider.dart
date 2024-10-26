@@ -1,4 +1,5 @@
 import 'package:bookshare/src/models/address.dart';
+import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/user.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,5 +24,6 @@ final simpleUserProvider = Provider<User>(
     email: "alice.smith@example.com",
     password: "password123",
     status: true,
+    role: Roles.user.name,
   ),
 );

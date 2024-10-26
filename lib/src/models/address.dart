@@ -41,6 +41,32 @@ class Address {
     );
   }
 
+  /// Factory constructor for creating an `Address` from JSON.
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      street: json['street'] as String,
+      interiorNumber: json['interiorNumber'] as String,
+      exteriorNumber: json['exteriorNumber'] as String,
+      postalCode: json['postalCode'] as String,
+      locality: json['locality'] as String,
+      city: json['city'] as String,
+      state: json['state'] as String,
+    );
+  }
+
+  /// Converts the `Address` object to JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      'street': street,
+      'interiorNumber': interiorNumber,
+      'exteriorNumber': exteriorNumber,
+      'postalCode': postalCode,
+      'locality': locality,
+      'city': city,
+      'state': state,
+    };
+  }
+
   // Getter for the address as a map
   Map<String, dynamic> get address {
     return {
