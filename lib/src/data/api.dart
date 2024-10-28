@@ -1,6 +1,6 @@
 class Api {
   // Base URL
-  static const String baseUrl = "http://192.168.100.40:8000/";
+  static const String baseUrl = "http://3.131.157.169:8000/";
 
   // Auth Api Routes
   static const String csrfToken = 'api/csrf-token';

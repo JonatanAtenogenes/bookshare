@@ -5,14 +5,12 @@ import 'package:bookshare/src/models/models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final authApiClient = Provider<AuthApiClient>((ref) {
-  final dio = Dio();
-  return AuthApiClient(dio);
-});
+final errorFetchingTokenProvider = StateProvider<bool>((ref) => false);
+final isLoadingTokenProvider = StateProvider<bool>((ref) => true);
 
 final csrfTokenProvider =
     StateNotifierProvider<CsrfTokenNotifier, CsrfToken>((ref) {
-  return CsrfTokenNotifier()..getCsrfToken();
+  return CsrfTokenNotifier();
 });
 
 class CsrfTokenNotifier extends StateNotifier<CsrfToken> {

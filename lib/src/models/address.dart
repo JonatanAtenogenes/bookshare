@@ -2,7 +2,7 @@ import 'enum/enums.dart';
 
 class Address {
   final String street;
-  final String interiorNumber;
+  final String? interiorNumber;
   final String exteriorNumber;
   final String postalCode;
   final String locality;
@@ -12,7 +12,7 @@ class Address {
   // Constructor
   Address({
     required this.street,
-    required this.interiorNumber,
+    this.interiorNumber,
     required this.exteriorNumber,
     required this.postalCode,
     required this.locality,
@@ -32,7 +32,7 @@ class Address {
   }) {
     return Address(
       street: street ?? this.street,
-      interiorNumber: interiorNumber ?? this.interiorNumber,
+      interiorNumber: interiorNumber,
       exteriorNumber: exteriorNumber ?? this.exteriorNumber,
       postalCode: postalCode ?? this.postalCode,
       locality: locality ?? this.locality,

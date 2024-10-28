@@ -79,19 +79,47 @@ class _PersonalDataRegisterScreenState
                 const SubtitleText(
                   subtitle: AppStrings.personalData,
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width / 10),
-                  child: CircleAvatar(
-                    radius: MediaQuery.of(context).size.width / 6,
-                    backgroundImage: _selectedImage != null
-                        ? FileImage(_selectedImage!)
-                        : const AssetImage(AssetsAccess.defaultUserImage),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => _pickImageFromGalery(),
-                  icon: const FaIcon(FontAwesomeIcons.plus),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width / 20),
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color:
+                                  Theme.of(context).colorScheme.inverseSurface),
+                        ),
+                        child: CircleAvatar(
+                          radius: MediaQuery.of(context).size.width / 6,
+                          backgroundImage: _selectedImage != null
+                              ? FileImage(_selectedImage!)
+                              : const AssetImage(AssetsAccess.defaultUserImage),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: MediaQuery.of(context).size.height * 0.02,
+                      right: MediaQuery.of(context).size.width * 0.03,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .inversePrimary, // Background color of the button
+                          shape: BoxShape.circle, // Make it circular
+                        ),
+                        child: IconButton(
+                          onPressed: () => _pickImageFromGalery(),
+                          icon: const FaIcon(FontAwesomeIcons.plus),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 CustomTextField(
                   label: AppStrings.name,

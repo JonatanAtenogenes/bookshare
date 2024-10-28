@@ -14,7 +14,7 @@ class _AuthApiClient implements AuthApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.100.40:8000/';
+    baseUrl ??= 'http://3.131.157.169:8000/';
   }
 
   final Dio _dio;

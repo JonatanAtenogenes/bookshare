@@ -9,7 +9,7 @@ final List<Book> bookList = [
     title: 'The Shining',
     authors: ['Stephen King'],
     image:
-        'http://192.168.100.94:3000/uploads/123456778/profileImage/123456778-1729929867940-98907953.jpg',
+        'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
     userId: '3',
     synopsis: "",
     publisher: "",
