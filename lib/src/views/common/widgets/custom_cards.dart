@@ -1,12 +1,14 @@
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/providers/providers.dart';
+import 'package:bookshare/src/utils/assets_access.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
 import '../../../utils/app_strings.dart';
 import 'widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // User Information Card
 class UserInformationCard extends ConsumerWidget {
@@ -28,17 +30,24 @@ class UserInformationCard extends ConsumerWidget {
               padding: const EdgeInsets.all(15.0),
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width / 6,
-                child: Image.asset(user.image),
+                child: Image.asset(user.image ?? AssetsAccess.defaultUserImage),
               ),
             ),
           ),
-          VisualizeData(title: AppStrings.name, data: user.name),
-          VisualizeData(title: AppStrings.password, data: user.paternalSurname),
           VisualizeData(
-              title: AppStrings.maternalSurname, data: user.maternalSurname),
+              title: AppStrings.name,
+              data: user.name ?? UserAttributes.name.attributeName),
+          VisualizeData(
+              title: AppStrings.paternalSurname,
+              data: user.paternalSurname ??
+                  UserAttributes.paternalSurname.attributeName),
+          VisualizeData(
+              title: AppStrings.maternalSurname,
+              data: UserAttributes.maternalSurname.attributeName),
           VisualizeData(
               title: AppStrings.birthdate,
-              data: DateFormat('dd-MM-yyyy').format(user.birthdate)),
+              data: DateFormat('dd-MM-yyyy')
+                  .format(user.birthdate ?? DateTime.now())),
         ],
       ),
     );
@@ -62,16 +71,16 @@ class AddressInformationCard extends ConsumerWidget {
           const Center(
             child: SubtitleText(subtitle: AppStrings.addressData),
           ),
-          VisualizeData(title: AppStrings.street, data: user.address.street),
+          VisualizeData(title: AppStrings.street, data: user.address!.street),
           VisualizeData(
               title: AppStrings.exteriorNumber,
-              data: user.address.exteriorNumber),
+              data: user.address!.exteriorNumber),
           VisualizeData(
-              title: AppStrings.postalCode, data: user.address.postalCode),
+              title: AppStrings.postalCode, data: user.address!.postalCode),
           VisualizeData(
-              title: AppStrings.locality, data: user.address.locality),
-          VisualizeData(title: AppStrings.city, data: user.address.city),
-          VisualizeData(title: AppStrings.state, data: user.address.state),
+              title: AppStrings.locality, data: user.address!.locality),
+          VisualizeData(title: AppStrings.city, data: user.address!.city),
+          VisualizeData(title: AppStrings.state, data: user.address!.state),
         ],
       ),
     );

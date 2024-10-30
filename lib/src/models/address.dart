@@ -41,16 +41,24 @@ class Address {
     );
   }
 
-  /// Factory constructor for creating an `Address` from JSON.
+  // Factory constructor for creating an `Address` from JSON
   factory Address.fromJson(Map<String, dynamic> json) {
+    String street = json['street'] ?? "";
+    String interiorNumber = json['interior_number'] ?? "";
+    String exteriorNumber = json['exterior_number'] ?? "";
+    String postalCode = json['postal_code'] ?? "";
+    String locality = json['locality'] ?? "";
+    String city = json['city'] ?? "";
+    String state = json['state'] ?? "";
+
     return Address(
-      street: json['street'] as String,
-      interiorNumber: json['interiorNumber'] as String,
-      exteriorNumber: json['exteriorNumber'] as String,
-      postalCode: json['postalCode'] as String,
-      locality: json['locality'] as String,
-      city: json['city'] as String,
-      state: json['state'] as String,
+      street: street,
+      interiorNumber: interiorNumber,
+      exteriorNumber: exteriorNumber,
+      postalCode: postalCode,
+      locality: locality,
+      city: city,
+      state: state,
     );
   }
 
@@ -78,6 +86,19 @@ class Address {
       AddressAttributes.city.name: city,
       AddressAttributes.state.name: state,
     };
+  }
+
+  // Factory constructor for an empty Address
+  factory Address.empty() {
+    return Address(
+      street: "",
+      interiorNumber: "",
+      exteriorNumber: "",
+      postalCode: "",
+      locality: "",
+      city: "",
+      state: "",
+    );
   }
 
   // To String

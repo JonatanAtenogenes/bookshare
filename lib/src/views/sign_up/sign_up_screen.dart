@@ -1,12 +1,16 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/providers/validation_provider.dart';
+import 'package:bookshare/src/models/enum/enums.dart';
+import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/viewmodels/auth/register_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../models/models.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -16,11 +20,15 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
-  final emailController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -28,6 +36,42 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     // Provider for validation
     final emailValidateProvider = ref.watch(emailValidatorProvider);
+    final passwordValidateProvider = ref.watch(passwordValidatorProvider);
+    final confirmPasswordValidateProvider =
+        ref.watch(confirmPasswordValidatorProvider);
+
+    void registerUser() async {
+      final user = User(
+        id: "",
+        email: _emailController.text,
+        password: _passwordController.text,
+        role: Roles.user.name,
+      );
+
+      await ref.read(registerNotifierProvider.notifier).registerUser(user);
+    }
+
+    void validateFields() {
+      ref.read(emailValidatorProvider.notifier).validate(_emailController.text);
+      ref
+          .read(passwordValidatorProvider.notifier)
+          .validate(_passwordController.text);
+      ref
+          .read(confirmPasswordValidatorProvider.notifier)
+          .vaidate(_passwordController.text, _confirmPasswordController.text);
+    }
+
+    void resetProviders() {
+      ref.read(emailValidatorProvider.notifier).reset();
+      ref.read(passwordValidatorProvider.notifier).reset();
+      ref.read(confirmPasswordValidatorProvider.notifier).reset();
+    }
+
+    bool continueWithRegister() {
+      return ref.read(emailValidatorProvider).isValid &&
+          ref.read(passwordValidatorProvider).isValid &&
+          ref.read(confirmPasswordValidatorProvider).isValid;
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -40,20 +84,27 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               children: [
                 const SubtitleText(subtitle: AppStrings.createAccount),
                 EmailTextField(
-                  controller: emailController,
-                  errorText: emailValidateProvider?['error'],
+                  controller: _emailController,
+                  error: emailValidateProvider.message,
                 ),
-                const PasswordTextField(),
-                const ConfirmPasswordTextField(),
+                PasswordTextField(
+                  controller: _passwordController,
+                  error: passwordValidateProvider.message,
+                ),
+                ConfirmPasswordTextField(
+                  controller: _confirmPasswordController,
+                  error: confirmPasswordValidateProvider.message,
+                ),
                 CustomButton(
                     onPressed: () => {
                           log("Sign Up: Navigate to Personal Data Register"),
-                          context.pushNamed(
-                              RouteNames.personalDataRegisterScreenRoute)
-                          // Generating validations
-                          // ref
-                          //     .read(emailValidatorProvider.notifier)
-                          //     .validate(emailController.text),
+                          validateFields(),
+                          if (continueWithRegister())
+                            {
+                              registerUser(),
+                            }
+                          // context.pushNamed(
+                          //     RouteNames.personalDataRegisterScreenRoute)
                         },
                     text: AppStrings.signUp),
                 Row(
@@ -68,6 +119,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         text: AppStrings.login,
                         onTap: () => {
                           log('Sign Up Screen: Navigation to Login Screen'),
+                          resetProviders(),
                           context.pushNamed(RouteNames.loginScreenRoute),
                         },
                       ),

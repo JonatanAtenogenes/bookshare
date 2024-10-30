@@ -12,4 +12,11 @@ class CsrfToken {
       csrfToken: json['csrf_token'],
     );
   }
+
+  // Method to convert the object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'X-CSRF-TOKEN': csrfToken,
+    };
+  }
 }

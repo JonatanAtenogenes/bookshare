@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/providers/validation_provider.dart';
+import 'package:bookshare/src/providers/validation/validation_provider.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
@@ -16,11 +16,13 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final emailController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -28,6 +30,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     // Provider for email validator notifier
     final emailValidateProvider = ref.watch(emailValidatorProvider);
+    final passwordValidateProvider = ref.watch(passwordValidatorProvider);
+
+    void validateFields() {
+      ref.read(emailValidatorProvider.notifier).validate(_emailController.text);
+      ref
+          .read(passwordValidatorProvider.notifier)
+          .validate(_passwordController.text);
+    }
+
+    void resetProviders() {
+      ref.read(emailValidatorProvider.notifier).reset();
+      ref.read(passwordValidatorProvider.notifier).reset();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -42,16 +57,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               const SubtitleText(subtitle: AppStrings.login),
               EmailTextField(
-                controller: emailController,
-                errorText: emailValidateProvider?['error'],
+                controller: _emailController,
+                error: emailValidateProvider.message,
               ),
-              const PasswordTextField(),
+              PasswordTextField(
+                controller: _passwordController,
+                error: passwordValidateProvider.message,
+              ),
               CustomButton(
                 onPressed: () => {
                   log('Login Screen: Navigate to Main Screen'),
-                  ref
-                      .read(emailValidatorProvider.notifier)
-                      .validate(emailController.text),
+                  validateFields(),
                   // context.goNamed(RouteNames.mainScreenRoute),
                 },
                 text: AppStrings.login,
@@ -68,7 +84,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       text: AppStrings.createAccount,
                       onTap: () => {
                         log('Login Screen: Navigate to Register'),
-                        ref.read(emailValidatorProvider.notifier).reset(),
+                        resetProviders(),
                         context.pushNamed(RouteNames.signupScreenRoute),
                       },
                     ),

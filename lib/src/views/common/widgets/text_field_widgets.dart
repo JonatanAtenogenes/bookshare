@@ -1,5 +1,6 @@
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Common Text Field
@@ -118,11 +119,11 @@ class EmailTextField extends StatelessWidget {
   const EmailTextField({
     super.key,
     required this.controller,
-    this.errorText,
+    this.error,
   });
 
   final TextEditingController controller;
-  final String? errorText;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -134,8 +135,9 @@ class EmailTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          prefixIcon: const Icon(FontAwesomeIcons.envelope),
           label: const Text(AppStrings.email),
-          errorText: errorText,
+          errorText: error,
         ),
       ),
     );
@@ -144,7 +146,14 @@ class EmailTextField extends StatelessWidget {
 
 // Password Text Fields
 class PasswordTextField extends StatelessWidget {
-  const PasswordTextField({super.key});
+  const PasswordTextField({
+    super.key,
+    required this.controller,
+    this.error,
+  });
+
+  final TextEditingController controller;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -153,18 +162,24 @@ class PasswordTextField extends StatelessWidget {
         horizontal: MediaQuery.of(context).size.height / 25,
         vertical: MediaQuery.of(context).size.width / 25,
       ),
-      child: const TextField(
+      child: TextField(
+        controller: controller,
         obscureText: true,
         decoration: InputDecoration(
-          label: Text(AppStrings.password),
+          label: const Text(AppStrings.password),
+          errorText: error,
         ),
       ),
     );
   }
 }
 
-class ConfirmPasswordTextField extends StatelessWidget {
-  const ConfirmPasswordTextField({super.key});
+class ConfirmPasswordTextField extends PasswordTextField {
+  const ConfirmPasswordTextField({
+    super.key,
+    required super.controller,
+    super.error,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -173,10 +188,12 @@ class ConfirmPasswordTextField extends StatelessWidget {
         horizontal: MediaQuery.of(context).size.height / 25,
         vertical: MediaQuery.of(context).size.width / 25,
       ),
-      child: const TextField(
+      child: TextField(
+        controller: controller,
         obscureText: true,
         decoration: InputDecoration(
-          label: Text(AppStrings.confirmPassword),
+          label: const Text(AppStrings.confirmPassword),
+          errorText: error,
         ),
       ),
     );

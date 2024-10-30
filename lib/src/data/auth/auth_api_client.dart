@@ -1,7 +1,7 @@
 import 'package:bookshare/src/data/api.dart';
 import 'package:bookshare/src/models/models.dart';
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'auth_api_client.g.dart'; // Required for Retrofit code generation
 
@@ -11,4 +11,7 @@ abstract class AuthApiClient {
 
   @GET(Api.csrfToken)
   Future<CsrfToken> getCsrfToken();
+
+  @POST(Api.register)
+  Future<User> registerUser(@Body() User user);
 }

@@ -3,11 +3,9 @@ import 'dart:developer';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
-import 'package:bookshare/src/viewmodels/viewmodels.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
@@ -18,72 +16,26 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
-  Future<void> _fetchCsrfToken() async {
-    ref.read(isLoadingTokenProvider.notifier).update((state) => true);
-    ref.read(errorFetchingTokenProvider.notifier).update((state) => false);
-    try {
-      await ref.read(csrfTokenProvider.notifier).getCsrfToken();
-    } catch (e) {
-      ref.read(errorFetchingTokenProvider.notifier).update((state) => true);
-    } finally {
-      ref.read(isLoadingTokenProvider.notifier).update((state) => false);
-    }
-  }
-
   @override
   void initState() {
-    _fetchCsrfToken();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final errorTokenProvider = ref.watch(errorFetchingTokenProvider);
-    final isLoadinTokenProvider = ref.watch(isLoadingTokenProvider);
-
-    if (isLoadinTokenProvider) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (errorTokenProvider) {
-      return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SubtitleText(
-                subtitle: 'Error retrieving csrf token',
-              ),
-              IconButton(
-                onPressed: _fetchCsrfToken,
-                icon: FaIcon(
-                  FontAwesomeIcons.rotateRight,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: const Center(
-          child: WelcomeScreenVisible(),
+          child: WelcomeScreenWidget(),
         ),
       ),
     );
   }
 }
 
-class WelcomeScreenVisible extends StatelessWidget {
-  const WelcomeScreenVisible({
+class WelcomeScreenWidget extends StatelessWidget {
+  const WelcomeScreenWidget({
     super.key,
   });
 

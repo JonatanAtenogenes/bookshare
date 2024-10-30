@@ -6,4 +6,4 @@ export 'settings_provider.dart';
 export 'user_provider.dart';
 
 // Provides validations for input fields
-export 'validation_provider.dart';
+export 'validation/validation_provider.dart';
