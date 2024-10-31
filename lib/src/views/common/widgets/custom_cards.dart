@@ -20,7 +20,7 @@ class UserInformationCard extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 2,
+      height: MediaQuery.of(context).size.height * 0.35,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,7 +64,7 @@ class AddressInformationCard extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 3,
+      height: MediaQuery.of(context).size.height * 0.22,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

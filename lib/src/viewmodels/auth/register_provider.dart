@@ -7,11 +7,12 @@ import 'package:bookshare/src/models/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loadingRegisterProvider = StateProvider<bool>((ref) => false);
-final errorRegisterProvider =
+final loadingApiRegisterProvider = StateProvider<bool>((ref) => false);
+final acceptedApiRegisterProvider =
     StateProvider<ApiResponse>((ref) => ApiResponse.success());
 
-final registerNotifierProvider = StateNotifierProvider<RegisterNotifier, User>(
+final apiRegisterNotifierProvider =
+    StateNotifierProvider<ApiRegisterNotifier, User>(
   (ref) {
     final dio = Dio(
       BaseOptions(
@@ -33,14 +34,14 @@ final registerNotifierProvider = StateNotifierProvider<RegisterNotifier, User>(
       logPrint: (object) => log(object.toString()), // Use Dart's log function
     ));
 
-    return RegisterNotifier(AuthApiClient(dio));
+    return ApiRegisterNotifier(AuthApiClient(dio));
   },
 );
 
-class RegisterNotifier extends StateNotifier<User> {
+class ApiRegisterNotifier extends StateNotifier<User> {
   final AuthApiClient _authApiClient;
 
-  RegisterNotifier(this._authApiClient) : super(User.empty());
+  ApiRegisterNotifier(this._authApiClient) : super(User.empty());
 
   Future<User> registerUser(User user) async {
     try {

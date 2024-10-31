@@ -1,4 +1,5 @@
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/viewmodels/auth/api_logout_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,19 @@ class UserConfigScreen extends ConsumerWidget {
                 endIndent: 20,
               ),
               const AddressInformationCard(),
+              Divider(
+                color: Theme.of(context).colorScheme.primary,
+                thickness: 2,
+                indent: 20,
+                endIndent: 20,
+              ),
+              CustomButton(
+                  onPressed: () => {
+                        ref
+                            .read(apiLogoutNotifierProvider.notifier)
+                            .logoutUser()
+                      },
+                  text: AppStrings.logout)
             ],
           ),
         ),

@@ -54,7 +54,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
 
         await ref.read(apiLoginNotifierProvider.notifier).loginUser(user);
-        log("No error in login user");
 
         return true; // Login successful
       } on DioException catch (e) {
@@ -82,7 +81,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       return validEmail.isValid && validPass.isValid;
     }
-    //
+
     // bool continueWithLogin() {
     //   return ref.read(emailValidatorProvider).isValid &&
     //       ref.read(passwordValidatorProvider).isValid;
@@ -135,14 +134,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Wait for login result
                     final success = await loginUser();
 
-                    if (success) {
-                      // Navigate safely after the current frame completes
-                      WidgetsBinding.instance.addPostFrameCallback((duration) {
-                        if (mounted) {
-                          context.goNamed(RouteNames.mainScreenRoute);
-                        }
-                      });
-                    }
+                    if (!success) return;
+
+                    // Navigate safely after the current frame completes
+                    WidgetsBinding.instance.addPostFrameCallback((duration) {
+                      if (mounted) {
+                        context.goNamed(RouteNames.mainScreenRoute);
+                      }
+                    });
                   },
                   text: AppStrings.login,
                 ),

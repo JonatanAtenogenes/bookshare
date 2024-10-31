@@ -8,18 +8,19 @@ final confirmPasswordValidatorProvider = StateNotifierProvider.autoDispose<
 class ConfirmPasswordValidatorNotifier extends StateNotifier<PasswordValidate> {
   ConfirmPasswordValidatorNotifier() : super(passwordConfirmed);
 
-  void vaidate(String password, String confirmedPassword) {
+  Validate vaidate(String password, String confirmedPassword) {
     if (confirmedPassword.isEmpty) {
       state = emptyConfirmPassword;
-      return;
+      return emptyPassword;
     }
 
     if (password != confirmedPassword) {
       state = passwordNotIdentical;
-      return;
+      return passwordNotIdentical;
     }
 
     state = passwordConfirmed;
+    return passwordConfirmed;
   }
 
   void reset() {

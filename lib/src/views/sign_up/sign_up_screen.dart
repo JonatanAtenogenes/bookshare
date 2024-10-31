@@ -37,61 +37,70 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     // Provider for validation
-    final emailValidateProvider = ref.watch(emailValidatorProvider);
-    final passwordValidateProvider = ref.watch(passwordValidatorProvider);
-    final confirmPasswordValidateProvider =
+    final emailValidProv = ref.watch(emailValidatorProvider);
+    final passwordValidProv = ref.watch(passwordValidatorProvider);
+    final confirmPasswordValidProv =
         ref.watch(confirmPasswordValidatorProvider);
-    final errorRegistrationProvider = ref.watch(errorRegisterProvider);
-    final loadingRegistrationProvider = ref.watch(loadingRegisterProvider);
+    final acceptApiRegProv = ref.watch(acceptedApiRegisterProvider);
+    final loadApiRegProv = ref.watch(loadingApiRegisterProvider);
 
-    void registerUser() async {
+    Future<bool> registerUser() async {
       try {
         ref
-            .read(errorRegisterProvider.notifier)
+            .read(acceptedApiRegisterProvider.notifier)
             .update((state) => ApiResponse.success());
 
-        await ref.read(registerNotifierProvider.notifier).registerUser(
-              User(
-                id: "",
-                email: _emailController.text,
-                password: _passwordController.text,
-                role: Roles.user.name,
-              ),
-            );
+        final user = User(
+          id: "",
+          email: _emailController.text,
+          password: _passwordController.text,
+          role: Roles.user.name,
+        );
+
+        await ref.read(apiRegisterNotifierProvider.notifier).registerUser(user);
+
         ref
-            .read(loadingRegisterProvider.notifier)
-            .update((_) => false); // Desactivar loading
+            .read(loadingApiRegisterProvider.notifier)
+            .update((state) => state = false);
+
+        return true;
       } on DioException catch (e) {
         log('error en sign up screen ${e.toString()}');
         String errorMessage = 'An unexpected error occurred.';
+
         if (e.type == DioExceptionType.connectionError) {
           log('error connection error');
+
           ref
-              .read(errorRegisterProvider.notifier)
+              .read(acceptedApiRegisterProvider.notifier)
               .update((state) => ApiResponse.error(e.message ?? errorMessage));
         } else if (e.response!.statusCode == 422) {
           log("otro error 422");
           log(e.response!.data['errors'].toString());
-          ref.read(errorRegisterProvider.notifier).update((state) =>
+          ref.read(acceptedApiRegisterProvider.notifier).update((state) =>
               ApiResponse.error(e.response!.data['errors'].toString()));
         } else {
           log("otro error");
         }
+        return false; // Register failed
       } finally {
         ref
-            .read(loadingRegisterProvider.notifier)
-            .update((_) => false); // Desactivar loading
+            .read(loadingApiRegisterProvider.notifier)
+            .update((state) => state = false);
       }
     }
 
-    void validateFields() {
-      ref.read(emailValidatorProvider.notifier).validate(_emailController.text);
-      ref
+    bool validFields() {
+      final validEmail = ref
+          .read(emailValidatorProvider.notifier)
+          .validate(_emailController.text);
+      final validPass = ref
           .read(passwordValidatorProvider.notifier)
           .validate(_passwordController.text);
-      ref
+      final validConfirm = ref
           .read(confirmPasswordValidatorProvider.notifier)
           .vaidate(_passwordController.text, _confirmPasswordController.text);
+      return validEmail.isValid && validPass.isValid && validConfirm.isValid;
     }
 
     void resetProviders() {
@@ -100,11 +109,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       ref.read(confirmPasswordValidatorProvider.notifier).reset();
     }
 
-    bool continueWithRegister() {
-      return ref.read(emailValidatorProvider).isValid &&
-          ref.read(passwordValidatorProvider).isValid &&
-          ref.read(confirmPasswordValidatorProvider).isValid;
-    }
+    // bool continueWithRegister() {
+    //   return ref.read(emailValidatorProvider).isValid &&
+    //       ref.read(passwordValidatorProvider).isValid &&
+    //       ref.read(confirmPasswordValidatorProvider).isValid;
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -118,40 +127,43 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 const SubtitleText(subtitle: AppStrings.createAccount),
                 EmailTextField(
                   controller: _emailController,
-                  error: emailValidateProvider.message,
+                  error: emailValidProv.message,
                 ),
                 PasswordTextField(
                   controller: _passwordController,
-                  error: passwordValidateProvider.message,
+                  error: passwordValidProv.message,
                 ),
                 ConfirmPasswordTextField(
                   controller: _confirmPasswordController,
-                  error: confirmPasswordValidateProvider.message,
+                  error: confirmPasswordValidProv.message,
                 ),
                 Visibility(
-                  visible: !loadingRegistrationProvider,
+                  visible: !loadApiRegProv,
                   replacement: const LoadingButton(),
                   child: CustomButton(
-                    onPressed: () {
+                    onPressed: () async {
                       log("Sign Up: Navigate to Personal Data Register");
-                      validateFields();
-                      if (continueWithRegister()) {
-                        ref
-                            .read(loadingRegisterProvider.notifier)
-                            .update((_) => true); // Activar loading
-                        registerUser();
-                      }
-                      if (!errorRegistrationProvider.hasError) {
+                      if (!validFields()) return;
+
+                      ref
+                          .read(loadingApiRegisterProvider.notifier)
+                          .update((state) => state = true);
+
+                      final success = await registerUser();
+
+                      if (!success) return;
+
+                      WidgetsBinding.instance.addPostFrameCallback((duration) {
                         context.goNamed(
                             RouteNames.personalDataRegisterScreenRoute);
-                      }
+                      });
                     },
                     text: AppStrings.signUp,
                   ),
                 ),
                 Visibility(
-                  visible: errorRegistrationProvider.hasError,
-                  child: ErrorText(text: errorRegistrationProvider.message),
+                  visible: acceptApiRegProv.hasError,
+                  child: ErrorText(text: acceptApiRegProv.message),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

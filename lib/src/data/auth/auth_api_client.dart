@@ -17,4 +17,7 @@ abstract class AuthApiClient {
 
   @POST(Api.login)
   Future<User> loginUser(@Body() User user);
+
+  @POST(Api.logout)
+  Future<void> logoutUser();
 }
