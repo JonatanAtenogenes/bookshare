@@ -14,4 +14,7 @@ abstract class AuthApiClient {
 
   @POST(Api.register)
   Future<User> registerUser(@Body() User user);
+
+  @POST(Api.login)
+  Future<User> loginUser(@Body() User user);
 }

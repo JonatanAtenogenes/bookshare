@@ -10,42 +10,43 @@ class PasswordValidatorNotifier extends StateNotifier<PasswordValidate> {
 
   final specialCharacters = "[!@#\$%^&*(),.?\":{}|<>]";
 
-  void validate(String password) {
+  Validate validate(String password) {
     if (password.isEmpty) {
       state = emptyPassword;
-      return;
+      return emptyPassword;
     }
 
     if (password.length < 8) {
       state = shortPassword;
-      return;
+      return shortPassword;
     }
 
     if (password.length > 20) {
       state = longPassword;
-      return;
+      return longPassword;
     }
 
     if (!RegExp((specialCharacters)).hasMatch(password)) {
       state = noSpecialChar;
-      return;
+      return noSpecialChar;
     }
 
     if (!RegExp(r"[A-Z]").hasMatch(password)) {
       state = noUppercase;
-      return;
+      return noUppercase;
     }
 
     if (!RegExp(r"[a-z]").hasMatch(password)) {
       state = noLowercase;
-      return;
+      return noLowercase;
     }
     if (!RegExp(r"[0-9]").hasMatch(password)) {
       state = noNumeric;
-      return;
+      return noNumeric;
     }
 
     state = validPassword;
+    return validPassword;
   }
 
   void reset() {

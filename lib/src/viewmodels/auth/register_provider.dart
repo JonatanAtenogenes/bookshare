@@ -2,10 +2,14 @@
 import 'dart:developer';
 
 import 'package:bookshare/src/data/auth/auth_api_client.dart';
-import 'package:bookshare/src/models/enum/enums.dart';
+import 'package:bookshare/src/models/api/api_response.dart';
 import 'package:bookshare/src/models/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final loadingRegisterProvider = StateProvider<bool>((ref) => false);
+final errorRegisterProvider =
+    StateProvider<ApiResponse>((ref) => ApiResponse.success());
 
 final registerNotifierProvider = StateNotifierProvider<RegisterNotifier, User>(
   (ref) {
@@ -36,10 +40,7 @@ final registerNotifierProvider = StateNotifierProvider<RegisterNotifier, User>(
 class RegisterNotifier extends StateNotifier<User> {
   final AuthApiClient _authApiClient;
 
-  RegisterNotifier(this._authApiClient)
-      : super(
-          User(id: "", email: "", password: "", role: Roles.user.name),
-        );
+  RegisterNotifier(this._authApiClient) : super(User.empty());
 
   Future<User> registerUser(User user) async {
     try {

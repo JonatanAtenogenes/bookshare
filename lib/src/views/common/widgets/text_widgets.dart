@@ -47,6 +47,36 @@ class SubtitleText extends StatelessWidget {
   }
 }
 
+// Error Text
+class ErrorText extends StatelessWidget {
+  const ErrorText({
+    super.key,
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.05,
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Center(
+        child: Text(
+          text,
+          style: GoogleFonts.lato(
+            textStyle: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 15,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // Text Link
 class TextLink extends StatelessWidget {
   const TextLink({

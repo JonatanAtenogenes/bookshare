@@ -27,3 +27,22 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class LoadingButton extends StatelessWidget {
+  const LoadingButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
+      child: ElevatedButton(
+        onPressed: null,
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
+      ),
+    );
+  }
+}

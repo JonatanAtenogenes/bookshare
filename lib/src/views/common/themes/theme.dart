@@ -50,6 +50,8 @@ class GlobalThemeData {
           backgroundColor: colorScheme.primary,
           // Use colorScheme.onPrimary for the text color
           foregroundColor: colorScheme.onPrimary,
+          disabledBackgroundColor: colorScheme.primary,
+          disabledForegroundColor: colorScheme.onPrimary,
         ),
       ),
     );

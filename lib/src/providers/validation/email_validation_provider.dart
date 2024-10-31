@@ -9,18 +9,19 @@ final emailValidatorProvider =
 class EmailValidatorNotifier extends StateNotifier<EmailValidate> {
   EmailValidatorNotifier() : super(validEmail);
 
-  void validate(String email) {
+  EmailValidate validate(String email) {
     if (email.isEmpty) {
       state = emptyEmail;
-      return;
+      return emptyEmail;
     }
 
     if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
       state = emailFormatError;
-      return;
+      return emailFormatError;
     }
 
-    state = validEmail; // Valid input
+    state = validEmail; // Valid input.
+    return validEmail;
   }
 
   void reset() {
