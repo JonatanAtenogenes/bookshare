@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bookshare/src/models/api/api_response.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
-import 'package:bookshare/src/providers/validation/validation_provider.dart';
+import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/viewmodels/auth/api_login_provider.dart';
@@ -39,6 +39,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // Api Login Providers
     final loadApiLoginProv = ref.watch(loadingApiLoginProvider);
     final acceptApiLoginProv = ref.watch(acceptedApiLoginProvider);
+    // Password Provider
+    final _isVisible = ref.watch(showPasswordNotifierProvider);
 
     Future<bool> loginUser() async {
       try {
@@ -110,6 +112,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               PasswordTextField(
                 controller: _passwordController,
+                isVisible: _isVisible,
+                isVisibleOnPressed: () {
+                  ref
+                      .read(showPasswordNotifierProvider.notifier)
+                      .togglePasswordVisibility();
+                },
                 error: passwordValidateProvider.message,
               ),
               // CustomButton(

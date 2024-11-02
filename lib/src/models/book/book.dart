@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'enum/book_attributes.dart';
-import 'enum/enums.dart';
+import '../enum/book_attributes.dart';
+import '../enum/enums.dart';
 
 class Book {
   final String id;
@@ -92,5 +92,20 @@ class Book {
       BookAttributes.value.name: value,
       BookAttributes.status.name: status,
     };
+  }
+
+  factory Book.empty() {
+    return Book(
+      id: BookAttributes.id.name,
+      isbn: BookAttributes.isbn.name,
+      title: BookAttributes.title.name,
+      authors: [],
+      image: BookAttributes.image.name,
+      userId: BookAttributes.userId.name,
+      synopsis: BookAttributes.synopsis.name,
+      publisher: BookAttributes.publisher.name,
+      condition: 0,
+      value: 0,
+    );
   }
 }

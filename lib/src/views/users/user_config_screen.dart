@@ -1,14 +1,23 @@
+import 'dart:developer';
+
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/viewmodels/auth/api_logout_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class UserConfigScreen extends ConsumerWidget {
+class UserConfigScreen extends ConsumerStatefulWidget {
   const UserConfigScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<UserConfigScreen> createState() => _UserConfigScreenState();
+}
+
+class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -33,11 +42,17 @@ class UserConfigScreen extends ConsumerWidget {
                 endIndent: 20,
               ),
               CustomButton(
-                  onPressed: () => {
-                        ref
-                            .read(apiLogoutNotifierProvider.notifier)
-                            .logoutUser()
-                      },
+                  onPressed: () async {
+                    await ref
+                        .read(apiLogoutNotifierProvider.notifier)
+                        .logoutUser();
+                    WidgetsBinding.instance.addPostFrameCallback((callback) {
+                      if (mounted) {
+                        log("Sesion cerrada");
+                        context.goNamed(RouteNames.welcomeScreenRoute);
+                      }
+                    });
+                  },
                   text: AppStrings.logout)
             ],
           ),

@@ -1,5 +1,5 @@
 export 'address.dart';
-export 'book.dart';
+export 'book/book.dart';
 export 'csrf_token.dart';
 export 'donation.dart';
 export 'exchange.dart';

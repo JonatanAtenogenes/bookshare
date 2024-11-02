@@ -34,3 +34,23 @@ final darkModeProvider = StateProvider<bool>((ref) => false);
 // final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
 //   (ref) => ThemeNotifier(),
 // );
+
+class PasswordVisibilityNotifier extends StateNotifier<bool> {
+  PasswordVisibilityNotifier(super.state);
+
+  void togglePasswordVisibility() {
+    state = !state;
+  }
+
+  void reset() {
+    state = false;
+  }
+}
+
+final showPasswordNotifierProvider =
+    StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
+        (ref) => PasswordVisibilityNotifier(false));
+
+final showConfirmPasswordNotifierProvider =
+    StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
+        (ref) => PasswordVisibilityNotifier(false));

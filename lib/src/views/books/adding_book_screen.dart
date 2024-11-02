@@ -32,7 +32,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isbnApiProvider = ref.watch(isbnBooksApiProvider);
+    final isbnApiProvider = ref.watch(apiBookIsbnNotifierProvider);
     _authorController.text = isbnApiProvider.authors.join(", ");
     _titleController.text = isbnApiProvider.title;
 
@@ -61,7 +61,11 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                         isbnApiProvider.image,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return const CircularProgressIndicator();
+                          return const Center(
+                            child: Expanded(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
                         },
                         errorBuilder: (context, error, stack) {
                           return Image.asset(AssetsAccess.defaultBookImage);
@@ -87,7 +91,9 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                         maxLength: 13,
                         onSubmitted: (String isbn) {
                           log('isbn: $isbn');
-                          ref.read(isbnBooksApiProvider.notifier).getBook(isbn);
+                          ref
+                              .read(apiBookIsbnNotifierProvider.notifier)
+                              .getBook(isbn);
                         },
                       ),
                     ),

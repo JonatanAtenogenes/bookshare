@@ -149,10 +149,14 @@ class PasswordTextField extends StatelessWidget {
   const PasswordTextField({
     super.key,
     required this.controller,
+    required this.isVisibleOnPressed,
+    required this.isVisible,
     this.error,
   });
 
   final TextEditingController controller;
+  final VoidCallback isVisibleOnPressed;
+  final bool isVisible;
   final String? error;
 
   @override
@@ -164,10 +168,17 @@ class PasswordTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        obscureText: true,
+        obscureText: !isVisible,
+        maxLength: 20,
         decoration: InputDecoration(
           label: const Text(AppStrings.password),
           errorText: error,
+          suffixIcon: IconButton(
+            onPressed: isVisibleOnPressed,
+            icon: !isVisible
+                ? const Icon(FontAwesomeIcons.eye)
+                : const Icon(FontAwesomeIcons.eyeSlash),
+          ),
         ),
       ),
     );
@@ -178,6 +189,8 @@ class ConfirmPasswordTextField extends PasswordTextField {
   const ConfirmPasswordTextField({
     super.key,
     required super.controller,
+    required super.isVisibleOnPressed,
+    required super.isVisible,
     super.error,
   });
 
@@ -190,11 +203,16 @@ class ConfirmPasswordTextField extends PasswordTextField {
       ),
       child: TextField(
         controller: controller,
-        obscureText: true,
+        obscureText: !isVisible,
         decoration: InputDecoration(
-          label: const Text(AppStrings.confirmPassword),
-          errorText: error,
-        ),
+            label: const Text(AppStrings.confirmPassword),
+            errorText: error,
+            suffixIcon: IconButton(
+              onPressed: isVisibleOnPressed,
+              icon: !isVisible
+                  ? const Icon(FontAwesomeIcons.eye)
+                  : const Icon(FontAwesomeIcons.eyeSlash),
+            )),
       ),
     );
   }

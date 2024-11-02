@@ -1,4 +1,4 @@
-import 'package:bookshare/src/models/book.dart';
+import 'package:bookshare/src/models/book/book.dart';
 import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

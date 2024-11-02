@@ -5,7 +5,7 @@ import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/viewmodels/auth/register_provider.dart';
+import 'package:bookshare/src/viewmodels/auth/api_register_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ref.watch(confirmPasswordValidatorProvider);
     final acceptApiRegProv = ref.watch(acceptedApiRegisterProvider);
     final loadApiRegProv = ref.watch(loadingApiRegisterProvider);
+    // Password Provider
+    final _isVisible = ref.watch(showPasswordNotifierProvider);
+    final _isConfirmVisible = ref.watch(showConfirmPasswordNotifierProvider);
 
     Future<bool> registerUser() async {
       try {
@@ -131,10 +134,22 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ),
                 PasswordTextField(
                   controller: _passwordController,
-                  error: passwordValidProv.message,
+                  isVisible: _isVisible,
+                  isVisibleOnPressed: () {
+                    ref
+                        .read(showPasswordNotifierProvider.notifier)
+                        .togglePasswordVisibility();
+                  },
+                  error: confirmPasswordValidProv.message,
                 ),
                 ConfirmPasswordTextField(
                   controller: _confirmPasswordController,
+                  isVisible: _isConfirmVisible,
+                  isVisibleOnPressed: () {
+                    ref
+                        .read(showConfirmPasswordNotifierProvider.notifier)
+                        .togglePasswordVisibility();
+                  },
                   error: confirmPasswordValidProv.message,
                 ),
                 Visibility(
