@@ -44,4 +44,28 @@ class FileResponse {
       filePath: AssetsAccess.defaultUserImage,
     );
   }
+
+  /// Creates a copy of this [FileResponse] instance with the ability to
+  /// override certain fields.
+  ///
+  /// This method helps avoid creating an entirely new instance by copying
+  /// existing values and changing only the specified parameters.
+  ///
+  /// Parameters:
+  /// - [status]: If provided, replaces the existing `status`.
+  /// - [message]: If provided, replaces the existing `message`.
+  /// - [filePath]: If provided, replaces the existing `filePath`.
+  ///
+  /// Returns a new [FileResponse] instance with updated values.
+  FileResponse copyWith({
+    bool? status,
+    String? message,
+    String? filePath,
+  }) {
+    return FileResponse(
+      status: status ?? this.status,
+      message: message ?? this.message,
+      filePath: filePath ?? this.filePath,
+    );
+  }
 }

@@ -1,52 +1,57 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
+import 'package:bookshare/src/viewmodels/user/api_upload_profile_image_provider.dart';
+import 'package:bookshare/src/viewmodels/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
-class PersonalDataRegisterScreen extends StatefulWidget {
+import '../../../viewmodels/user/api_update_personal_information_provider.dart';
+
+class PersonalDataRegisterScreen extends ConsumerStatefulWidget {
   const PersonalDataRegisterScreen({super.key});
 
   @override
-  State<PersonalDataRegisterScreen> createState() =>
+  ConsumerState<PersonalDataRegisterScreen> createState() =>
       _PersonalDataRegisterScreenState();
 }
 
 class _PersonalDataRegisterScreenState
-    extends State<PersonalDataRegisterScreen> {
-  final nameController = TextEditingController();
-  final paternalSurnameController = TextEditingController();
-  final maternalSurnameController = TextEditingController();
-  final birthdateController = TextEditingController();
+    extends ConsumerState<PersonalDataRegisterScreen> {
+  final _nameController = TextEditingController();
+  final _paternalSurnameController = TextEditingController();
+  final _maternalSurnameController = TextEditingController();
+  final _birthdateController = TextEditingController();
 
   // Image Picker
   final ImagePicker _imagePicker = ImagePicker();
   File? _selectedImage;
 
   // DatePicker
-  DateTime selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: _selectedDate,
       firstDate: DateTime(1980, 1),
       lastDate: DateTime.now(),
     );
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != _selectedDate) {
       setState(() {
-        selectedDate = picked;
+        _selectedDate = picked;
       });
     }
   }
 
-  Future<void> _pickImageFromGallery() async {
+  Future<bool> _pickImageFromGallery() async {
     final selectedImage =
         await _imagePicker.pickImage(source: ImageSource.gallery);
 
@@ -56,22 +61,73 @@ class _PersonalDataRegisterScreenState
       setState(() {
         _selectedImage = File(selectedImage.path);
       });
+      return true;
     } else {
       log("No image selected.");
+      return false;
+    }
+  }
+
+  Future<void> _uploadFileToServer() async {
+    try {
+      final user = ref.read(currentUserProvider);
+
+      await ref
+          .read(apiUploadImageNotifierProvider.notifier)
+          .uploadProfileImage(
+            File(_selectedImage!.path),
+            user.id,
+          );
+
+      ref.read(uploadedImageDataProvider.notifier).update(
+            (state) => state = ref.read(apiUploadImageNotifierProvider),
+          );
+    } on DioException catch (e) {
+      ref.read(uploadedImageDataProvider.notifier).update(
+            (state) =>
+                state = ref.read(apiUploadImageNotifierProvider).copyWith(
+                      status: false,
+                      message: e.response?.data['message'],
+                    ),
+          );
     }
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    paternalSurnameController.dispose();
-    maternalSurnameController.dispose();
-    birthdateController.dispose();
+    _nameController.dispose();
+    _paternalSurnameController.dispose();
+    _maternalSurnameController.dispose();
+    _birthdateController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Provider
+    final uploadImageDataProvider = ref.watch(uploadedImageDataProvider);
+    final updatePersonalInfoProv = ref.watch(
+      apiUpdatePersonalInfoNotifierProvider,
+    );
+
+    Future<void> updatePersonalInfo() async {
+      final user = ref.read(currentUserProvider).copyWith(
+            name: _nameController.text,
+            paternalSurname: _paternalSurnameController.text,
+            maternalSurname: _maternalSurnameController.text,
+            birthdate: _selectedDate,
+            image: uploadImageDataProvider.filePath,
+          );
+      try {
+        ref
+            .read(apiUpdatePersonalInfoNotifierProvider.notifier)
+            .updatePersonalInformation(user);
+      } catch (e) {
+        //
+        log("Error tryng to update information");
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -119,34 +175,47 @@ class _PersonalDataRegisterScreenState
                           shape: BoxShape.circle, // Make it circular
                         ),
                         child: IconButton(
-                          onPressed: () => _pickImageFromGallery(),
+                          onPressed: () async {
+                            final imageSelected = await _pickImageFromGallery();
+                            if (!imageSelected) return;
+                            _uploadFileToServer();
+                          },
                           icon: const FaIcon(FontAwesomeIcons.plus),
                         ),
                       ),
                     ),
                   ],
                 ),
+                Visibility(
+                  visible: uploadImageDataProvider.status,
+                  replacement: ErrorText(
+                    text: uploadImageDataProvider.message,
+                  ),
+                  child: Text(uploadImageDataProvider.message),
+                ),
                 CustomTextField(
                   label: AppStrings.name,
-                  controller: nameController,
+                  controller: _nameController,
                 ),
                 CustomTextField(
                   label: AppStrings.paternalSurname,
-                  controller: paternalSurnameController,
+                  controller: _paternalSurnameController,
                 ),
                 CustomTextField(
                   label: AppStrings.maternalSurname,
-                  controller: maternalSurnameController,
+                  controller: _maternalSurnameController,
                 ),
-                SelectInfo(
+                SelectInfoImproved(
                   data: AppStrings.birthdate,
+                  selectedData: DateFormat('dd-MM-yyyy').format(_selectedDate),
                   textButton: AppStrings.select,
                   onPressed: () => _selectDate(context),
                 ),
                 CustomButton(
-                  onPressed: () => {
-                    log('Personal Data Register Screen: Navigation to Address Register Screen'),
-                    context.pushNamed(RouteNames.addressRegisterScreenRoute),
+                  onPressed: () async {
+                    log('Personal Data Register Screen: Navigation to Address Register Screen');
+                    await updatePersonalInfo();
+                    // context.pushNamed(RouteNames.addressRegisterScreenRoute),
                   },
                   text: AppStrings.advance,
                 )

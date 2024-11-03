@@ -1,3 +1,4 @@
+import 'package:bookshare/src/data/api.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/providers/providers.dart';
@@ -29,12 +30,31 @@ class UserInformationCard extends ConsumerWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: CircleAvatar(
-                radius: MediaQuery.of(context).size.width / 6,
-                child: Image.network(
-                  user.image ?? AssetsAccess.defaultUserImage,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Image.asset(AssetsAccess.defaultUserImage),
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.inverseSurface),
+                ),
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width / 6,
+                  backgroundColor:
+                      Colors.transparent, // Ensure background is transparent
+                  child: ClipOval(
+                    child: Image.network(
+                      user.image != null && user.image!.isNotEmpty
+                          ? '${Api.baseImageUrl}${user.image}'
+                          : AssetsAccess.defaultUserImage,
+                      fit: BoxFit
+                          .cover, // Ensure the image covers the circular area
+                      width: MediaQuery.of(context).size.width / 3, // Set width
+                      height:
+                          MediaQuery.of(context).size.width / 3, // Set height
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset(AssetsAccess.defaultUserImage),
+                    ),
+                  ),
                 ),
               ),
             ),

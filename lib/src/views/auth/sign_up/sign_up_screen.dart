@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../models/models.dart';
+import '../../../viewmodels/user/user_provider.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -61,6 +62,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         );
 
         await ref.read(apiRegisterNotifierProvider.notifier).registerUser(user);
+        ref
+            .read(currentUserProvider.notifier)
+            .update((state) => state = ref.read(apiRegisterNotifierProvider));
 
         ref
             .read(loadingApiRegisterProvider.notifier)

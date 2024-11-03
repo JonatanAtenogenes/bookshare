@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/utils/assets_access.dart';
 
 import '../address.dart';
@@ -101,6 +103,7 @@ class User {
   /// [json] - JSON map representing a user.
   /// Returns a `User` instance populated with data from the JSON.
   factory User.fromJson(Map<String, dynamic> json) {
+    log("user json: ${json}");
     String id = json['user']['id'] ?? "";
     String email = json['user']['email'] ?? "";
     String password = json['user']['password'] ?? "";
