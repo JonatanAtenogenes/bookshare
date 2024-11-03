@@ -2,6 +2,7 @@ import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
+import 'package:bookshare/src/viewmodels/user/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,11 +17,11 @@ class UserInformationCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(simpleUserProvider);
+    final user = ref.watch(currentUserProvider);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,7 +31,11 @@ class UserInformationCard extends ConsumerWidget {
               padding: const EdgeInsets.all(15.0),
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width / 6,
-                child: Image.asset(user.image ?? AssetsAccess.defaultUserImage),
+                child: Image.network(
+                  user.image ?? AssetsAccess.defaultUserImage,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.asset(AssetsAccess.defaultUserImage),
+                ),
               ),
             ),
           ),
@@ -43,7 +48,9 @@ class UserInformationCard extends ConsumerWidget {
                   UserAttributes.paternalSurname.attributeName),
           VisualizeData(
               title: AppStrings.maternalSurname,
-              data: UserAttributes.maternalSurname.attributeName),
+              data: user.maternalSurname ??
+                  UserAttributes.paternalSurname.attributeName),
+          VisualizeData(title: AppStrings.email, data: user.email),
           VisualizeData(
               title: AppStrings.birthdate,
               data: DateFormat('dd-MM-yyyy')
@@ -64,7 +71,7 @@ class AddressInformationCard extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.22,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

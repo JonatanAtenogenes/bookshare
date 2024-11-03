@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../models/models.dart';
+import '../../../models/models.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -44,8 +44,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final acceptApiRegProv = ref.watch(acceptedApiRegisterProvider);
     final loadApiRegProv = ref.watch(loadingApiRegisterProvider);
     // Password Provider
-    final _isVisible = ref.watch(showPasswordNotifierProvider);
-    final _isConfirmVisible = ref.watch(showConfirmPasswordNotifierProvider);
+    final isVisible = ref.watch(showPasswordNotifierProvider);
+    final isConfirmVisible = ref.watch(showConfirmPasswordNotifierProvider);
 
     Future<bool> registerUser() async {
       try {
@@ -134,7 +134,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ),
                 PasswordTextField(
                   controller: _passwordController,
-                  isVisible: _isVisible,
+                  isVisible: isVisible,
                   isVisibleOnPressed: () {
                     ref
                         .read(showPasswordNotifierProvider.notifier)
@@ -144,7 +144,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ),
                 ConfirmPasswordTextField(
                   controller: _confirmPasswordController,
-                  isVisible: _isConfirmVisible,
+                  isVisible: isConfirmVisible,
                   isVisibleOnPressed: () {
                     ref
                         .read(showConfirmPasswordNotifierProvider.notifier)

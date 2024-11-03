@@ -1,20 +1,56 @@
+import 'package:bookshare/src/utils/assets_access.dart';
+
 import '../address.dart';
 import '../enum/enums.dart';
 
+/// Represents a user with various attributes and methods to manage their data.
 class User {
+  /// Unique identifier for the user.
   final String id;
+
+  /// Email address of the user.
   final String email;
+
+  /// Password of the user (optional).
   final String? password;
+
+  /// Name of the user (optional).
   final String? name;
+
+  /// Paternal surname of the user (optional).
   final String? paternalSurname;
+
+  /// Maternal surname of the user (optional).
   final String? maternalSurname;
+
+  /// Birthdate of the user (optional).
   final DateTime? birthdate;
+
+  /// Address of the user (optional).
   final Address? address;
+
+  /// URL or path to the user's image (optional).
   final String? image;
+
+  /// Role of the user (e.g., admin, user).
   final String role;
+
+  /// Status indicating if the user is active (optional).
   final bool? status;
 
-  // Constructor
+  /// Constructor for the `User` class.
+  ///
+  /// [id] - Unique identifier for the user.
+  /// [email] - Email address of the user.
+  /// [role] - Role of the user.
+  /// [password] - Password of the user (optional).
+  /// [name] - Name of the user (optional).
+  /// [paternalSurname] - Paternal surname of the user (optional).
+  /// [maternalSurname] - Maternal surname of the user (optional).
+  /// [birthdate] - Birthdate of the user (optional).
+  /// [address] - Address of the user (optional).
+  /// [image] - Image URL of the user (optional).
+  /// [status] - User's status indicating if active (optional).
   User({
     required this.id,
     required this.email,
@@ -29,7 +65,9 @@ class User {
     this.status,
   });
 
-  // CopyWith
+  /// Creates a copy of the current `User` instance with updated fields.
+  ///
+  /// Returns a new instance of `User` with updated attributes specified.
   User copyWith({
     String? id,
     String? email,
@@ -59,6 +97,9 @@ class User {
   }
 
   /// Factory constructor for creating a `User` from JSON.
+  ///
+  /// [json] - JSON map representing a user.
+  /// Returns a `User` instance populated with data from the JSON.
   factory User.fromJson(Map<String, dynamic> json) {
     String id = json['user']['id'] ?? "";
     String email = json['user']['email'] ?? "";
@@ -66,7 +107,7 @@ class User {
     String name = json['user']['name'] ?? "";
     String paternalSurname = json['user']['paternal_surname'] ?? "";
     String maternalSurname = json['user']['maternal_surname'] ?? "";
-    String image = json['user']['id'] ?? "";
+    String image = json['user']['image'] ?? ""; // Corrected to use 'image'
     String role = json['user']['role'] ?? Roles.user.name;
     bool status = json['user']['status'] ?? true;
 
@@ -102,6 +143,8 @@ class User {
   }
 
   /// Converts the `User` object to JSON.
+  ///
+  /// Returns a JSON map representation of the user.
   Map<String, dynamic> toJson() {
     return {
       UserAttributes.id.attributeName: id,
@@ -118,13 +161,14 @@ class User {
     };
   }
 
-  // Factory constructor for an empty User
+  /// Factory constructor for an empty `User` instance with default values.
+  ///
+  /// Returns a `User` instance where all attributes are set to default values.
   factory User.empty() {
     return User(
       id: "",
       email: "",
       role: Roles.user.name,
-      // Default role as user
       password: "",
       name: "",
       paternalSurname: "",
@@ -133,12 +177,15 @@ class User {
       // Arbitrary date as a default
       address: Address.empty(),
       // Empty address instance
-      image: "",
+      image: AssetsAccess.defaultUserImage,
       status: true, // Assuming default status as active
     );
   }
 
-  // Getter for the user as a map
+  /// Getter for the user attributes as a map.
+  ///
+  /// Returns a map representation of the user attributes,
+  /// which can be useful for serialization.
   Map<String, dynamic> get user {
     return {
       UserAttributes.id.name: id,
@@ -155,7 +202,7 @@ class User {
     };
   }
 
-  // toString method for better debugging
+  /// Converts the `User` instance to a string representation for debugging.
   @override
   String toString() {
     return '''

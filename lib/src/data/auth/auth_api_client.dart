@@ -9,8 +9,8 @@ part 'auth_api_client.g.dart'; // Required for Retrofit code generation
 abstract class AuthApiClient {
   factory AuthApiClient(Dio dio, {String baseUrl}) = _AuthApiClient;
 
-  @GET(Api.csrfToken)
-  Future<CsrfToken> getCsrfToken();
+  // @GET(Api.csrfToken)
+  // Future<CsrfToken> getCsrfToken();
 
   @POST(Api.register)
   Future<User> registerUser(@Body() User user);

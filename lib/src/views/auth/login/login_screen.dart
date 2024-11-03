@@ -7,6 +7,7 @@ import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/viewmodels/auth/api_login_provider.dart';
+import 'package:bookshare/src/viewmodels/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final loadApiLoginProv = ref.watch(loadingApiLoginProvider);
     final acceptApiLoginProv = ref.watch(acceptedApiLoginProvider);
     // Password Provider
-    final _isVisible = ref.watch(showPasswordNotifierProvider);
+    final isVisible = ref.watch(showPasswordNotifierProvider);
 
     Future<bool> loginUser() async {
       try {
@@ -56,6 +57,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
 
         await ref.read(apiLoginNotifierProvider.notifier).loginUser(user);
+        ref
+            .read(currentUserProvider.notifier)
+            .update((state) => state = ref.read(apiLoginNotifierProvider));
+
+        log("current user: ${ref.read(currentUserProvider)}");
 
         return true; // Login successful
       } on DioException catch (e) {
@@ -112,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               PasswordTextField(
                 controller: _passwordController,
-                isVisible: _isVisible,
+                isVisible: isVisible,
                 isVisibleOnPressed: () {
                   ref
                       .read(showPasswordNotifierProvider.notifier)

@@ -45,11 +45,10 @@ class ApiLoginNotifier extends StateNotifier<User> {
   ///
   /// [user] - User instance containing login credentials.
   /// Returns a `User` instance if the login is successful.
-  Future<User> loginUser(User user) async {
+  Future<void> loginUser(User user) async {
     try {
       final loggedUser = await _authApiClient.loginUser(user);
       state = loggedUser;
-      return loggedUser;
     } catch (e) {
       rethrow;
     }

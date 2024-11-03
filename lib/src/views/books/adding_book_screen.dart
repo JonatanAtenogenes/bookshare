@@ -62,9 +62,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return const Center(
-                            child: Expanded(
-                              child: CircularProgressIndicator(),
-                            ),
+                            child: CircularProgressIndicator(),
                           );
                         },
                         errorBuilder: (context, error, stack) {

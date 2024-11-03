@@ -49,7 +49,7 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
                     WidgetsBinding.instance.addPostFrameCallback((callback) {
                       if (mounted) {
                         log("Sesion cerrada");
-                        context.goNamed(RouteNames.welcomeScreenRoute);
+                        context.goNamed(RouteNames.logoutScreenRoute);
                       }
                     });
                   },

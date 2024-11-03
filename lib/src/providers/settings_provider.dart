@@ -35,22 +35,50 @@ final darkModeProvider = StateProvider<bool>((ref) => false);
 //   (ref) => ThemeNotifier(),
 // );
 
+//------------------------------------------------------------------------------
+
+/// A `StateNotifier` responsible for managing password visibility state.
+///
+/// The `PasswordVisibilityNotifier` class allows toggling and resetting
+/// the visibility of a password, providing a boolean state to indicate
+/// whether the password is visible or hidden.
 class PasswordVisibilityNotifier extends StateNotifier<bool> {
+  /// Initializes the notifier with the specified initial visibility state.
+  ///
+  /// [state] - Initial state representing whether the password is visible (true)
+  /// or hidden (false).
   PasswordVisibilityNotifier(super.state);
 
+  /// Toggles the current password visibility state.
+  ///
+  /// If the password is currently hidden, it will become visible,
+  /// and vice versa.
   void togglePasswordVisibility() {
     state = !state;
   }
 
+  /// Resets the password visibility state to hidden (false).
   void reset() {
     state = false;
   }
 }
 
+/// Provider for managing password visibility in user input fields.
+///
+/// The `showPasswordNotifierProvider` provides an instance of
+/// `PasswordVisibilityNotifier`, initialized with the initial state
+/// of password visibility set to hidden (false). This provider is
+/// set to auto-dispose when no longer needed.
 final showPasswordNotifierProvider =
     StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
         (ref) => PasswordVisibilityNotifier(false));
 
+/// Provider for managing confirmation password visibility in user input fields.
+///
+/// The `showConfirmPasswordNotifierProvider` provides an instance of
+/// `PasswordVisibilityNotifier`, initialized with the initial state
+/// of confirmation password visibility set to hidden (false). This
+/// provider is set to auto-dispose when no longer needed.
 final showConfirmPasswordNotifierProvider =
     StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
         (ref) => PasswordVisibilityNotifier(false));

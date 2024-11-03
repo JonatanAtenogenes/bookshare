@@ -41,4 +41,5 @@ class AppStrings {
   static const String bookInformation = 'Informacion del Libro';
   static const String select = 'Seleccionar';
   static const String logout = "Cerrar Sesion";
+  static const String loggingOut = "Cerrando Sesion";
 }

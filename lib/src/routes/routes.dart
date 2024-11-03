@@ -1,15 +1,17 @@
 import 'package:bookshare/src/routes/route_names.dart';
+import 'package:bookshare/src/views/auth/login/login_screen.dart';
+import 'package:bookshare/src/views/auth/logout_screen.dart';
+import 'package:bookshare/src/views/auth/sign_up/address_register_screen.dart';
+import 'package:bookshare/src/views/auth/sign_up/personal_data_register_screen.dart';
 import 'package:bookshare/src/views/books/adding_book_screen.dart';
 import 'package:bookshare/src/views/books/book_info.dart';
-import 'package:bookshare/src/views/login/login_screen.dart';
-import 'package:bookshare/src/views/sign_up/address_register_screen.dart';
-import 'package:bookshare/src/views/sign_up/personal_data_register_screen.dart';
-import 'package:bookshare/src/views/sign_up/sign_up_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
 import 'package:bookshare/src/views/users/user_config_screen.dart';
 import 'package:bookshare/src/views/welcome/welcome_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../views/auth/sign_up/sign_up_screen.dart';
 
 final routerProvider = Provider<GoRouter>(
   (ref) => GoRouter(
@@ -29,6 +31,11 @@ final routerProvider = Provider<GoRouter>(
         path: '/sign_up',
         name: RouteNames.signupScreenRoute,
         builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/logout',
+        name: RouteNames.logoutScreenRoute,
+        builder: (context, state) => const LogoutScreen(),
       ),
       GoRoute(
         path: '/personal_data_register',

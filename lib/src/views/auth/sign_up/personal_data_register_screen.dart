@@ -46,14 +46,19 @@ class _PersonalDataRegisterScreenState
     }
   }
 
-  Future _pickImageFromGalery() async {
+  Future<void> _pickImageFromGallery() async {
     final selectedImage =
         await _imagePicker.pickImage(source: ImageSource.gallery);
-    log("Image path: ${selectedImage!.path}");
 
-    setState(() {
-      _selectedImage = File(selectedImage.path);
-    });
+    if (selectedImage != null) {
+      log("Image path: ${selectedImage.path}");
+
+      setState(() {
+        _selectedImage = File(selectedImage.path);
+      });
+    } else {
+      log("No image selected.");
+    }
   }
 
   @override
@@ -114,7 +119,7 @@ class _PersonalDataRegisterScreenState
                           shape: BoxShape.circle, // Make it circular
                         ),
                         child: IconButton(
-                          onPressed: () => _pickImageFromGalery(),
+                          onPressed: () => _pickImageFromGallery(),
                           icon: const FaIcon(FontAwesomeIcons.plus),
                         ),
                       ),
