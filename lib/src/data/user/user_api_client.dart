@@ -46,8 +46,19 @@ abstract class UserApiClient {
     @Part(name: 'userId') String userId,
   );
 
+  /// Sends a PUT request to update the address information of a user.
+  ///
+  /// This method updates the address information of a specific user by their ID.
+  /// It sends a JSON payload containing user details to the server.
+  ///
+  /// - **Parameters**:
+  ///   - `id`: The unique identifier of the user.
+  ///   - `user`: The `User` object containing updated address information.
+  ///
+  /// - **Returns**: A `Future` that resolves to an `ApiResponse` indicating
+  ///   the success or failure of the update operation.
   @PUT(Api.updateAddressInformation)
-  Future<User> updateAddressInformation(
+  Future<ApiResponse> updateAddressInformation(
     @Path('id') String id,
     @Body() User user,
   );

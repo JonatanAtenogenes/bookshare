@@ -73,12 +73,14 @@ class NumberTextField extends StatelessWidget {
     required this.controller,
     required this.maxLength,
     this.onSubmitted,
+    this.error,
   });
 
   final String label;
   final TextEditingController controller;
   final int maxLength;
   final ValueChanged<String>? onSubmitted;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +96,7 @@ class NumberTextField extends StatelessWidget {
         onSubmitted: onSubmitted,
         maxLength: maxLength,
         decoration: InputDecoration(
+          errorText: error,
           label: Text(
             label,
             style: GoogleFonts.lato(
@@ -119,10 +122,12 @@ class DisabledTextField extends StatelessWidget {
     super.key,
     required this.label,
     this.controller,
+    this.error,
   });
 
   final String label;
   final TextEditingController? controller;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +141,7 @@ class DisabledTextField extends StatelessWidget {
         controller: controller,
         enabled: false,
         decoration: InputDecoration(
+          errorText: error,
           label: Text(
             label,
             style: GoogleFonts.lato(

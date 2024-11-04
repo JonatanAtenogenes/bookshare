@@ -109,7 +109,7 @@ class _UserApiClient implements UserApiClient {
   }
 
   @override
-  Future<User> updateAddressInformation(
+  Future<ApiResponse> updateAddressInformation(
     String id,
     User user,
   ) async {
@@ -118,7 +118,7 @@ class _UserApiClient implements UserApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
-    final _options = _setStreamType<User>(Options(
+    final _options = _setStreamType<ApiResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -135,9 +135,9 @@ class _UserApiClient implements UserApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late User _value;
+    late ApiResponse _value;
     try {
-      _value = User.fromJson(_result.data!);
+      _value = ApiResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

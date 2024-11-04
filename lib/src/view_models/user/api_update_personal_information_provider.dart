@@ -32,10 +32,8 @@ class ApiUpdatePersonalInformationNotifier extends StateNotifier<ApiResponse> {
   /// - [user]: The user object containing the updated personal information.
   Future<void> updatePersonalInformation(User user) async {
     try {
-      final updatedUserState = await _userApiClient.updatePersonalInformation(
-        user.id,
-        user,
-      );
+      final updatedUserState =
+          await _userApiClient.updatePersonalInformation(user.id, user);
       log("Updated state in provider: ${updatedUserState.success}");
       state = updatedUserState; // Update the state with the new user data.
     } catch (e) {
@@ -54,13 +52,10 @@ final apiUpdatePersonalInfoNotifierProvider =
     StateNotifierProvider<ApiUpdatePersonalInformationNotifier, ApiResponse>(
   (ref) {
     final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
-    // dio.interceptors.add(
-    //   TokenInterceptorInjector(),
-    // ); // Add token interceptor for authentication.
-    dio.interceptors.addAll(List.of([
+    dio.interceptors.add(
       TokenInterceptorInjector(),
-      LogInterceptor(responseBody: true, error: true),
-    ]));
+    ); // Add token interceptor for authentication.
+
     return ApiUpdatePersonalInformationNotifier(UserApiClient(dio));
   },
 );

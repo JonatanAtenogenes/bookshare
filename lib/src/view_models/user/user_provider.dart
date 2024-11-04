@@ -32,3 +32,11 @@ final uploadedImageDataProvider = StateProvider<FileResponse>(
 final updatedPersonalInfoProvider = StateProvider<ApiResponse>(
   (ref) => ApiResponse.success(),
 );
+
+final updatedAddressInfoProvider = StateProvider<ApiResponse>(
+  (ref) => ApiResponse.success(),
+);
+
+final localitiesInfoRetrievedProvider = StateProvider<ApiResponse>(
+  (ref) => ApiResponse.success(),
+);

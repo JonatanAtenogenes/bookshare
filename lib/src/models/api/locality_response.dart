@@ -4,7 +4,7 @@ import '../address/locality.dart';
 /// the status, message, and a list of [Locality] objects.
 class LocalityResponse {
   /// Status of the response, indicating success or failure.
-  final bool status;
+  final bool success;
 
   /// Message accompanying the response.
   final String message;
@@ -14,7 +14,7 @@ class LocalityResponse {
 
   /// Creates an instance of [LocalityResponse].
   LocalityResponse({
-    required this.status,
+    required this.success,
     required this.message,
     required this.localities,
   });
@@ -26,7 +26,7 @@ class LocalityResponse {
   /// - `message` as an empty string
   /// - `localities` as an empty list
   LocalityResponse.empty()
-      : status = false,
+      : success = false,
         message = '',
         localities = [];
 
@@ -37,7 +37,7 @@ class LocalityResponse {
   factory LocalityResponse.fromJson(Map<String, dynamic> json) {
     final localitiesJson = json['data'] as List<dynamic>;
     return LocalityResponse(
-      status: json['success'] as bool,
+      success: json['success'] as bool,
       message: json['message'] as String,
       localities: Locality.fromJsonList(localitiesJson),
     );

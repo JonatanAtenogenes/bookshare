@@ -152,7 +152,6 @@ class _PersonalDataRegisterScreenState
     ///   - `true` if all fields are valid
     ///   - `false` if any field fails validation
     bool validFields() {
-      log("validatinb");
       // Validate first name using its specific provider
       final validName = ref
           .read(nameValidationNotifierProvider.notifier)
