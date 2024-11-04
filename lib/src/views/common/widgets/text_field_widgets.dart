@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.label,
     required this.controller,
+    this.error,
   });
 
   /// The label for the text field.
@@ -28,6 +29,8 @@ class CustomTextField extends StatelessWidget {
 
   /// The controller to manage the text input.
   final TextEditingController controller;
+
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,7 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          errorText: error,
           label: Text(
             label,
             style: GoogleFonts.lato(

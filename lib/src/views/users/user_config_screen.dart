@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/viewmodels/auth/api_logout_provider.dart';
+import 'package:bookshare/src/view_models/auth/api_logout_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

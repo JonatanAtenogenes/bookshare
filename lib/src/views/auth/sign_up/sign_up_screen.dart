@@ -5,7 +5,7 @@ import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/viewmodels/auth/api_register_provider.dart';
+import 'package:bookshare/src/view_models/auth/api_register_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../models/models.dart';
-import '../../../viewmodels/user/user_provider.dart';
+import '../../../view_models/user/user_provider.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -38,7 +38,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     // Provider for validation
-    final emailValidProv = ref.watch(emailValidatorProvider);
+    final emailValidProv = ref.watch(emailValidationProvider);
     final passwordValidProv = ref.watch(passwordValidatorProvider);
     final confirmPasswordValidProv =
         ref.watch(confirmPasswordValidatorProvider);
@@ -99,7 +99,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     bool validFields() {
       final validEmail = ref
-          .read(emailValidatorProvider.notifier)
+          .read(emailValidationProvider.notifier)
           .validate(_emailController.text);
       final validPass = ref
           .read(passwordValidatorProvider.notifier)
@@ -111,7 +111,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     }
 
     void resetProviders() {
-      ref.read(emailValidatorProvider.notifier).reset();
+      ref.read(emailValidationProvider.notifier).reset();
       ref.read(passwordValidatorProvider.notifier).reset();
       ref.read(confirmPasswordValidatorProvider.notifier).reset();
     }
@@ -181,7 +181,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: acceptApiRegProv.hasError,
+                  visible: !acceptApiRegProv.success,
                   child: ErrorText(text: acceptApiRegProv.message),
                 ),
                 Row(

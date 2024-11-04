@@ -6,8 +6,8 @@ import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
-import 'package:bookshare/src/viewmodels/auth/api_login_provider.dart';
-import 'package:bookshare/src/viewmodels/user/user_provider.dart';
+import 'package:bookshare/src/view_models/auth/api_login_provider.dart';
+import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     // Provider for email validator notifier
-    final emailValidateProvider = ref.watch(emailValidatorProvider);
+    final emailValidateProvider = ref.watch(emailValidationProvider);
     final passwordValidateProvider = ref.watch(passwordValidatorProvider);
     // Api Login Providers
     final loadApiLoginProv = ref.watch(loadingApiLoginProvider);
@@ -70,7 +70,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               (state) =>
                   ApiResponse.error(e.response?.data['message'] ?? message),
             );
-        log("status: ${ref.read(acceptedApiLoginProvider).hasError}");
+        log("status: ${ref.read(acceptedApiLoginProvider).success}");
         return false; // Login failed
       } finally {
         ref
@@ -81,7 +81,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     bool validFields() {
       final validEmail = ref
-          .read(emailValidatorProvider.notifier)
+          .read(emailValidationProvider.notifier)
           .validate(_emailController.text);
       final validPass = ref
           .read(passwordValidatorProvider.notifier)
@@ -96,7 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // }
 
     void resetProviders() {
-      ref.read(emailValidatorProvider.notifier).reset();
+      ref.read(emailValidationProvider.notifier).reset();
       ref.read(passwordValidatorProvider.notifier).reset();
     }
 
@@ -161,7 +161,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
               Visibility(
-                visible: acceptApiLoginProv.hasError &&
+                visible: !acceptApiLoginProv.success &&
                     acceptApiLoginProv.message.isNotEmpty,
                 child: ErrorText(text: acceptApiLoginProv.message),
               ),

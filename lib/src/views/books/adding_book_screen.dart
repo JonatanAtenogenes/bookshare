@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
-import 'package:bookshare/src/viewmodels/isbn_book_provider.dart';
+import 'package:bookshare/src/view_models/isbn_book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

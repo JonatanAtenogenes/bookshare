@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bookshare/src/data/api.dart';
+import 'package:bookshare/src/models/api/api_response.dart';
 import 'package:bookshare/src/models/api/file_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -26,7 +27,7 @@ abstract class UserApiClient {
   /// - [id]: The unique identifier of the user to update.
   /// - [user]: An instance of the [User] model containing the updated user data.
   @PUT(Api.updatePersonalInformation)
-  Future<User> updatePersonalInformation(
+  Future<ApiResponse> updatePersonalInformation(
     @Path('id') String id,
     @Body() User user,
   );
@@ -43,5 +44,11 @@ abstract class UserApiClient {
   Future<FileResponse> uploadProfileImage(
     @Part(name: 'file') File file,
     @Part(name: 'userId') String userId,
+  );
+
+  @PUT(Api.updateAddressInformation)
+  Future<User> updateAddressInformation(
+    @Path('id') String id,
+    @Body() User user,
   );
 }

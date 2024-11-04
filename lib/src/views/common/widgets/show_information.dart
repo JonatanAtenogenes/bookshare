@@ -1,3 +1,5 @@
+import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 
 class VisualizeData extends StatelessWidget {
@@ -78,28 +80,34 @@ class SelectInfoImproved extends SelectInfo {
       ),
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-        )),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text(data),
-                  Text(selectedData),
-                ],
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              ElevatedButton(
-                onPressed: onPressed,
-                child: Text(textButton),
-              ),
-            ],
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(data),
+                    Text(selectedData),
+                  ],
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                TextLink(
+                  text: AppStrings.select,
+                  onTap: onPressed,
+                ),
+              ],
+            ),
           ),
         ),
       ),

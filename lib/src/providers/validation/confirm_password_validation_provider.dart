@@ -1,14 +1,17 @@
 import 'package:bookshare/src/models/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/validation/password_validation.dart';
+
 final confirmPasswordValidatorProvider = StateNotifierProvider.autoDispose<
     ConfirmPasswordValidatorNotifier,
-    PasswordValidate>((ref) => ConfirmPasswordValidatorNotifier());
+    PasswordValidation>((ref) => ConfirmPasswordValidatorNotifier());
 
-class ConfirmPasswordValidatorNotifier extends StateNotifier<PasswordValidate> {
+class ConfirmPasswordValidatorNotifier
+    extends StateNotifier<PasswordValidation> {
   ConfirmPasswordValidatorNotifier() : super(passwordConfirmed);
 
-  Validate vaidate(String password, String confirmedPassword) {
+  Validation vaidate(String password, String confirmedPassword) {
     if (confirmedPassword.isEmpty) {
       state = emptyConfirmPassword;
       return emptyPassword;

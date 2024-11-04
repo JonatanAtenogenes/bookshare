@@ -1,4 +1,4 @@
-import 'enum/enums.dart';
+import '../enum/enums.dart';
 
 class Address {
   final String street;

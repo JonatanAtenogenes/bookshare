@@ -30,9 +30,13 @@ class Api {
 
   /// The endpoint to upload a user's profile image.
   static const String uploadProfileImage = 'api/users/upload';
+  static const String updateAddressInformation = 'api/users/{id}/address';
 
   // ISBN Books API Routes
   /// The endpoint to get information about a book by its ISBN.
   /// - The ISBN number should be appended to the end of this route.
   static const String isbnBook = 'api/isbndb/books/isbn/';
+
+  // Localities API Routes
+  static const String localities = 'api/localities/{postalCode}';
 }
