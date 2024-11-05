@@ -5,6 +5,7 @@ import 'package:bookshare/src/views/auth/sign_up/address_register_screen.dart';
 import 'package:bookshare/src/views/auth/sign_up/personal_data_register_screen.dart';
 import 'package:bookshare/src/views/books/adding_book_screen.dart';
 import 'package:bookshare/src/views/books/book_info.dart';
+import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
 import 'package:bookshare/src/views/users/user_config_screen.dart';
 import 'package:bookshare/src/views/welcome/welcome_screen.dart';
@@ -66,6 +67,11 @@ final routerProvider = Provider<GoRouter>(
         path: '/book_information',
         name: RouteNames.bookInformationScreenRoute,
         builder: (context, state) => const BookInformation(),
+      ),
+      GoRoute(
+        path: '/loading_content',
+        name: RouteNames.loadingContentScreenRoute,
+        builder: (context, state) => const LoadingContentScreen(),
       )
     ],
   ),

@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/models/api/api_response.dart';
-import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/address/api_localities_provider.dart';
 import 'package:bookshare/src/view_models/user/api_update_address_information_provider.dart';
@@ -13,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import '../../../models/address/locality.dart';
 import '../../../models/models.dart';
 import '../../../providers/validation/input_validation_provider.dart';
+import '../../../routes/route_names.dart';
 
 class AddressRegisterScreen extends ConsumerStatefulWidget {
   const AddressRegisterScreen({super.key});
@@ -190,12 +192,14 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
             .updateAddressInformation(user);
 
         // Update personal info state to success if the request succeeds
-        ref.read(updatedPersonalInfoProvider.notifier).update(
+        ref.read(updatedAddressInfoProvider.notifier).update(
               (state) => state = ApiResponse.success(),
             );
       } on DioException catch (e) {
+        log("Error trying updating address");
+        log(e.response?.data['message']);
         // Capture and update personal info state with an error message if the request fails
-        ref.read(updatedPersonalInfoProvider.notifier).update(
+        ref.read(updatedAddressInfoProvider.notifier).update(
               (state) => state = ApiResponse.error(e.response?.data['message']),
             );
       }
@@ -337,6 +341,8 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
                     onPressed: () async {
                       if (!validFields()) return;
                       await updateAddressInformation();
+                      if (!updatedAddressInfoProv.success) return;
+
                       WidgetsBinding.instance.addPostFrameCallback((callback) {
                         context.goNamed(RouteNames.mainScreenRoute);
                       });

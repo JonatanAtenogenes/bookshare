@@ -42,4 +42,5 @@ class AppStrings {
   static const String select = 'Seleccionar';
   static const String logout = "Cerrar Sesion";
   static const String loggingOut = "Cerrando Sesion";
+  static const String loadingContent = "Cargando contenido";
 }

@@ -10,4 +10,5 @@ class RouteNames {
   static const String addingBookScreenRoute = 'adding_book_screen';
   static const String userProfileScreenRoute = 'user_profile_screen';
   static const String bookInformationScreenRoute = 'book_information_screen';
+  static const String loadingContentScreenRoute = 'loading_content_screen';
 }

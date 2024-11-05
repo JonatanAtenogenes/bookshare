@@ -14,7 +14,7 @@ class _UserApiClient implements UserApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.100.94:8000/';
+    baseUrl ??= 'http://10.228.8.91:8000/';
   }
 
   final Dio _dio;
@@ -111,13 +111,13 @@ class _UserApiClient implements UserApiClient {
   @override
   Future<ApiResponse> updateAddressInformation(
     String id,
-    User user,
+    Address address,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(user.toJson());
+    _data.addAll(address.toJson());
     final _options = _setStreamType<ApiResponse>(Options(
       method: 'PUT',
       headers: _headers,

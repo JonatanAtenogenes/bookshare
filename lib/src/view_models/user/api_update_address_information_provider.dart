@@ -30,8 +30,9 @@ class ApiUpdateAddressInformationNotifier extends StateNotifier<ApiResponse> {
   /// - **Throws**: Re-throws any exception encountered during the API call.
   Future<void> updateAddressInformation(User user) async {
     try {
+      final address = user.address ?? Address.empty();
       final updatedAddressState =
-          await _userApiClient.updateAddressInformation(user.id, user);
+          await _userApiClient.updateAddressInformation(user.id, address);
       state = updatedAddressState;
     } catch (e) {
       // Preserve the error details and re-throw it for handling upstream.
@@ -53,6 +54,11 @@ final apiUpdateAddressInfoNotifierProvider =
     StateNotifierProvider<ApiUpdateAddressInformationNotifier, ApiResponse>(
         (ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
-  dio.interceptors.add(TokenInterceptorInjector());
+  // dio.interceptors.add(TokenInterceptorInjector());
+  dio.interceptors.addAll(List.of([
+    TokenInterceptorInjector(),
+    LogInterceptor(
+        request: true, requestBody: true, responseBody: true, error: true),
+  ]));
   return ApiUpdateAddressInformationNotifier(UserApiClient(dio));
 });

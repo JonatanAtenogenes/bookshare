@@ -44,9 +44,9 @@ class Address {
   // Factory constructor for creating an `Address` from JSON
   factory Address.fromJson(Map<String, dynamic> json) {
     String street = json['street'] ?? "";
-    String interiorNumber = json['interior_number'] ?? "";
-    String exteriorNumber = json['exterior_number'] ?? "";
-    String postalCode = json['postal_code'] ?? "";
+    String interiorNumber = json['interiorNumber'] ?? "";
+    String exteriorNumber = json['exteriorNumber'] ?? "";
+    String postalCode = json['postalCode'] ?? "";
     String locality = json['locality'] ?? "";
     String city = json['city'] ?? "";
     String state = json['state'] ?? "";

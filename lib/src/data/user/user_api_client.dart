@@ -6,6 +6,7 @@ import 'package:bookshare/src/models/api/file_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../models/address/address.dart';
 import '../../models/user/user.dart';
 
 part 'user_api_client.g.dart';
@@ -60,6 +61,6 @@ abstract class UserApiClient {
   @PUT(Api.updateAddressInformation)
   Future<ApiResponse> updateAddressInformation(
     @Path('id') String id,
-    @Body() User user,
+    @Body() Address address,
   );
 }

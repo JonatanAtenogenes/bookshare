@@ -87,7 +87,7 @@ class AddressInformationCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(simpleUserProvider);
+    final user = ref.watch(currentUserProvider);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
