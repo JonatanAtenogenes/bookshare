@@ -145,6 +145,88 @@ class User {
     );
   }
 
+  /// Creates a [User] instance from a JSON map without the 'user' key.
+  ///
+  /// This factory method parses the provided [json] map to extract user-related
+  /// information directly from the top level of the map. If any field is missing,
+  /// it provides a default value.
+  ///
+  /// The fields extracted from the JSON map include:
+  /// - `id`: The unique identifier for the user.
+  /// - `email`: The user's email address.
+  /// - `password`: The user's password (note: should not be stored in plaintext).
+  /// - `name`: The user's full name.
+  /// - `paternalSurname`: The user's paternal surname.
+  /// - `maternalSurname`: The user's maternal surname.
+  /// - `image`: The URL or path to the user's profile image.
+  /// - `role`: The user's role, defaulting to `Roles.user.name` if not provided.
+  /// - `status`: The user's status, defaulting to `true` if not provided.
+  /// - `birthdate`: The user's birthdate, parsed from a String or DateTime, defaulting to the current date if invalid.
+  /// - `address`: An [Address] instance created from the provided address JSON or an empty address if null.
+  ///
+  /// The method logs the received JSON for debugging purposes.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Map<String, dynamic> jsonResponse = {
+  ///   'id': '123',
+  ///   'email': 'user@example.com',
+  ///   'name': 'John Doe',
+  ///   'paternal_surname': 'Doe',
+  ///   'maternal_surname': 'Smith',
+  ///   'birthdate': '1990-01-01',
+  ///   'address': { /* Address data */ },
+  ///   'role': 'user',
+  ///   'status': true
+  /// };
+  ///
+  /// User user = User.fromJsonWithoutUserKey(jsonResponse);
+  /// ```
+  ///
+  /// Throws:
+  /// - No exceptions are thrown; missing fields default to safe values.
+  factory User.fromJsonWithoutKey(Map<String, dynamic> json) {
+    log("user json without key: $json");
+    String id = json['id'] ?? "";
+    String email = json['email'] ?? "";
+    String password = json['password'] ?? "";
+    String name = json['name'] ?? "";
+    String paternalSurname = json['paternal_surname'] ?? "";
+    String maternalSurname = json['maternal_surname'] ?? "";
+    String image = json['image'] ?? "";
+    String role = json['role'] ?? Roles.user.name;
+    bool status = json['status'] ?? true;
+
+    // Safely parse the birthdate
+    DateTime birthdate;
+    if (json['birthdate'] is String) {
+      birthdate = DateTime.tryParse(json['birthdate']) ?? DateTime.now();
+    } else if (json['birthdate'] is DateTime) {
+      birthdate = json['birthdate'];
+    } else {
+      birthdate = DateTime.now();
+    }
+
+    // Safely parse the address, defaulting to an empty Address if null
+    Address address = json['address'] != null
+        ? Address.fromJson(json['address'])
+        : Address.empty();
+
+    return User(
+      id: id,
+      email: email,
+      password: password,
+      name: name,
+      paternalSurname: paternalSurname,
+      maternalSurname: maternalSurname,
+      birthdate: birthdate,
+      address: address,
+      image: image,
+      role: role,
+      status: status,
+    );
+  }
+
   /// Converts the `User` object to JSON.
   ///
   /// Returns a JSON map representation of the user.

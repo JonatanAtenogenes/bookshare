@@ -81,7 +81,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           ref
               .read(acceptedApiRegisterProvider.notifier)
               .update((state) => ApiResponse.error(e.message ?? errorMessage));
-        } else if (e.response!.statusCode == 422) {
+        }
+        if (e.response!.statusCode == 422) {
           log("otro error 422");
           log(e.response!.data['errors'].toString());
           ref.read(acceptedApiRegisterProvider.notifier).update((state) =>

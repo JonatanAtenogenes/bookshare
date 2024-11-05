@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookshare/src/data/api.dart';
 import 'package:bookshare/src/models/api/api_response.dart';
 import 'package:bookshare/src/models/api/file_response.dart';
+import 'package:bookshare/src/models/api/user_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -21,6 +22,9 @@ abstract class UserApiClient {
   /// - [dio]: The Dio instance for making network requests.
   /// - [baseUrl]: Optional custom base URL for overriding the default.
   factory UserApiClient(Dio dio, {String baseUrl}) = _UserApiClient;
+
+  @GET(Api.showUser)
+  Future<UserResponse> showuser(@Path('id') String id);
 
   /// Updates the personal information for a specific user.
   ///

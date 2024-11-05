@@ -344,7 +344,7 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
                       if (!updatedAddressInfoProv.success) return;
 
                       WidgetsBinding.instance.addPostFrameCallback((callback) {
-                        context.goNamed(RouteNames.mainScreenRoute);
+                        context.goNamed(RouteNames.loadingContentScreenRoute);
                       });
                     },
                     text: AppStrings.advance),

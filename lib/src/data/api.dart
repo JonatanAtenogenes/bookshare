@@ -4,7 +4,7 @@
 /// as specific routes for authentication, user-related actions, and ISBN book queries.
 class Api {
   // Base URL for the API
-  static const String baseUrl = "http://10.228.8.91:8000/";
+  static const String baseUrl = "http://192.168.100.94:8000/";
 
   // Base URL for image resources
   static const String baseImageUrl = "http://192.168.100.94:3000/";
@@ -23,6 +23,8 @@ class Api {
   static const String logout = 'api/auth/logout';
 
   // User API Routes
+  static const String showUser = 'api/users/{id}';
+
   /// The endpoint to update personal information for a user.
   /// - `{id}`: The unique identifier of the user.
   static const String updatePersonalInformation =
