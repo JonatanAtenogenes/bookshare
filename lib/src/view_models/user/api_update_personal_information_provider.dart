@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/data/user/user_api_client.dart';
-import 'package:bookshare/src/models/api/api_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/response/api_response.dart';
 import '../../models/user/user.dart';
 
 /// A notifier for managing the update of user personal information.

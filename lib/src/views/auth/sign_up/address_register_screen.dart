@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/api/api_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/address/api_localities_provider.dart';
 import 'package:bookshare/src/view_models/user/api_update_address_information_provider.dart';
@@ -338,16 +338,19 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
                   child: ErrorText(text: updatedAddressInfoProv.message),
                 ),
                 CustomButton(
-                    onPressed: () async {
-                      if (!validFields()) return;
-                      await updateAddressInformation();
-                      if (!updatedAddressInfoProv.success) return;
+                  onPressed: () async {
+                    if (!validFields()) return;
+                    await updateAddressInformation();
+                    if (!updatedAddressInfoProv.success) return;
 
-                      WidgetsBinding.instance.addPostFrameCallback((callback) {
-                        context.goNamed(RouteNames.loadingContentScreenRoute);
-                      });
-                    },
-                    text: AppStrings.advance),
+                    Future.delayed(const Duration(milliseconds: 500));
+
+                    WidgetsBinding.instance.addPostFrameCallback((callback) {
+                      context.goNamed(RouteNames.mainScreenRoute);
+                    });
+                  },
+                  text: AppStrings.advance,
+                ),
               ],
             ),
           ),

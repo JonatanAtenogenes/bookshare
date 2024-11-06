@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/api/api_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';

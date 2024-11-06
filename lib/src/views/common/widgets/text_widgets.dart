@@ -14,6 +14,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
+      textAlign: TextAlign.center,
       style: GoogleFonts.lato(
         textStyle: const TextStyle(
           fontSize: 50,

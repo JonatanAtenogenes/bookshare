@@ -1,3 +1,4 @@
+import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 
 class PageNotFoundScreen extends StatelessWidget {
@@ -5,6 +6,10 @@ class PageNotFoundScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: Center(
+        child: TitleText(title: 'Pagina no encontrada'),
+      ),
+    );
   }
 }

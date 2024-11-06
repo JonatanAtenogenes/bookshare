@@ -58,8 +58,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               return const BookScreen();
             case 2:
               return const ExchangeScreen();
-            case 3:
-              return const DonationScreen();
+            // case 3:
+            //   return const DonationScreen();
             default:
               return const PageNotFoundScreen();
           }
@@ -93,10 +93,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               icon: FaIcon(FontAwesomeIcons.leftRight),
               label: 'Intercambios',
             ),
-            NavigationDestination(
-              icon: FaIcon(FontAwesomeIcons.bookBookmark),
-              label: 'Donaciones',
-            ),
+            // NavigationDestination(
+            //   icon: FaIcon(FontAwesomeIcons.bookBookmark),
+            //   label: 'Donaciones',
+            // ),
           ],
         ),
       ),

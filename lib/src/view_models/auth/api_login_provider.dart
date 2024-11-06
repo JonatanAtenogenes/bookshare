@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/auth/auth_api_client.dart';
-import '../../models/api/api_response.dart';
+import '../../models/response/api_response.dart';
 import '../../models/models.dart';
 
 /// Provides a loading state for the API login process.

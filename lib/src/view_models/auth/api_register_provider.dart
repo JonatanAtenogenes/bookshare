@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:bookshare/src/data/auth/auth_api_client.dart';
 import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
-import 'package:bookshare/src/models/api/api_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/models/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

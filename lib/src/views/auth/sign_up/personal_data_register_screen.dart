@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:bookshare/src/models/api/api_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/providers/validation/name_validation_provider.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';

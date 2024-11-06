@@ -39,17 +39,6 @@ class Book {
   final bool status = true;
 
   /// Constructor for the `Book` class.
-  ///
-  /// [id] - Unique identifier for the book.
-  /// [isbn] - ISBN of the book.
-  /// [title] - Title of the book.
-  /// [authors] - List of authors.
-  /// [synopsis] - Synopsis of the book.
-  /// [image] - Image URL of the book.
-  /// [publisher] - Publisher of the book.
-  /// [userId] - User ID associated with the book.
-  /// [condition] - Condition of the book.
-  /// [value] - Value of the book.
   Book({
     required this.id,
     required this.isbn,
@@ -64,8 +53,6 @@ class Book {
   });
 
   /// Creates a copy of the current `Book` instance with updated fields.
-  ///
-  /// Returns a new instance of `Book` with updated attributes specified.
   Book copyWith({
     String? id,
     String? isbn,
@@ -93,28 +80,47 @@ class Book {
   }
 
   /// Factory method to create a `Book` instance from a JSON map.
-  ///
-  /// [json] - JSON map representing a book.
-  /// Returns a `Book` instance populated with data from the JSON.
   factory Book.fromJson(Map<String, dynamic> json) {
     log('json: $json');
 
     final bookData = json['book'];
-
     final id = bookData[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = bookData[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
-    final title =
-        bookData[BookAttributes.title.name] ?? BookAttributes.title.name;
-    final authors =
-        List<String>.from(bookData[BookAttributes.authors.name] ?? []);
-    final synopsis =
-        bookData[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
+    final title = bookData[BookAttributes.title.name] ?? BookAttributes.title.name;
+    final authors = List<String>.from(bookData[BookAttributes.authors.name] ?? []);
+    final synopsis = bookData[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = bookData[BookAttributes.image.name] ?? '';
     final publisher = bookData[BookAttributes.publisher.name] ?? '';
-    final userId =
-        bookData[BookAttributes.userId.name] ?? BookAttributes.userId.name;
+    final userId = bookData[BookAttributes.userId.name] ?? BookAttributes.userId.name;
     final condition = bookData[BookAttributes.condition.name] ?? 0;
     final value = bookData[BookAttributes.value.name] ?? 0;
+
+    return Book(
+      id: id,
+      isbn: isbn,
+      title: title,
+      authors: authors,
+      synopsis: synopsis,
+      image: image,
+      publisher: publisher,
+      userId: userId,
+      condition: condition,
+      value: value,
+    );
+  }
+
+  /// Factory method to create a `Book` instance from a JSON map without using a key.
+  factory Book.fromJsonWithoutKey(Map<String, dynamic> json) {
+    final id = json[BookAttributes.id.name] ?? BookAttributes.id.name;
+    final isbn = json[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
+    final title = json[BookAttributes.title.name] ?? BookAttributes.title.name;
+    final authors = List<String>.from(json[BookAttributes.authors.name] ?? []);
+    final synopsis = json[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
+    final image = json[BookAttributes.image.name] ?? '';
+    final publisher = json[BookAttributes.publisher.name] ?? '';
+    final userId = json[BookAttributes.userId.name] ?? BookAttributes.userId.name;
+    final condition = json[BookAttributes.condition.name] ?? 0;
+    final value = json[BookAttributes.value.name] ?? 0;
 
     return Book(
       id: id,
@@ -150,19 +156,46 @@ class Book {
     };
   }
 
+  /// Converts the `Book` instance to a JSON map.
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final isbn = this.isbn;
+    final title = this.title;
+    final authors = this.authors;
+    final synopsis = this.synopsis;
+    final image = this.image;
+    final publisher = this.publisher;
+    final userId = this.userId;
+    final condition = this.condition;
+    final value = this.value;
+    final status = this.status;
+
+    return {
+      BookAttributes.id.name: id,
+      BookAttributes.isbn.name: isbn,
+      BookAttributes.title.name: title,
+      BookAttributes.authors.name: authors,
+      BookAttributes.synopsis.name: synopsis,
+      BookAttributes.image.name: image,
+      BookAttributes.publisher.name: publisher,
+      BookAttributes.userId.name: userId,
+      BookAttributes.condition.name: condition,
+      BookAttributes.value.name: value,
+      BookAttributes.status.name: status,
+    };
+  }
+
   /// Factory method to create an empty `Book` instance with default values.
-  ///
-  /// Returns a `Book` instance where all attributes are set to default values.
   factory Book.empty() {
     return Book(
       id: BookAttributes.id.name,
       isbn: BookAttributes.isbn.name,
       title: BookAttributes.title.name,
       authors: [],
-      image: BookAttributes.image.name,
-      userId: BookAttributes.userId.name,
       synopsis: BookAttributes.synopsis.name,
+      image: BookAttributes.image.name,
       publisher: BookAttributes.publisher.name,
+      userId: BookAttributes.userId.name,
       condition: 0,
       value: 0,
     );

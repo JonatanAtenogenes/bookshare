@@ -1,7 +1,7 @@
 import 'package:bookshare/src/data/address/locality_api_client.dart';
 import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/models/address/locality.dart';
-import 'package:bookshare/src/models/api/locality_response.dart';
+import 'package:bookshare/src/models/response/locality_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

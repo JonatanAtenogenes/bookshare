@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
-import 'package:bookshare/src/view_models/isbn_book_provider.dart';
+import 'package:bookshare/src/view_models/book/api_book_provider.dart';
+import 'package:bookshare/src/view_models/book/api_isbn_book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,9 +33,18 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isbnApiProvider = ref.watch(apiBookIsbnNotifierProvider);
-    _authorController.text = isbnApiProvider.authors.join(", ");
-    _titleController.text = isbnApiProvider.title;
+    final isbnApiProvider = ref.watch(apiIsbnBookNotifierProvider);
+    final createBookProvider = ref.watch(apiCreateBookNotifierProvider);
+    _authorController.text = isbnApiProvider.data!.authors.join(", ");
+    _titleController.text = isbnApiProvider.data!.title;
+
+    Future<void> createBook() async {
+      try {
+        //
+      } catch (e) {
+        //
+      }
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -58,7 +68,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                             color: Theme.of(context).colorScheme.onSurface),
                       ),
                       child: Image.network(
-                        isbnApiProvider.image,
+                        isbnApiProvider.data!.image,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return const Center(
@@ -90,7 +100,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                         onSubmitted: (String isbn) {
                           log('isbn: $isbn');
                           ref
-                              .read(apiBookIsbnNotifierProvider.notifier)
+                              .read(apiIsbnBookNotifierProvider.notifier)
                               .getBook(isbn);
                         },
                       ),

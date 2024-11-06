@@ -1,6 +1,6 @@
 import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/data/user/user_api_client.dart';
-import 'package:bookshare/src/models/api/user_response.dart';
+import 'package:bookshare/src/models/response/user_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

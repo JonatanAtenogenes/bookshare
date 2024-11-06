@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:bookshare/src/data/api.dart';
-import 'package:bookshare/src/models/api/api_response.dart';
-import 'package:bookshare/src/models/api/file_response.dart';
-import 'package:bookshare/src/models/api/user_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
+import 'package:bookshare/src/models/response/file_response.dart';
+import 'package:bookshare/src/models/response/user_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 

@@ -1,5 +1,5 @@
-import 'package:bookshare/src/models/api/api_response.dart';
-import 'package:bookshare/src/models/api/file_response.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
+import 'package:bookshare/src/models/response/file_response.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

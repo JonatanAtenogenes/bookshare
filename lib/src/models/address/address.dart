@@ -1,5 +1,7 @@
 import '../enum/enums.dart';
 
+/// Represents an address with details such as street, numbers, postal code,
+/// locality, city, and state.
 class Address {
   final String street;
   final String? interiorNumber;
@@ -9,7 +11,7 @@ class Address {
   final String city;
   final String state;
 
-  // Constructor
+  /// Creates a new [Address] instance with the specified details.
   Address({
     required this.street,
     this.interiorNumber,
@@ -20,7 +22,7 @@ class Address {
     required this.state,
   });
 
-  // CopyWith
+  /// Creates a copy of this [Address] instance with optional new values.
   Address copyWith({
     String? street,
     String? interiorNumber,
@@ -41,8 +43,35 @@ class Address {
     );
   }
 
-  // Factory constructor for creating an `Address` from JSON
+  /// Creates an [Address] instance from a JSON object with a nested 'address' key.
+  ///
+  /// This expects a structure where all address-related fields are under
+  /// the 'address' key, such as `json['address']['street']`.
   factory Address.fromJson(Map<String, dynamic> json) {
+    String street = json['address']['street'] ?? "";
+    String interiorNumber = json['address']['interiorNumber'] ?? "";
+    String exteriorNumber = json['address']['exteriorNumber'] ?? "";
+    String postalCode = json['address']['postalCode'] ?? "";
+    String locality = json['address']['locality'] ?? "";
+    String city = json['address']['city'] ?? "";
+    String state = json['address']['state'] ?? "";
+
+    return Address(
+      street: street,
+      interiorNumber: interiorNumber,
+      exteriorNumber: exteriorNumber,
+      postalCode: postalCode,
+      locality: locality,
+      city: city,
+      state: state,
+    );
+  }
+
+  /// Creates an [Address] instance from a JSON object without a nested key.
+  ///
+  /// This expects a flat structure where all address-related fields are at the
+  /// root level, such as `json['street']`.
+  factory Address.fromJsonWithoutKey(Map<String, dynamic> json) {
     String street = json['street'] ?? "";
     String interiorNumber = json['interiorNumber'] ?? "";
     String exteriorNumber = json['exteriorNumber'] ?? "";
@@ -75,7 +104,8 @@ class Address {
     };
   }
 
-  // Getter for the address as a map
+  /// Provides a map representation of the `Address` object using
+  /// attribute names from the [AddressAttributes] enum.
   Map<String, dynamic> get address {
     return {
       AddressAttributes.street.name: street,
@@ -88,7 +118,7 @@ class Address {
     };
   }
 
-  // Factory constructor for an empty Address
+  /// Creates an empty [Address] instance with default values.
   factory Address.empty() {
     return Address(
       street: "",
@@ -101,7 +131,7 @@ class Address {
     );
   }
 
-  // To String
+  /// Returns a string representation of the `Address` object for debugging purposes.
   @override
   String toString() {
     return '''
@@ -113,6 +143,6 @@ class Address {
       Locality: $locality
       City: $city
       State: $state
-      ''';
+    ''';
   }
 }

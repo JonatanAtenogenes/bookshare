@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'book_api_client.dart';
+part of 'exchange_api_client.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,13 +8,13 @@ part of 'book_api_client.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _IsbnBookApiClient implements IsbnBookApiClient {
-  _IsbnBookApiClient(
+class _ExchangeApiClient implements ExchangeApiClient {
+  _ExchangeApiClient(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.100.94:8000/';
+    baseUrl ??= 'http://10.224.6.243:8000/';
   }
 
   final Dio _dio;
@@ -24,19 +24,20 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<Book> getIsbnBook(String isbn) async {
+  Future<ExchangeResponse> createExchange(Exchange exchange) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Book>(Options(
-      method: 'GET',
+    final _data = <String, dynamic>{};
+    _data.addAll(exchange.toJson());
+    final _options = _setStreamType<ExchangeResponse>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'api/isbndb/books/isbn/${isbn}',
+          'api/exchanges/',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -46,9 +47,46 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Book _value;
+    late ExchangeResponse _value;
     try {
-      _value = Book.fromJson(_result.data!);
+      _value = ExchangeResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ExchangeResponse> updateExchangeStatus(
+    String exchangeId,
+    Exchange exchange,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(exchange.toJson());
+    final _options = _setStreamType<ExchangeResponse>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'api/exchanges/${exchangeId}/status',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ExchangeResponse _value;
+    try {
+      _value = ExchangeResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
