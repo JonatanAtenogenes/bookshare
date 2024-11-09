@@ -126,8 +126,9 @@ class User {
     }
 
     // Safely parse the address, defaulting to an empty Address if null
+    log('Address on User ${json['user']['address']}');
     Address address = json['user']['address'] != null
-        ? Address.fromJson(json['user']['address'])
+        ? Address.fromJsonWithoutKey(json['user']['address'])
         : Address.empty();
 
     return User(

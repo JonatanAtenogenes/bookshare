@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../enum/enums.dart';
 
 /// Represents an address with details such as street, numbers, postal code,
@@ -48,6 +50,9 @@ class Address {
   /// This expects a structure where all address-related fields are under
   /// the 'address' key, such as `json['address']['street']`.
   factory Address.fromJson(Map<String, dynamic> json) {
+
+    log('Address ${json}');
+
     String street = json['address']['street'] ?? "";
     String interiorNumber = json['address']['interiorNumber'] ?? "";
     String exteriorNumber = json['address']['exteriorNumber'] ?? "";

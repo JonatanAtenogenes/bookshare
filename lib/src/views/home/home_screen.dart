@@ -19,7 +19,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   Future<void> _pullRefresh() async {
     Future.delayed(const Duration(seconds: 60));
     ref.read(loadingContentProvider.notifier).update((state) => state = true);
@@ -43,18 +42,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.7,
             child: Skeletonizer(
-              enabled: !loading,
+              enabled: loading,
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: bookList.length,
                 itemBuilder: (context, index) {
                   return BookCard(
-                      onTap: () => {
-                        log('Info book: ${bookList[index].book[BookAttributes.userId.name]}'),
-                        context.pushNamed(RouteNames.bookInformationScreenRoute),
-                      },
-                      book: bookList[index],
-                    );
+                    onTap: () => {
+                      log('Info book: ${bookList[index].book[BookAttributes.userId.name]}'),
+                      context.pushNamed(RouteNames.bookInformationScreenRoute),
+                    },
+                    book: bookList[index],
+                  );
                 },
               ),
             ),
@@ -64,3 +63,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
+
+/*
+BookCard(
+                      onTap: () => {
+                        log('Info book: ${bookList[index].book[BookAttributes.userId.name]}'),
+                        context.pushNamed(RouteNames.bookInformationScreenRoute),
+                      },
+                      book: bookList[index],
+                    );
+
+                    */

@@ -27,7 +27,7 @@ class ApiShowUserNotifier extends StateNotifier<UserResponse> {
   /// - Parameter [id]: The ID of the user to fetch information for.
   Future<void> showUser(String id) async {
     try {
-      final userResponse = await _userApiClient.showuser(id);
+      final userResponse = await _userApiClient.showUser(id);
       state = userResponse;
     } catch (e) {
       // Re-throws any caught exceptions for further handling

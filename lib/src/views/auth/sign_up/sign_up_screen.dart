@@ -39,7 +39,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     // Provider for validation
     final emailValidProv = ref.watch(emailValidationProvider);
-    final passwordValidProv = ref.watch(passwordValidatorProvider);
     final confirmPasswordValidProv =
         ref.watch(confirmPasswordValidatorProvider);
     final acceptApiRegProv = ref.watch(acceptedApiRegisterProvider);

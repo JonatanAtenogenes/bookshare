@@ -14,7 +14,7 @@ class _BookApiClient implements BookApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://10.224.6.243:8000/';
+    baseUrl ??= 'http://10.228.6.109:8000/';
   }
 
   final Dio _dio;

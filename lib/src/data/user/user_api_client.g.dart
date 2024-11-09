@@ -14,7 +14,7 @@ class _UserApiClient implements UserApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://10.224.6.243:8000/';
+    baseUrl ??= 'http://10.228.6.109:8000/';
   }
 
   final Dio _dio;
@@ -24,7 +24,7 @@ class _UserApiClient implements UserApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<UserResponse> showuser(String id) async {
+  Future<UserResponse> showUser(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

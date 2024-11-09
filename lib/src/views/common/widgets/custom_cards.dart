@@ -114,6 +114,69 @@ class AddressInformationCard extends ConsumerWidget {
   }
 }
 
+class BookInfoCard extends StatelessWidget {
+  const BookInfoCard({super.key, required this.book,});
+
+  final Book book;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.outlined(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 6,
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Image.network(
+                        book.book[BookAttributes.image.name],
+                        height: MediaQuery.of(context).size.height / 7,
+                        width: MediaQuery.of(context).size.width / 3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+               Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      book.book[BookAttributes.title.name],
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      book.book[BookAttributes.authors.name].join(", "),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Valor'),
+                    Text(book.book[BookAttributes.value.name].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 // Book Card
 class BookCard extends StatelessWidget {
   const BookCard({

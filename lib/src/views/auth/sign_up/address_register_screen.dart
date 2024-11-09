@@ -84,12 +84,6 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
         .read(streetValidationNotifierProvider.notifier)
         .validateText(_streetController.text);
 
-    // Validate interior number using its specific provider
-    final validInteriorNumber = ref
-        .read(interiorNumberValidationNotifierProvider.notifier)
-        .validateNumber(
-            _intNumberController.text, 1); // Adjust minimum as needed
-
     // Validate exterior number using its specific provider
     final validExteriorNumber = ref
         .read(exteriorNumberValidationNotifierProvider.notifier)
@@ -133,12 +127,9 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
     final localitiesApiProvider = ref.watch(apiLocalitiesNotifierProvider);
     // Field Control Providers
     final streetProvider = ref.watch(streetValidationNotifierProvider);
-    final intNumberProvider =
-        ref.watch(interiorNumberValidationNotifierProvider);
     final extNumberProvider =
         ref.watch(exteriorNumberValidationNotifierProvider);
     final postalCodeProvider = ref.watch(postalCodeValidationNotifierProvider);
-    final localityProvider = ref.watch(localityValidationNotifierProvider);
     final cityProvider = ref.watch(cityValidationNotifierProvider);
     final stateProvider = ref.watch(stateValidationNotifierProvider);
     // Form Control Provider

@@ -11,7 +11,7 @@ final simpleBookProvider = Provider<Book>(
     image:
         'https://m.media-amazon.com/images/I/91n8sen+w1L._AC_UF1000,1000_QL80_.jpg',
     userId: '3',
-    synopsis: "",
+    synopsis: "War and Peace centers broadly on Napoleon’s invasion of Russia in 1812 and follows three of the best-known characters in literature: Pierre Bezukhov, the illegitimate son of a count who is fighting for his inheritance and yearning for spiritual fulfillment; Prince Andrei Bolkonsky, who leaves behind his family to fight in the war against Napoleon; and Natasha Rostov, the beautiful young daughter of a nobleman, who intrigues both men. As Napoleon’s army invades, Tolstoy vividly follows characters from diverse backgrounds—peasants and nobility, civilians and soldiers—as they struggle with the problems unique to their era, their history, and their culture. And as the novel progresses, these characters transcend their specificity, becoming some of the most moving—and human—figures in world literature.",
     publisher: "",
     condition: 5,
     value: 45,

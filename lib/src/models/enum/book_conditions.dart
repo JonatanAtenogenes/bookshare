@@ -12,4 +12,13 @@ enum BookCondition {
     required this.name,
     required this.value,
   });
+
+  static String? getNameByValue(int value) {
+    for (var condition in BookCondition.values) {
+      if (condition.value == value) {
+        return condition.name;
+      }
+    }
+    return null; // Devuelve null si no se encuentra el valor
+  }
 }

@@ -128,9 +128,6 @@ class _PersonalDataRegisterScreenState
   Widget build(BuildContext context) {
     // Provider
     final uploadImageDataProvider = ref.watch(uploadedImageDataProvider);
-    final updatePersonalInfoProv = ref.watch(
-      apiUpdatePersonalInfoNotifierProvider,
-    );
     final updatedInformationProvier = ref.watch(updatedPersonalInfoProvider);
 
     // TextField Providers

@@ -6,7 +6,6 @@ import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/books/book_screen.dart';
 import 'package:bookshare/src/views/common/screens/page_not_found_screen.dart';
-import 'package:bookshare/src/views/donations/donation_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchange_screen.dart';
 import 'package:bookshare/src/views/home/home_screen.dart';
 import 'package:flutter/material.dart';

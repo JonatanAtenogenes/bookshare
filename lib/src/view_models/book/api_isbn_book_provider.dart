@@ -6,8 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/book/isbn_book_api_client.dart';
 import '../../data/interceptors/token_interceptor.dart';
-import '../../models/book/book.dart';
-import '../../models/response/book_response.dart';
 
 class ApiIsbnBookNotifier extends StateNotifier<BookResponse> {
   /// API client used to fetch book details by ISBN.
@@ -26,12 +24,17 @@ class ApiIsbnBookNotifier extends StateNotifier<BookResponse> {
 }
 
 final apiIsbnBookNotifierProvider =
-StateNotifierProvider.autoDispose<ApiIsbnBookNotifier, BookResponse>(
-      (ref) {
-    final dio = Dio(
-      BaseOptions(contentType: 'application/json'),
-    );
-    dio.interceptors.add(TokenInterceptorInjector());
-    return ApiIsbnBookNotifier(IsbnBookApiClient(dio));
-  }
-);
+    StateNotifierProvider.autoDispose<ApiIsbnBookNotifier, BookResponse>((ref) {
+  final dio = Dio(
+    BaseOptions(contentType: 'application/json'),
+  );
+  // dio.interceptors.add(TokenInterceptorInjector());
+  dio.interceptors.addAll(List.of([
+    TokenInterceptorInjector(),
+    LogInterceptor(
+      error: true,
+      responseBody: true,
+    ),
+  ]));
+  return ApiIsbnBookNotifier(IsbnBookApiClient(dio));
+});

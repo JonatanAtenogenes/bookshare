@@ -24,7 +24,7 @@ abstract class UserApiClient {
   factory UserApiClient(Dio dio, {String baseUrl}) = _UserApiClient;
 
   @GET(Api.showUser)
-  Future<UserResponse> showuser(@Path('id') String id);
+  Future<UserResponse> showUser(@Path('id') String id);
 
   /// Updates the personal information for a specific user.
   ///

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
-import 'package:bookshare/src/view_models/book/api_book_provider.dart';
 import 'package:bookshare/src/view_models/book/api_isbn_book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +33,23 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
   @override
   Widget build(BuildContext context) {
     final isbnApiProvider = ref.watch(apiIsbnBookNotifierProvider);
-    final createBookProvider = ref.watch(apiCreateBookNotifierProvider);
-    _authorController.text = isbnApiProvider.data!.authors.join(", ");
-    _titleController.text = isbnApiProvider.data!.title;
 
     Future<void> createBook() async {
       try {
         //
+      } catch (e) {
+        //
+      }
+    }
+
+    Future<void> readBookData() async {
+      try {
+        //
+        ref
+            .read(apiIsbnBookNotifierProvider.notifier)
+            .getBook(_isbnController.text);
+        _authorController.text = isbnApiProvider.data!.authors.join(", ");
+        _titleController.text = isbnApiProvider.data!.title;
       } catch (e) {
         //
       }
@@ -68,7 +77,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                             color: Theme.of(context).colorScheme.onSurface),
                       ),
                       child: Image.network(
-                        isbnApiProvider.data!.image,
+                        isbnApiProvider.data?.image ?? AssetsAccess.defaultUserImage,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return const Center(
@@ -97,11 +106,9 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                         controller: _isbnController,
                         label: AppStrings.isbn,
                         maxLength: 13,
-                        onSubmitted: (String isbn) {
+                        onSubmitted: (String isbn) async {
                           log('isbn: $isbn');
-                          ref
-                              .read(apiIsbnBookNotifierProvider.notifier)
-                              .getBook(isbn);
+                          await readBookData();
                         },
                       ),
                     ),

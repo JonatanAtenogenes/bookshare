@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/view_models/user/api_show_user_provider.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
