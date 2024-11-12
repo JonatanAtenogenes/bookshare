@@ -57,12 +57,12 @@ class _BookApiClient implements BookApiClient {
   }
 
   @override
-  Future<BookResponse> retrieveBooks(String userId) async {
+  Future<BookListResponse> retrieveBooks(String userId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BookResponse>(Options(
+    final _options = _setStreamType<BookListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -79,9 +79,9 @@ class _BookApiClient implements BookApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BookResponse _value;
+    late BookListResponse _value;
     try {
-      _value = BookResponse.fromJson(_result.data!);
+      _value = BookListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -90,12 +90,12 @@ class _BookApiClient implements BookApiClient {
   }
 
   @override
-  Future<BookResponse> retrieveUserBooks(String id) async {
+  Future<BookListResponse> retrieveUserBooks(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BookResponse>(Options(
+    final _options = _setStreamType<BookListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -112,9 +112,9 @@ class _BookApiClient implements BookApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BookResponse _value;
+    late BookListResponse _value;
     try {
-      _value = BookResponse.fromJson(_result.data!);
+      _value = BookListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

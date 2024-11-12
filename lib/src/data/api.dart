@@ -78,12 +78,16 @@ class Api {
   // Exchanges API Routes
 
   /// The endpoint to initiate a new exchange request.
-  static const String createExchange = 'api/exchanges/';
+  static const String createExchange = 'api/exchanges';
 
   /// The endpoint to update the status of an existing exchange.
   /// - `{exchangeId}`: The unique identifier of the exchange.
   static const String updateExchangeStatus =
       'api/exchanges/{exchangeId}/status';
+
+  static const String showExchange = 'api/exchanges/{exchangeId}';
+  static const String listProposalExchange =
+      'api/exchanges/user/{userId}/proposals';
 
   // Localities API Routes
 

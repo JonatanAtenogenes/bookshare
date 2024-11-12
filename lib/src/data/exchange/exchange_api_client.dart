@@ -32,4 +32,10 @@ abstract class ExchangeApiClient {
     @Path('exchangeId') String exchangeId,
     @Body() Exchange exchange,
   );
+
+  @GET(Api.showExchange)
+  Future<ExchangeResponse> showExchange(@Path('exchangeId') String exchangeId);
+
+  @GET(Api.listProposalExchange)
+  Future<ExchangeResponse> listProposalExchange(@Path('userId') String userId);
 }

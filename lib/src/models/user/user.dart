@@ -288,6 +288,16 @@ class User {
     };
   }
 
+  /// Creates a list of `User` instances from a JSON list containing the 'user' key.
+  static List<User> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => User.fromJson(json)).toList();
+  }
+
+  /// Creates a list of `User` instances from a JSON list without the 'user' key.
+  static List<User> fromJsonListWithoutKey(List<dynamic> jsonList) {
+    return jsonList.map((json) => User.fromJsonWithoutKey(json)).toList();
+  }
+
   /// Converts the `User` instance to a string representation for debugging.
   @override
   String toString() {

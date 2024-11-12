@@ -50,13 +50,21 @@ class Exchange {
   /// the 'exchange' key, such as `json['exchange']['id']`.
   factory Exchange.fromJson(Map<String, dynamic> json) {
     String id = json['exchange'][ExchangeAttributes.id.name] ?? '';
-    String offeringUserId = json['exchange'][ExchangeAttributes.offeringUserId.name] ?? '';
-    String receivingUserId = json['exchange'][ExchangeAttributes.receivingUserId.name] ?? '';
-    List<String> offeredBooksIds = List<String>.from(json['exchange'][ExchangeAttributes.offeredBooksIds.name] ?? []);
-    List<String> offeringUserBooksIds = List<String>.from(json['exchange'][ExchangeAttributes.offeringUserBooksIds.name] ?? []);
-    String exchangeAddress = json['exchange'][ExchangeAttributes.exchangeAddress.name] ?? '';
-    DateTime exchangeDate = DateTime.tryParse(json['exchange'][ExchangeAttributes.exchangeDate.name]) ?? DateTime.now();
-    bool receivedExchange = json['exchange'][ExchangeAttributes.receivedExchange.name] ?? false;
+    String offeringUserId =
+        json['exchange'][ExchangeAttributes.offeringUserId.name] ?? '';
+    String receivingUserId =
+        json['exchange'][ExchangeAttributes.receivingUserId.name] ?? '';
+    List<String> offeredBooksIds = List<String>.from(
+        json['exchange'][ExchangeAttributes.offeredBooksIds.name] ?? []);
+    List<String> offeringUserBooksIds = List<String>.from(
+        json['exchange'][ExchangeAttributes.offeringUserBooksIds.name] ?? []);
+    String exchangeAddress =
+        json['exchange'][ExchangeAttributes.exchangeAddress.name] ?? '';
+    DateTime exchangeDate = DateTime.tryParse(
+            json['exchange'][ExchangeAttributes.exchangeDate.name]) ??
+        DateTime.now();
+    bool receivedExchange =
+        json['exchange'][ExchangeAttributes.receivedExchange.name] ?? false;
     String status = json['exchange'][ExchangeAttributes.status.name] ?? '';
 
     return Exchange(
@@ -80,10 +88,13 @@ class Exchange {
     String id = json['id'] ?? '';
     String offeringUserId = json['offeringUserId'] ?? '';
     String receivingUserId = json['receivingUserId'] ?? '';
-    List<String> offeredBooksIds = List<String>.from(json['offeredBooksIds'] ?? []);
-    List<String> offeringUserBooksIds = List<String>.from(json['offeringUserBooksIds'] ?? []);
+    List<String> offeredBooksIds =
+        List<String>.from(json['offeredBooksIds'] ?? []);
+    List<String> offeringUserBooksIds =
+        List<String>.from(json['offeringUserBooksIds'] ?? []);
     String exchangeAddress = json['exchangeAddress'] ?? '';
-    DateTime exchangeDate = DateTime.tryParse(json['exchangeDate']) ?? DateTime.now();
+    DateTime exchangeDate =
+        DateTime.tryParse(json['exchangeDate']) ?? DateTime.now();
     bool receivedExchange = json['receivedExchange'] ?? false;
     String status = json['status'] ?? '';
 
@@ -138,5 +149,15 @@ class Exchange {
       receivedExchange: receivedExchange ?? this.receivedExchange,
       status: status ?? this.status,
     );
+  }
+
+  /// Creates a list of [Exchange] instances from a list of JSON objects with a nested 'exchange' key.
+  static List<Exchange> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => Exchange.fromJson(json)).toList();
+  }
+
+  /// Creates a list of [Exchange] instances from a list of JSON objects without a nested 'exchange' key.
+  static List<Exchange> fromJsonListWithoutKey(List<dynamic> jsonList) {
+    return jsonList.map((json) => Exchange.fromJsonWithoutKey(json)).toList();
   }
 }

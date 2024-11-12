@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import '../enum/book_attributes.dart';
 import '../enum/enums.dart';
+import '../user/user.dart';
 
 /// Represents a book with various attributes and methods to manage its data.
 class Book {
@@ -38,6 +39,9 @@ class Book {
   /// Status indicating whether the book is available or not (default is true).
   final bool status = true;
 
+  /// Associated user for the book, if available.
+  final User? user;
+
   /// Constructor for the `Book` class.
   Book({
     required this.id,
@@ -50,6 +54,7 @@ class Book {
     required this.userId,
     required this.condition,
     required this.value,
+    this.user,
   });
 
   /// Creates a copy of the current `Book` instance with updated fields.
@@ -64,6 +69,7 @@ class Book {
     String? userId,
     int? condition,
     int? value,
+    User? user,
   }) {
     return Book(
       id: id ?? this.id,
@@ -76,6 +82,7 @@ class Book {
       userId: userId ?? this.userId,
       condition: condition ?? this.condition,
       value: value ?? this.value,
+      user: user ?? this.user,
     );
   }
 
@@ -86,14 +93,21 @@ class Book {
     final bookData = json['book'];
     final id = bookData[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = bookData[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
-    final title = bookData[BookAttributes.title.name] ?? BookAttributes.title.name;
-    final authors = List<String>.from(bookData[BookAttributes.authors.name] ?? []);
-    final synopsis = bookData[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
+    final title =
+        bookData[BookAttributes.title.name] ?? BookAttributes.title.name;
+    final authors =
+        List<String>.from(bookData[BookAttributes.authors.name] ?? []);
+    final synopsis =
+        bookData[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = bookData[BookAttributes.image.name] ?? '';
     final publisher = bookData[BookAttributes.publisher.name] ?? '';
-    final userId = bookData[BookAttributes.userId.name] ?? BookAttributes.userId.name;
+    final userId =
+        bookData[BookAttributes.userId.name] ?? BookAttributes.userId.name;
     final condition = bookData[BookAttributes.condition.name] ?? 0;
     final value = bookData[BookAttributes.value.name] ?? 0;
+    final user = bookData['user'] != null
+        ? User.fromJson(bookData['user'])
+        : User.empty();
 
     return Book(
       id: id,
@@ -106,6 +120,7 @@ class Book {
       userId: userId,
       condition: condition,
       value: value,
+      user: user,
     );
   }
 
@@ -115,12 +130,16 @@ class Book {
     final isbn = json[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
     final title = json[BookAttributes.title.name] ?? BookAttributes.title.name;
     final authors = List<String>.from(json[BookAttributes.authors.name] ?? []);
-    final synopsis = json[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
+    final synopsis =
+        json[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = json[BookAttributes.image.name] ?? '';
     final publisher = json[BookAttributes.publisher.name] ?? '';
-    final userId = json[BookAttributes.userId.name] ?? BookAttributes.userId.name;
+    final userId =
+        json[BookAttributes.userId.name] ?? BookAttributes.userId.name;
     final condition = json[BookAttributes.condition.name] ?? 0;
     final value = json[BookAttributes.value.name] ?? 0;
+    final user =
+        json['user'] != null ? User.fromJson(json['user']) : User.empty();
 
     return Book(
       id: id,
@@ -133,13 +152,11 @@ class Book {
       userId: userId,
       condition: condition,
       value: value,
+      user: user,
     );
   }
 
   /// Getter for the book attributes as a map.
-  ///
-  /// Returns a map representation of the book attributes,
-  /// which can be useful for serialization.
   Map<String, dynamic> get book {
     return {
       BookAttributes.id.name: id,
@@ -153,23 +170,12 @@ class Book {
       BookAttributes.condition.name: condition,
       BookAttributes.value.name: value,
       BookAttributes.status.name: status,
+      'user': user?.toJson(),
     };
   }
 
   /// Converts the `Book` instance to a JSON map.
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final isbn = this.isbn;
-    final title = this.title;
-    final authors = this.authors;
-    final synopsis = this.synopsis;
-    final image = this.image;
-    final publisher = this.publisher;
-    final userId = this.userId;
-    final condition = this.condition;
-    final value = this.value;
-    final status = this.status;
-
     return {
       BookAttributes.id.name: id,
       BookAttributes.isbn.name: isbn,
@@ -182,6 +188,7 @@ class Book {
       BookAttributes.condition.name: condition,
       BookAttributes.value.name: value,
       BookAttributes.status.name: status,
+      'user': user?.toJson(),
     };
   }
 
@@ -199,5 +206,15 @@ class Book {
       condition: 0,
       value: 0,
     );
+  }
+
+  /// Creates a list of [Book] instances from a list of JSON objects with a nested 'book' key.
+  static List<Book> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => Book.fromJson(json)).toList();
+  }
+
+  /// Creates a list of [Book] instances from a list of JSON objects without a nested 'book' key.
+  static List<Book> fromJsonListWithoutKey(List<dynamic> jsonList) {
+    return jsonList.map((json) => Book.fromJsonWithoutKey(json)).toList();
   }
 }
