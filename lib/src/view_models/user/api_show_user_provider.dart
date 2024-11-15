@@ -43,6 +43,15 @@ class ApiShowUserNotifier extends StateNotifier<UserResponse> {
 final apiShowUserNotifierProvider =
     StateNotifierProvider<ApiShowUserNotifier, UserResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
-  dio.interceptors.add(TokenInterceptorInjector());
+  // dio.interceptors.add(TokenInterceptorInjector());
+  dio.interceptors.addAll(List.of([
+    TokenInterceptorInjector(),
+    LogInterceptor(
+      responseBody: true,
+      error: true,
+    )
+  ]));
   return ApiShowUserNotifier(UserApiClient(dio));
 });
+
+final loadingShowUserProvider = StateProvider<bool>((state) => false);

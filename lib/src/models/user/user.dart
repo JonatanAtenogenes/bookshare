@@ -210,7 +210,7 @@ class User {
 
     // Safely parse the address, defaulting to an empty Address if null
     Address address = json['address'] != null
-        ? Address.fromJson(json['address'])
+        ? Address.fromJsonWithoutKey(json['address'])
         : Address.empty();
 
     return User(

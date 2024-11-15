@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../models.dart';
 import 'data_response.dart';
 
@@ -51,10 +53,15 @@ class BookListResponse extends DataResponse<List<Book>> {
   });
 
   factory BookListResponse.fromJson(Map<String, dynamic> json) {
+    log('---------------------');
+    log('Booklist Response');
+    log(json.toString());
     return BookListResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null ? Book.fromJsonList(json['data']) : null,
+      data: json['data'] != null
+          ? Book.fromJsonListWithoutKey(json['data'])
+          : null,
     );
   }
 
@@ -66,11 +73,11 @@ class BookListResponse extends DataResponse<List<Book>> {
     };
   }
 
-  factory BookListResponse.success(String message, List<Book> books) {
+  factory BookListResponse.success(String message) {
     return BookListResponse(
       success: true,
       message: message,
-      data: books,
+      data: null,
     );
   }
 

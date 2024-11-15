@@ -21,28 +21,6 @@ class ApiBookNotifier extends StateNotifier<BookResponse> {
     }
   }
 
-  Future<void> retrieveBooks(String userId) async {
-    try {
-      //
-      final retrieveBooksResponse = await _bookApiClient.retrieveBooks(userId);
-      state = retrieveBooksResponse;
-    } catch (e) {
-      //
-      rethrow;
-    }
-  }
-
-  Future<void> retrieveUserBooks(String userId) async {
-    try {
-      //
-      final retrieveUserBooksResponse = await _bookApiClient.retrieveUserBooks(userId);
-      state = retrieveUserBooksResponse;
-    } catch (e) {
-      //
-      rethrow;
-    }
-  }
-
   Future<void> createBook(Book book) async {
     try {
       //
@@ -57,23 +35,39 @@ class ApiBookNotifier extends StateNotifier<BookResponse> {
   Future<void> deactivateBook(String bookId) async {
     try {
       //
-      final deactivateBookResponse = await _bookApiClient.deactivateBook(bookId);
+      final deactivateBookResponse =
+          await _bookApiClient.deactivateBook(bookId);
       state = deactivateBookResponse;
     } catch (e) {
       //
       rethrow;
     }
   }
-
 }
 
-final apiBookNotifierProvider = StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+final apiBookNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
   dio.interceptors.add(TokenInterceptorInjector());
   return ApiBookNotifier(BookApiClient(dio));
 });
 
-final apiCreateBookNotifierProvider = StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+final apiCreateBookNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+final apiShowBookNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+final apiDeactivateBookNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
   dio.interceptors.add(TokenInterceptorInjector());
   return ApiBookNotifier(BookApiClient(dio));

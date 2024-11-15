@@ -22,7 +22,7 @@ class UserInformationCard extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -91,7 +91,7 @@ class AddressInformationCard extends ConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -115,7 +115,10 @@ class AddressInformationCard extends ConsumerWidget {
 }
 
 class BookInfoCard extends StatelessWidget {
-  const BookInfoCard({super.key, required this.book,});
+  const BookInfoCard({
+    super.key,
+    required this.book,
+  });
 
   final Book book;
 
@@ -143,7 +146,7 @@ class BookInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-               Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +178,6 @@ class BookInfoCard extends StatelessWidget {
     );
   }
 }
-
 
 // Book Card
 class BookCard extends StatelessWidget {
@@ -217,6 +219,8 @@ class BookCard extends StatelessWidget {
                             book.book[BookAttributes.image.name],
                             height: MediaQuery.of(context).size.height / 7,
                             width: MediaQuery.of(context).size.width / 3,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Image.asset(AssetsAccess.defaultBookImage),
                           ),
                         ),
                       ],

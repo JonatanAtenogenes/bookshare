@@ -59,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         await ref.read(apiLoginNotifierProvider.notifier).loginUser(user);
         ref
             .read(currentUserProvider.notifier)
-            .update((state) => state = ref.read(apiLoginNotifierProvider));
+            .update((state) => ref.read(apiLoginNotifierProvider));
 
         log("current user: ${ref.read(currentUserProvider)}");
 
