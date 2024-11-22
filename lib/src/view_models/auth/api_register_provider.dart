@@ -1,8 +1,8 @@
 //
 import 'dart:developer';
 
-import 'package:bookshare/src/data/auth/auth_api_client.dart';
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/auth/auth_api_client.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/models/user/user.dart';
 import 'package:dio/dio.dart';
@@ -50,7 +50,7 @@ final apiRegisterNotifierProvider =
 /// functionality by communicating with the `AuthApiClient` to execute user
 /// registration requests and manage the user state.
 ///
-/// This notifier is used with Riverpod to provide user registration data and
+/// This notifier is used with Riverpod to provide user registration api and
 /// state updates across the application.
 class ApiRegisterNotifier extends StateNotifier<User> {
   /// API client used to handle registration requests.
@@ -68,7 +68,7 @@ class ApiRegisterNotifier extends StateNotifier<User> {
   /// If an error occurs, it logs the error message and rethrows the exception
   /// for external handling.
   ///
-  /// [user] - User instance containing registration data.
+  /// [user] - User instance containing registration api.
   /// Returns a `User` instance if the registration is successful.
   Future<User> registerUser(User user) async {
     try {

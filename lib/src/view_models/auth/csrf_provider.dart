@@ -1,6 +1,6 @@
 // import 'dart:developer';
 //
-// import 'package:bookshare/src/data/auth/auth_api_client.dart';
+// import 'package:bookshare/src/api/auth/auth_api_client.dart';
 // import 'package:bookshare/src/models/models.dart';
 // import 'package:dio/dio.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +35,7 @@
 // }
 // import 'dart:developer';
 //
-// import 'package:bookshare/src/data/auth/auth_api_client.dart';
+// import 'package:bookshare/src/api/auth/auth_api_client.dart';
 // import 'package:bookshare/src/models/models.dart';
 // import 'package:dio/dio.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';

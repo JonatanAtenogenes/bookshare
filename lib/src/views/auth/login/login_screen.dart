@@ -90,11 +90,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return validEmail.isValid && validPass.isValid;
     }
 
-    // bool continueWithLogin() {
-    //   return ref.read(emailValidatorProvider).isValid &&
-    //       ref.read(passwordValidatorProvider).isValid;
-    // }
-
     void resetProviders() {
       ref.read(emailValidationProvider.notifier).reset();
       ref.read(passwordValidatorProvider.notifier).reset();
@@ -153,7 +148,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Navigate safely after the current frame completes
                     WidgetsBinding.instance.addPostFrameCallback((duration) {
                       if (mounted) {
-                        context.goNamed(RouteNames.mainScreenRoute);
+                        context.goNamed(RouteNames.loadingContentScreenRoute);
                       }
                     });
                   },

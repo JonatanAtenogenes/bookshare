@@ -1,4 +1,4 @@
-import 'package:bookshare/src/data/api.dart';
+import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/exchange/exchange.dart';
 import 'package:bookshare/src/models/response/exchange_response.dart';
 import 'package:dio/dio.dart';

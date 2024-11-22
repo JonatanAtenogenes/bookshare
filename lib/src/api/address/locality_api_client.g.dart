@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'isbn_book_api_client.dart';
+part of 'locality_api_client.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,13 +8,13 @@ part of 'isbn_book_api_client.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _IsbnBookApiClient implements IsbnBookApiClient {
-  _IsbnBookApiClient(
+class _LocalityApiClient implements LocalityApiClient {
+  _LocalityApiClient(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://10.228.9.152:8000/';
+    baseUrl ??= 'http://192.168.100.94:8000/';
   }
 
   final Dio _dio;
@@ -24,19 +24,19 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<BookResponse> getIsbnBook(String isbn) async {
+  Future<LocalityResponse> retrieveLocalities(int postalCode) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BookResponse>(Options(
+    final _options = _setStreamType<LocalityResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'api/isbndb/books/isbn/${isbn}',
+          'api/localities/${postalCode}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -46,42 +46,9 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BookResponse _value;
+    late LocalityResponse _value;
     try {
-      _value = BookResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<BookResponse> getAuthorBooks(String author) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<BookResponse>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          'api/isbndb/books/author/${author}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late BookResponse _value;
-    try {
-      _value = BookResponse.fromJson(_result.data!);
+      _value = LocalityResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

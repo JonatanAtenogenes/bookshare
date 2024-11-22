@@ -2,7 +2,7 @@ import '../enum/enums.dart';
 
 /// Represents a donation made by a user to a library, including book details, status, and confirmation.
 ///
-/// This class provides methods to create a `Donation` instance from JSON data,
+/// This class provides methods to create a `Donation` instance from JSON api,
 /// convert it to JSON, and copy or retrieve attributes.
 class Donation {
   /// Unique identifier of the donation.
@@ -75,7 +75,7 @@ class Donation {
     };
   }
 
-  /// Factory method to create a `Donation` instance from JSON data.
+  /// Factory method to create a `Donation` instance from JSON api.
   ///
   /// This method expects a `Map<String, dynamic>` that contains the donation details.
   /// The donation attributes are accessed through a `donation` key in the JSON map.
@@ -85,10 +85,14 @@ class Donation {
     final id = donationData[DonationAttributes.id.name] ?? '';
     final userId = donationData[DonationAttributes.userId.name] ?? '';
     final libraryId = donationData[DonationAttributes.libraryId.name] ?? '';
-    final booksIds = List<String>.from(donationData[DonationAttributes.booksIds.name] ?? []);
+    final booksIds =
+        List<String>.from(donationData[DonationAttributes.booksIds.name] ?? []);
     final status = donationData[DonationAttributes.status.name] ?? '';
-    final donationDate = DateTime.parse(donationData[DonationAttributes.donationDate.name] ?? DateTime.now().toIso8601String());
-    final receivedConfirmation = donationData[DonationAttributes.receivedConfirmation.name] ?? false;
+    final donationDate = DateTime.parse(
+        donationData[DonationAttributes.donationDate.name] ??
+            DateTime.now().toIso8601String());
+    final receivedConfirmation =
+        donationData[DonationAttributes.receivedConfirmation.name] ?? false;
 
     return Donation(
       id: id,
@@ -101,7 +105,7 @@ class Donation {
     );
   }
 
-  /// Factory method to create a `Donation` instance from JSON data without a key.
+  /// Factory method to create a `Donation` instance from JSON api without a key.
   ///
   /// This method assumes the JSON map directly contains the donation attributes,
   /// instead of being nested under a `donation` key.
@@ -109,10 +113,14 @@ class Donation {
     final id = json[DonationAttributes.id.name] ?? '';
     final userId = json[DonationAttributes.userId.name] ?? '';
     final libraryId = json[DonationAttributes.libraryId.name] ?? '';
-    final booksIds = List<String>.from(json[DonationAttributes.booksIds.name] ?? []);
+    final booksIds =
+        List<String>.from(json[DonationAttributes.booksIds.name] ?? []);
     final status = json[DonationAttributes.status.name] ?? '';
-    final donationDate = DateTime.parse(json[DonationAttributes.donationDate.name] ?? DateTime.now().toIso8601String());
-    final receivedConfirmation = json[DonationAttributes.receivedConfirmation.name] ?? false;
+    final donationDate = DateTime.parse(
+        json[DonationAttributes.donationDate.name] ??
+            DateTime.now().toIso8601String());
+    final receivedConfirmation =
+        json[DonationAttributes.receivedConfirmation.name] ?? false;
 
     return Donation(
       id: id,
@@ -151,7 +159,7 @@ class Donation {
 
   /// Factory method to create an empty `Donation` instance with default values.
   ///
-  /// Useful for initializing an empty donation with placeholder data.
+  /// Useful for initializing an empty donation with placeholder api.
   factory Donation.empty() {
     return Donation(
       id: '',

@@ -1,4 +1,4 @@
-import 'package:bookshare/src/data/api.dart';
+import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/response/book_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -7,7 +7,7 @@ part 'isbn_book_api_client.g.dart'; // Required for Retrofit code generation
 
 /// API client for accessing book information via ISBN or author.
 ///
-/// This client is used to retrieve book data from the server using the provided [Api] routes.
+/// This client is used to retrieve book api from the server using the provided [Api] routes.
 /// It is built on Retrofit to simplify API integration with Dio.
 @RestApi(baseUrl: Api.baseUrl)
 abstract class IsbnBookApiClient {
@@ -24,7 +24,7 @@ abstract class IsbnBookApiClient {
   ///
   /// - Parameters:
   ///   - [isbn]: The ISBN of the book to retrieve.
-  /// - Returns: A [Future] that resolves to a [BookResponse] containing the book's data.
+  /// - Returns: A [Future] that resolves to a [BookResponse] containing the book's api.
   @GET(Api.isbnBook)
   Future<BookResponse> getIsbnBook(
     @Path('isbn') String isbn,

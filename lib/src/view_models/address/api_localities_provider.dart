@@ -1,5 +1,5 @@
-import 'package:bookshare/src/data/address/locality_api_client.dart';
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/address/locality_api_client.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/models/address/locality.dart';
 import 'package:bookshare/src/models/response/locality_response.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// This class is responsible for retrieving localities based on a given postal code
 /// and updating its state accordingly. It uses the [LocalityApiClient] to perform
-/// API calls for locality data.
+/// API calls for locality api.
 ///
 /// The state is represented as a list of [Locality] objects, initialized with
 /// an empty locality entry.

@@ -7,10 +7,10 @@ class Api {
   // Base URLs for the API and images
 
   /// The base URL for the main API.
-  static const String baseUrl = "http://10.228.9.152:8000/";
+  static const String baseUrl = "http://192.168.100.94:8000/";
 
   /// The base URL for image resources.
-  static const String baseImageUrl = "http://10.228.9.152:3000/";
+  static const String baseImageUrl = "http://192.168.100.94:3000/";
 
   // Auth API Routes
 

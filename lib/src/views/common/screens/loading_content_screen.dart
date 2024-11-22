@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bookshare/src/data/user_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/view_models/user/api_show_user_provider.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
@@ -22,25 +23,12 @@ class _LoadingContentScreenState extends ConsumerState<LoadingContentScreen> {
   @override
   void initState() {
     super.initState();
-    _showUser();
+    UserData().getAuthUserInformation(ref as Ref);
   }
 
-  Future<void> _showUser() async {
-    try {
-      String id = ref.read(currentUserProvider).id;
-      await ref.read(apiShowUserNotifierProvider.notifier).showUser(id);
-      log("user");
-      ref.read(currentUserProvider.notifier).update(
-          (state) => state = ref.read(apiShowUserNotifierProvider).data!);
-      log(ref.read(apiShowUserNotifierProvider).data.toString());
-      if (mounted) {
-        // Check if the widget is still mounted
-        context.goNamed(RouteNames.mainScreenRoute);
-      }
-    } catch (e) {
-      log('Error: ${e.toString()}');
-    }
-  }
+  Future<void> _getUserBooks() async {}
+
+  Future<void> _getListBooks() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -62,3 +50,10 @@ class _LoadingContentScreenState extends ConsumerState<LoadingContentScreen> {
     );
   }
 }
+
+/*
+if (mounted) {
+        // Check if the widget is still mounted
+        context.goNamed(RouteNames.mainScreenRoute);
+      }
+ */

@@ -1,5 +1,5 @@
-import 'package:bookshare/src/data/book/book_api_client.dart';
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/book/book_api_client.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
 import 'package:bookshare/src/models/response/book_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

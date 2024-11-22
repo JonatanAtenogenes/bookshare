@@ -20,11 +20,11 @@ class FileResponse {
 
   /// Factory constructor that creates a [FileResponse] object from JSON.
   /// It expects a JSON structure where:
-  /// - `data` contains file information,
+  /// - `api` contains file information,
   /// - `success` is a boolean indicating the operation success,
   /// - `message` provides feedback related to the file operation.
   factory FileResponse.fromJson(Map<String, dynamic> json) {
-    final fileData = json['data'];
+    final fileData = json['api'];
     final status = json['success'] as bool;
     final message = json['message'];
     final filePath = fileData['filePath'];

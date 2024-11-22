@@ -42,7 +42,7 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
         log('User retrieved successfully');
       }
     } catch (e) {
-      log('Error retrieving user data: ${e.toString()}');
+      log('Error retrieving user api: ${e.toString()}');
     } finally {
       ref.read(loadingShowUserProvider.notifier).update((state) => false);
     }

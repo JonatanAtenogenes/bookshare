@@ -13,7 +13,9 @@ class ExchangeResponse extends DataResponse<Exchange> {
     return ExchangeResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null ? Exchange.fromJson(json['data']) : null, // Assuming Exchange has a fromJson method
+      data: json['api'] != null
+          ? Exchange.fromJson(json['api'])
+          : null, // Assuming Exchange has a fromJson method
     );
   }
 
@@ -22,7 +24,7 @@ class ExchangeResponse extends DataResponse<Exchange> {
     return {
       'success': success,
       'message': message,
-      'data': data?.toJson(), // Assuming Exchange has a toJson method
+      'api': data?.toJson(), // Assuming Exchange has a toJson method
     };
   }
 

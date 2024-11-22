@@ -15,7 +15,7 @@ class UserResponse extends DataResponse<User> {
   ///
   /// [success] must not be null.
   /// [message] must not be null.
-  /// [data] is optional and may be null.
+  /// [api] is optional and may be null.
   UserResponse({
     required super.success,
     required super.message,
@@ -25,12 +25,41 @@ class UserResponse extends DataResponse<User> {
   /// Creates a [UserResponse] instance from a JSON map.
   ///
   /// [json] is a map representation of the user response received from the server.
-  /// Returns a [UserResponse] object populated with data from the JSON.
+  /// Returns a [UserResponse] object populated with api from the JSON.
   factory UserResponse.fromJson(Map<String, dynamic> json) {
     return UserResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null ? User.fromJsonWithoutKey(json['data']) : null,
+      data: json['api'] != null ? User.fromJsonWithoutKey(json['api']) : null,
+    );
+  }
+
+  /// Creates a copy of the current [UserResponse] instance with the option to override specific fields.
+  ///
+  /// This method is useful for creating a modified copy of the existing object while
+  /// keeping other fields unchanged.
+  ///
+  /// Example:
+  /// ```dart
+  /// final updatedResponse = userResponse.copyWith(message: 'Updated message');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [success]: Overrides the current success status if provided.
+  /// - [message]: Overrides the current message if provided.
+  /// - [api]: Overrides the current api if provided.
+  ///
+  /// Returns:
+  /// A new instance of [UserResponse] with updated fields.
+  UserResponse copyWith({
+    bool? success,
+    String? message,
+    User? data,
+  }) {
+    return UserResponse(
+      success: success ?? this.success,
+      message: message ?? this.message,
+      data: data ?? this.data,
     );
   }
 
@@ -41,7 +70,7 @@ class UserResponse extends DataResponse<User> {
     return {
       'success': success,
       'message': message,
-      'data': data?.toJson(),
+      'api': data?.toJson(),
     };
   }
 
@@ -51,10 +80,10 @@ class UserResponse extends DataResponse<User> {
   /// with default values for a successful response:
   /// - [success] is set to true.
   /// - [message] is set to a success message.
-  /// - [data] is initialized with a [User.empty()] instance.
+  /// - [api] is initialized with a [User.empty()] instance.
   ///
   /// This can be useful when you want to return a successful response
-  /// without any actual user data.
+  /// without any actual user api.
   factory UserResponse.success(String message) {
     return UserResponse(
       success: true,
@@ -69,7 +98,7 @@ class UserResponse extends DataResponse<User> {
   /// with default values for an error response:
   /// - [success] is set to false.
   /// - [message] is set to the provided error message.
-  /// - [data] is set to null.
+  /// - [api] is set to null.
   ///
   /// This can be useful when returning an error response from an API call.
   factory UserResponse.error(String message) {

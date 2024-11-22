@@ -14,7 +14,8 @@ class AddressResponse extends DataResponse<Address> {
     return AddressResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null ? Address.fromJsonWithoutKey(json['data']) : null,
+      data:
+          json['api'] != null ? Address.fromJsonWithoutKey(json['api']) : null,
     );
   }
 
@@ -23,7 +24,7 @@ class AddressResponse extends DataResponse<Address> {
     return {
       'success': success,
       'message': message,
-      'data': data?.toJson(),
+      'api': data?.toJson(),
     };
   }
 
@@ -32,7 +33,8 @@ class AddressResponse extends DataResponse<Address> {
     return AddressResponse(
       success: true,
       message: message,
-      data: Address.empty(), // Assuming you have a method to create an empty Address
+      data: Address
+          .empty(), // Assuming you have a method to create an empty Address
     );
   }
 

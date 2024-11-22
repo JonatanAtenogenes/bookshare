@@ -7,5 +7,5 @@ export 'text_field_widgets.dart';
 // Includes all type of defined text widgets
 export "text_widgets.dart";
 
-// Includes cards that provide information about specific type of data
+// Includes cards that provide information about specific type of api
 export 'custom_cards.dart';

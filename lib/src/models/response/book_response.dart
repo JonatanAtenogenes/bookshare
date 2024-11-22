@@ -14,8 +14,8 @@ class BookResponse extends DataResponse<Book> {
     return BookResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null
-          ? Book.fromJsonWithoutKey(json['data']['book'])
+      data: json['api'] != null
+          ? Book.fromJsonWithoutKey(json['api']['book'])
           : null,
     );
   }
@@ -24,7 +24,7 @@ class BookResponse extends DataResponse<Book> {
     return {
       'success': success,
       'message': message,
-      'data': data?.toJson(),
+      'api': data?.toJson(),
     };
   }
 
@@ -59,9 +59,8 @@ class BookListResponse extends DataResponse<List<Book>> {
     return BookListResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null
-          ? Book.fromJsonListWithoutKey(json['data'])
-          : null,
+      data:
+          json['api'] != null ? Book.fromJsonListWithoutKey(json['api']) : null,
     );
   }
 
@@ -69,7 +68,7 @@ class BookListResponse extends DataResponse<List<Book>> {
     return {
       'success': success,
       'message': message,
-      'data': data?.map((book) => book.toJson()).toList(),
+      'api': data?.map((book) => book.toJson()).toList(),
     };
   }
 

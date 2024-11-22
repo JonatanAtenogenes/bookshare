@@ -4,7 +4,7 @@ import '../enum/book_attributes.dart';
 import '../enum/enums.dart';
 import '../user/user.dart';
 
-/// Represents a book with various attributes and methods to manage its data.
+/// Represents a book with various attributes and methods to manage its api.
 class Book {
   /// Unique identifier for the book.
   final String id;

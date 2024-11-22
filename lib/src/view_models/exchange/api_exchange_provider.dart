@@ -1,4 +1,4 @@
-import 'package:bookshare/src/data/exchange/exchange_api_client.dart';
+import 'package:bookshare/src/api/exchange/exchange_api_client.dart';
 import 'package:bookshare/src/models/exchange/exchange.dart';
 import 'package:bookshare/src/models/response/exchange_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

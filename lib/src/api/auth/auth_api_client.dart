@@ -1,4 +1,4 @@
-import 'package:bookshare/src/data/api.dart';
+import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bookshare/src/data/api.dart';
+import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/models/response/file_response.dart';
 import 'package:bookshare/src/models/response/user_response.dart';
@@ -28,9 +28,9 @@ abstract class UserApiClient {
 
   /// Updates the personal information for a specific user.
   ///
-  /// Makes a PUT request to update the user's personal information with new data.
+  /// Makes a PUT request to update the user's personal information with new api.
   /// - [id]: The unique identifier of the user to update.
-  /// - [user]: An instance of the [User] model containing the updated user data.
+  /// - [user]: An instance of the [User] model containing the updated user api.
   @PUT(Api.updatePersonalInformation)
   Future<ApiResponse> updatePersonalInformation(
     @Path('id') String id,

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
-import 'package:bookshare/src/data/user/user_api_client.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/user/user_api_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,9 +25,9 @@ class ApiUpdatePersonalInformationNotifier extends StateNotifier<ApiResponse> {
 
   /// Updates the personal information of a user.
   ///
-  /// Sends the provided [user] data to the API to update the user's
+  /// Sends the provided [user] api to the API to update the user's
   /// personal information. If the request is successful, the state
-  /// is updated with the new user data.
+  /// is updated with the new user api.
   ///
   /// - [user]: The user object containing the updated personal information.
   Future<void> updatePersonalInformation(User user) async {
@@ -35,7 +35,7 @@ class ApiUpdatePersonalInformationNotifier extends StateNotifier<ApiResponse> {
       final updatedUserState =
           await _userApiClient.updatePersonalInformation(user.id, user);
       log("Updated state in provider: ${updatedUserState.success}");
-      state = updatedUserState; // Update the state with the new user data.
+      state = updatedUserState; // Update the state with the new user api.
     } catch (e) {
       log("Error must be retrowed");
       rethrow; // Rethrow the error for handling by the caller.

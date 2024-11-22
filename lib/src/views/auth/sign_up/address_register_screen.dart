@@ -153,7 +153,7 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
 
     /// Updates the user's address information.
     ///
-    /// This function gathers address data from input controllers, creates an
+    /// This function gathers address api from input controllers, creates an
     /// [Address] object, and updates the current user's address information by
     /// using the `apiUpdateAddressInfoNotifierProvider` provider to send a
     /// request to the server. Upon a successful update, it sets the state
@@ -162,7 +162,7 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
     ///
     /// Returns a [Future] that completes when the address update process is finished.
     Future<void> updateAddressInformation() async {
-      // Create an Address object with data from input controllers
+      // Create an Address object with api from input controllers
       final address = Address(
         street: _streetController.text,
         exteriorNumber: _extNumberController.text,

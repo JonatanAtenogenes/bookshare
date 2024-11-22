@@ -2,7 +2,7 @@ import '../enum/enums.dart';
 
 /// Represents a library with various attributes, including its location and collection details.
 ///
-/// This class provides methods to create a `Library` instance from JSON data,
+/// This class provides methods to create a `Library` instance from JSON api,
 /// convert it to JSON, and copy or retrieve attributes.
 class Library {
   /// Unique identifier for the library.
@@ -75,7 +75,7 @@ class Library {
     };
   }
 
-  /// Factory method to create a `Library` instance from JSON data.
+  /// Factory method to create a `Library` instance from JSON api.
   ///
   /// This method expects a `Map<String, dynamic>` that contains the library details.
   /// The library attributes are accessed through a `library` key in the JSON map.
@@ -101,7 +101,7 @@ class Library {
     );
   }
 
-  /// Factory method to create a `Library` instance from JSON data without a key.
+  /// Factory method to create a `Library` instance from JSON api without a key.
   ///
   /// This method assumes the JSON map directly contains the library attributes,
   /// instead of being nested under a `library` key.
@@ -151,7 +151,7 @@ class Library {
 
   /// Factory method to create an empty `Library` instance with default values.
   ///
-  /// Useful for initializing an empty library with placeholder data.
+  /// Useful for initializing an empty library with placeholder api.
   factory Library.empty() {
     return Library(
       id: '',

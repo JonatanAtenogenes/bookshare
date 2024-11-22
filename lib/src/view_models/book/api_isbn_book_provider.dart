@@ -4,8 +4,8 @@ import 'package:bookshare/src/models/response/book_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/book/isbn_book_api_client.dart';
-import '../../data/interceptors/token_interceptor.dart';
+import '../../api/book/isbn_book_api_client.dart';
+import '../../api/interceptors/token_interceptor.dart';
 
 class ApiIsbnBookNotifier extends StateNotifier<BookResponse> {
   /// API client used to fetch book details by ISBN.

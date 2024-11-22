@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
-import 'package:bookshare/src/data/user/user_api_client.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/user/user_api_client.dart';
 import 'package:bookshare/src/models/response/file_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ class ApiUploadImageNotifier extends StateNotifier<FileResponse> {
   final UserApiClient _userApiClient;
 
   /// Constructor initializes the notifier with an empty [FileResponse] state.
-  /// - [_userApiClient] is the API client that handles requests for user data.
+  /// - [_userApiClient] is the API client that handles requests for user api.
   ApiUploadImageNotifier(this._userApiClient) : super(FileResponse.empty());
 
   /// Uploads a profile image for a specific user.

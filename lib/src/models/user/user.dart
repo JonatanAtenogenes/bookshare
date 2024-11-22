@@ -5,7 +5,7 @@ import 'package:bookshare/src/utils/assets_access.dart';
 import '../address/address.dart';
 import '../enum/enums.dart';
 
-/// Represents a user with various attributes and methods to manage their data.
+/// Represents a user with various attributes and methods to manage their api.
 class User {
   /// Unique identifier for the user.
   final String id;
@@ -101,7 +101,7 @@ class User {
   /// Factory constructor for creating a `User` from JSON.
   ///
   /// [json] - JSON map representing a user.
-  /// Returns a `User` instance populated with data from the JSON.
+  /// Returns a `User` instance populated with api from the JSON.
   factory User.fromJson(Map<String, dynamic> json) {
     log("user json: $json");
     String id = json['user']['id'] ?? "";
@@ -176,7 +176,7 @@ class User {
   ///   'paternal_surname': 'Doe',
   ///   'maternal_surname': 'Smith',
   ///   'birthdate': '1990-01-01',
-  ///   'address': { /* Address data */ },
+  ///   'address': { /* Address api */ },
   ///   'role': 'user',
   ///   'status': true
   /// };

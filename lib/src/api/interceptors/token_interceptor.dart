@@ -13,7 +13,7 @@ class TokenInterceptor extends InterceptorsWrapper {
   /// Intercepts the response to store the authentication token.
   ///
   /// If the response status code is 200 (success), the access token is extracted
-  /// from the response data and saved in `SharedPreferences` for future requests.
+  /// from the response api and saved in `SharedPreferences` for future requests.
   ///
   /// [response] is the HTTP response intercepted after a successful request.
   /// [handler] is the `ResponseInterceptorHandler` that completes the response handling.

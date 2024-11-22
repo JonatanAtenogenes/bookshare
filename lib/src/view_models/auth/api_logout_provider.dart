@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/data/interceptors/token_interceptor.dart';
+import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/auth/auth_api_client.dart';
+import '../../api/auth/auth_api_client.dart';
 import '../../models/response/api_response.dart';
 
 /// Provides a loading state for the API logout process.

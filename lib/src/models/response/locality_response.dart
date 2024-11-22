@@ -35,7 +35,7 @@ class LocalityResponse {
   /// The JSON map should contain the keys `status`, `message`, and `localities`.
   /// The `localities` key should map to a list of locality JSON objects.
   factory LocalityResponse.fromJson(Map<String, dynamic> json) {
-    final localitiesJson = json['data'] as List<dynamic>;
+    final localitiesJson = json['api'] as List<dynamic>;
     return LocalityResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
