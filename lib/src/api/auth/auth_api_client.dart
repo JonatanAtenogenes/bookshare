@@ -1,5 +1,6 @@
 import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/models.dart';
+import 'package:bookshare/src/models/response/auth_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -16,7 +17,7 @@ abstract class AuthApiClient {
   Future<User> registerUser(@Body() User user);
 
   @POST(Api.login)
-  Future<User> loginUser(@Body() User user);
+  Future<AuthResponse> loginUser(@Body() User user);
 
   @POST(Api.logout)
   Future<void> logoutUser();

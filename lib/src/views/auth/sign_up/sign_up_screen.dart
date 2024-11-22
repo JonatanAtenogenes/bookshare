@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
+import 'package:bookshare/src/models/response/api_response.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
@@ -106,7 +106,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           .validate(_passwordController.text);
       final validConfirm = ref
           .read(confirmPasswordValidatorProvider.notifier)
-          .vaidate(_passwordController.text, _confirmPasswordController.text);
+          .validate(_passwordController.text, _confirmPasswordController.text);
       return validEmail.isValid && validPass.isValid && validConfirm.isValid;
     }
 

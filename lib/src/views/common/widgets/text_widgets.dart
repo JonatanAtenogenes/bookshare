@@ -65,6 +65,7 @@ class ErrorText extends StatelessWidget {
       child: Center(
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: GoogleFonts.lato(
             textStyle: TextStyle(
               fontStyle: FontStyle.italic,

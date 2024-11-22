@@ -3,13 +3,24 @@ import 'dart:developer';
 import '../models.dart';
 import 'data_response.dart';
 
+/// Represents a response containing a single Book object.
 class BookResponse extends DataResponse<Book> {
+  /// Constructor for [BookResponse].
+  ///
+  /// - [success]: Indicates whether the API call was successful.
+  /// - [message]: The response message.
+  /// - [data]: The book data, can be null.
   BookResponse({
     required super.success,
     required super.message,
     super.data,
   });
 
+  /// Creates a [BookResponse] instance from a JSON object.
+  ///
+  /// - [json]: The JSON object containing response data.
+  ///
+  /// Returns a new [BookResponse].
   factory BookResponse.fromJson(Map<String, dynamic> json) {
     return BookResponse(
       success: json['success'] as bool,
@@ -20,6 +31,9 @@ class BookResponse extends DataResponse<Book> {
     );
   }
 
+  /// Converts the [BookResponse] to a JSON object.
+  ///
+  /// Returns a Map representation of the response.
   Map<String, dynamic> toJson() {
     return {
       'success': success,
@@ -28,6 +42,11 @@ class BookResponse extends DataResponse<Book> {
     };
   }
 
+  /// Factory constructor for creating a successful [BookResponse].
+  ///
+  /// - [message]: The success message.
+  ///
+  /// Returns a [BookResponse] with an empty book.
   factory BookResponse.success(String message) {
     return BookResponse(
       success: true,
@@ -36,6 +55,11 @@ class BookResponse extends DataResponse<Book> {
     );
   }
 
+  /// Factory constructor for creating an error [BookResponse].
+  ///
+  /// - [message]: The error message.
+  ///
+  /// Returns a [BookResponse] without data.
   factory BookResponse.error(String message) {
     return BookResponse(
       success: false,
@@ -45,13 +69,24 @@ class BookResponse extends DataResponse<Book> {
   }
 }
 
+/// Represents a response containing a list of Book objects.
 class BookListResponse extends DataResponse<List<Book>> {
+  /// Constructor for [BookListResponse].
+  ///
+  /// - [success]: Indicates whether the API call was successful.
+  /// - [message]: The response message.
+  /// - [data]: The list of books, can be null.
   BookListResponse({
     required super.success,
     required super.message,
     super.data,
   });
 
+  /// Creates a [BookListResponse] instance from a JSON object.
+  ///
+  /// - [json]: The JSON object containing response data.
+  ///
+  /// Returns a new [BookListResponse].
   factory BookListResponse.fromJson(Map<String, dynamic> json) {
     log('---------------------');
     log('Booklist Response');
@@ -64,6 +99,9 @@ class BookListResponse extends DataResponse<List<Book>> {
     );
   }
 
+  /// Converts the [BookListResponse] to a JSON object.
+  ///
+  /// Returns a Map representation of the response.
   Map<String, dynamic> toJson() {
     return {
       'success': success,
@@ -72,6 +110,11 @@ class BookListResponse extends DataResponse<List<Book>> {
     };
   }
 
+  /// Factory constructor for creating a successful [BookListResponse].
+  ///
+  /// - [message]: The success message.
+  ///
+  /// Returns a [BookListResponse] with no data.
   factory BookListResponse.success(String message) {
     return BookListResponse(
       success: true,
@@ -80,6 +123,11 @@ class BookListResponse extends DataResponse<List<Book>> {
     );
   }
 
+  /// Factory constructor for creating an error [BookListResponse].
+  ///
+  /// - [message]: The error message.
+  ///
+  /// Returns a [BookListResponse] without data.
   factory BookListResponse.error(String message) {
     return BookListResponse(
       success: false,

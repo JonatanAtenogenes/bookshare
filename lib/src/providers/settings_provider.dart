@@ -73,6 +73,16 @@ final showPasswordNotifierProvider =
     StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
         (ref) => PasswordVisibilityNotifier(false));
 
+/// Provider for managing password visibility on the login screen.
+///
+/// The `showPasswordLoginNotifierProvider` provides an instance of
+/// `PasswordVisibilityNotifier`, initialized with the initial state
+/// of password visibility set to hidden (false). This provider is
+/// set to auto-dispose when no longer needed.
+final showPasswordLoginNotifierProvider =
+    StateNotifierProvider.autoDispose<PasswordVisibilityNotifier, bool>(
+        (ref) => PasswordVisibilityNotifier(false));
+
 /// Provider for managing confirmation password visibility in user input fields.
 ///
 /// The `showConfirmPasswordNotifierProvider` provides an instance of

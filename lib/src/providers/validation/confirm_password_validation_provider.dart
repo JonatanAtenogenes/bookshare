@@ -11,7 +11,7 @@ class ConfirmPasswordValidatorNotifier
     extends StateNotifier<PasswordValidation> {
   ConfirmPasswordValidatorNotifier() : super(passwordConfirmed);
 
-  Validation vaidate(String password, String confirmedPassword) {
+  Validation validate(String password, String confirmedPassword) {
     if (confirmedPassword.isEmpty) {
       state = emptyConfirmPassword;
       return emptyPassword;

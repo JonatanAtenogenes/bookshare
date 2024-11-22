@@ -26,8 +26,9 @@ class TokenInterceptor extends InterceptorsWrapper {
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    final authToken =
-        AuthorizationToken(accessToken: response.data['access_token']);
+    final authToken = AuthorizationToken(
+      accessToken: response.data['data']['access_token'],
+    );
 
     sharedPreferences.setString('access_token', authToken.toString());
 

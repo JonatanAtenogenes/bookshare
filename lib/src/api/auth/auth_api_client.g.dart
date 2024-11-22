@@ -58,13 +58,13 @@ class _AuthApiClient implements AuthApiClient {
   }
 
   @override
-  Future<User> loginUser(User user) async {
+  Future<AuthResponse> loginUser(User user) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
-    final _options = _setStreamType<User>(Options(
+    final _options = _setStreamType<AuthResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -81,9 +81,9 @@ class _AuthApiClient implements AuthApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late User _value;
+    late AuthResponse _value;
     try {
-      _value = User.fromJson(_result.data!);
+      _value = AuthResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
