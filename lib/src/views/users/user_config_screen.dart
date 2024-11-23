@@ -4,7 +4,6 @@ import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/auth/api_logout_provider.dart';
 import 'package:bookshare/src/view_models/user/api_show_user_provider.dart';
-import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,32 +19,7 @@ class UserConfigScreen extends ConsumerStatefulWidget {
 class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
   @override
   void initState() {
-    // Make sure we're not modifying the provider during widget lifecycle
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
-      showUser();
-    });
     super.initState();
-  }
-
-  Future<void> showUser() async {
-    ref.read(loadingShowUserProvider.notifier).update((state) => true);
-
-    try {
-      final userId = ref.read(currentUserProvider).id;
-      await ref.read(apiShowUserNotifierProvider.notifier).showUser(userId);
-
-      final userData = ref.read(apiShowUserNotifierProvider);
-      if (userData.data != null) {
-        ref
-            .read(currentUserProvider.notifier)
-            .update((state) => userData.data!);
-        log('User retrieved successfully');
-      }
-    } catch (e) {
-      log('Error retrieving user api: ${e.toString()}');
-    } finally {
-      ref.read(loadingShowUserProvider.notifier).update((state) => false);
-    }
   }
 
   @override

@@ -337,7 +337,7 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
                     Future.delayed(const Duration(milliseconds: 500));
 
                     WidgetsBinding.instance.addPostFrameCallback((callback) {
-                      context.goNamed(RouteNames.mainScreenRoute);
+                      context.goNamed(RouteNames.loadingContentScreenRoute);
                     });
                   },
                   text: AppStrings.advance,
