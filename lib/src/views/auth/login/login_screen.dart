@@ -110,11 +110,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Validate fields before proceeding with login.
                     if (!_validFields()) return;
 
-                    // Set loading state to true before login API call.
-                    ref
-                        .read(loadingApiLoginProvider.notifier)
-                        .update((state) => state = true);
-
                     // Perform the login operation.
                     await ref.read(authDataProvider).loginUser(
                           _emailController.text,
@@ -122,7 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         );
 
                     // If login is successful, navigate to the next screen.
-                    if (!apiLoginProvider.success) return;
+                    if (!ref.read(apiLoginNotifierProvider).success) return;
 
                     // Ensure navigation occurs safely after the current frame completes.
                     WidgetsBinding.instance.addPostFrameCallback((duration) {

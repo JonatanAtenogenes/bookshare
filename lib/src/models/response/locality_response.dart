@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../address/locality.dart';
 
 /// A response class for retrieving locality information, including
@@ -35,7 +37,8 @@ class LocalityResponse {
   /// The JSON map should contain the keys `status`, `message`, and `localities`.
   /// The `localities` key should map to a list of locality JSON objects.
   factory LocalityResponse.fromJson(Map<String, dynamic> json) {
-    final localitiesJson = json['api'] as List<dynamic>;
+    log('Localities in json $json}');
+    final localitiesJson = json['data'] as List<dynamic>;
     return LocalityResponse(
       success: json['success'] as bool,
       message: json['message'] as String,

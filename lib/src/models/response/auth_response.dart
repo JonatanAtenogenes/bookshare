@@ -84,4 +84,12 @@ class AuthResponse extends DataResponse<User> {
       data: null,
     );
   }
+
+  /// Returns a string representation of the [AuthResponse] object.
+  ///
+  /// Includes the `success`, `message`, and `data` attributes.
+  @override
+  String toString() {
+    return 'AuthResponse(success: $success, message: "$message", data: ${data?.toJson() ?? "null"})';
+  }
 }

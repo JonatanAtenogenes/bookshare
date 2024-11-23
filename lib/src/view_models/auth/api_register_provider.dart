@@ -1,34 +1,37 @@
-//
 import 'dart:developer';
 
 import 'package:bookshare/src/api/auth/auth_api_client.dart';
 import 'package:bookshare/src/api/interceptors/token_interceptor.dart';
-import 'package:bookshare/src/models/response/api_response.dart';
+import 'package:bookshare/src/models/response/auth_response.dart';
 import 'package:bookshare/src/models/user/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Provides a loading state for the API registration process.
+/// **loadingApiRegisterProvider**
 ///
-/// This `StateProvider` holds a boolean indicating whether an API registration
-/// request is in progress. The initial value is `false`.
+/// A `StateProvider` to track the loading state of the user registration API.
+///
+/// - **Type**: `StateProvider<bool>`
+/// - **Default Value**: `false`
+///
+/// This provider holds a boolean that indicates whether the user registration
+/// request is in progress (`true`) or idle (`false`). It can be used in the UI
+/// to show loading indicators during API calls.
 final loadingApiRegisterProvider = StateProvider<bool>((ref) => false);
 
-/// Holds the API response for registration attempts.
+/// **apiRegisterNotifierProvider**
 ///
-/// This `StateProvider` stores an `ApiResponse` to represent the result of a
-/// registration attempt, either success or error. The initial value is set to a
-/// success response.
-final acceptedApiRegisterProvider =
-    StateProvider<ApiResponse>((ref) => ApiResponse.success());
-
-/// Provider for `ApiRegisterNotifier` to manage user registration.
+/// A `StateNotifierProvider` that provides an instance of `ApiRegisterNotifier`
+/// to manage user registration functionality.
 ///
-/// The `apiRegisterNotifierProvider` creates and supplies an instance of
-/// `ApiRegisterNotifier` with a `Dio` instance configured for API calls,
-/// including a `TokenInterceptor` to handle token management for requests.
+/// - **Type**: `StateNotifierProvider<ApiRegisterNotifier, AuthResponse>`
+///
+/// This provider initializes the `ApiRegisterNotifier` with a `Dio` instance
+/// configured for JSON-based API calls. It adds a `TokenInterceptor` to handle
+/// token management for outgoing requests. The notifier manages the registration
+/// state and communicates with the `AuthApiClient`.
 final apiRegisterNotifierProvider =
-    StateNotifierProvider<ApiRegisterNotifier, User>(
+    StateNotifierProvider<ApiRegisterNotifier, AuthResponse>(
   (ref) {
     final dio = Dio(
       BaseOptions(
@@ -44,40 +47,79 @@ final apiRegisterNotifierProvider =
   },
 );
 
-/// A `StateNotifier` responsible for managing user registration.
+/// **ApiRegisterNotifier**
 ///
-/// The `ApiRegisterNotifier` class is responsible for handling the registration
-/// functionality by communicating with the `AuthApiClient` to execute user
-/// registration requests and manage the user state.
+/// A `StateNotifier` for managing user registration API calls and state updates.
 ///
-/// This notifier is used with Riverpod to provide user registration api and
-/// state updates across the application.
-class ApiRegisterNotifier extends StateNotifier<User> {
-  /// API client used to handle registration requests.
+/// This class handles user registration by communicating with the `AuthApiClient`,
+/// updating the registration state, and providing error management.
+///
+/// - **Extends**: `StateNotifier<AuthResponse>`
+/// - **Initial State**: `AuthResponse.error("")`
+///
+/// ### Responsibilities:
+/// - Execute user registration requests.
+/// - Update the `AuthResponse` state with registration success or failure data.
+/// - Provide methods for managing errors and resetting the state.
+///
+/// This notifier is used with Riverpod to enable state management for user
+/// registration across the application.
+class ApiRegisterNotifier extends StateNotifier<AuthResponse> {
+  /// API client used to perform registration requests.
   final AuthApiClient _authApiClient;
 
-  /// Initializes the notifier with the specified `AuthApiClient` instance.
+  /// Constructor for `ApiRegisterNotifier`.
   ///
-  /// [authApiClient] - Client to perform registration API requests.
-  ApiRegisterNotifier(this._authApiClient) : super(User.empty());
+  /// - [authApiClient]: An instance of `AuthApiClient` for API communication.
+  ApiRegisterNotifier(this._authApiClient) : super(AuthResponse.error(""));
 
-  /// Registers a new user and updates the state with the registered user.
+  /// **registerUser**
   ///
-  /// This method takes a `User` instance, sends it to the API via the
-  /// `_authApiClient`, and updates the state with the registered user.
-  /// If an error occurs, it logs the error message and rethrows the exception
-  /// for external handling.
+  /// Registers a new user by sending their information to the API.
   ///
-  /// [user] - User instance containing registration api.
-  /// Returns a `User` instance if the registration is successful.
-  Future<User> registerUser(User user) async {
+  /// - **Parameters**:
+  ///   - [user]: A `User` object containing the registration details.
+  ///
+  /// - **Behavior**:
+  ///   - Sends a registration request via `_authApiClient`.
+  ///   - Updates the state with the response from the server.
+  ///   - Rethrows any exceptions for external handling.
+  ///
+  /// - **Returns**: `Future<void>`
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final user = User(name: "John Doe", email: "john@example.com", ...);
+  /// await notifier.registerUser(user);
+  /// ```
+  Future<void> registerUser(User user) async {
     try {
-      final registeredUser = await _authApiClient.registerUser(user);
-      state = registeredUser;
-      return registeredUser;
+      final registerUserResponse = await _authApiClient.registerUser(user);
+      state = state.copyWith(
+        success: registerUserResponse.success,
+        message: registerUserResponse.message,
+        data: registerUserResponse.data,
+      );
     } catch (e) {
-      log('Error registering user: $e'); // Log the error
       rethrow;
     }
+  }
+
+  /// **updateErrorRegister**
+  ///
+  /// Updates the state with an error message.
+  ///
+  /// - **Parameters**:
+  ///   - [message]: A `String` containing the error message.
+  ///
+  /// - **Behavior**:
+  ///   - Sets the state to an error response with the provided message.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// notifier.updateErrorRegister("Failed to register user");
+  /// ```
+  void updateErrorRegister(String message) {
+    state = AuthResponse.error(message);
   }
 }
