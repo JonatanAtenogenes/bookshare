@@ -1,8 +1,5 @@
 import 'dart:developer';
 
-import 'package:bookshare/src/models/enum/book_attributes.dart';
-import 'package:bookshare/src/models/temp/temp_data.dart';
-import 'package:bookshare/src/providers/content_provider.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
@@ -10,7 +7,6 @@ import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../view_models/user/user_provider.dart';
 
@@ -104,7 +100,6 @@ class SuccessBookInfo extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {
-                    log('Info book: ${bookList[index].book[BookAttributes.userId.name]}'),
                     context.pushNamed(RouteNames.bookInformationScreenRoute),
                   },
                   book: booksList[index],

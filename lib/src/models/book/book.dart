@@ -27,9 +27,6 @@ class Book {
   /// Publisher of the book.
   final String publisher;
 
-  /// User ID of the person who owns or is associated with the book.
-  final String userId;
-
   /// Condition of the book, which may change over time.
   final int condition;
 
@@ -40,7 +37,7 @@ class Book {
   final bool status = true;
 
   /// Associated user for the book, if available.
-  final User? user;
+  final User user;
 
   /// Constructor for the `Book` class.
   Book({
@@ -51,10 +48,9 @@ class Book {
     required this.synopsis,
     required this.image,
     required this.publisher,
-    required this.userId,
     required this.condition,
     required this.value,
-    this.user,
+    required this.user,
   });
 
   /// Creates a copy of the current `Book` instance with updated fields.
@@ -66,7 +62,6 @@ class Book {
     String? synopsis,
     String? image,
     String? publisher,
-    String? userId,
     int? condition,
     int? value,
     User? user,
@@ -79,7 +74,6 @@ class Book {
       synopsis: synopsis ?? this.synopsis,
       image: image ?? this.image,
       publisher: publisher ?? this.publisher,
-      userId: userId ?? this.userId,
       condition: condition ?? this.condition,
       value: value ?? this.value,
       user: user ?? this.user,
@@ -101,8 +95,6 @@ class Book {
         bookData[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = bookData[BookAttributes.image.name] ?? '';
     final publisher = bookData[BookAttributes.publisher.name] ?? '';
-    final userId =
-        bookData[BookAttributes.userId.name] ?? BookAttributes.userId.name;
     final condition = bookData[BookAttributes.condition.name] ?? 0;
     final value = bookData[BookAttributes.value.name] ?? 0;
     final user = bookData['user'] != null
@@ -117,7 +109,6 @@ class Book {
       synopsis: synopsis,
       image: image,
       publisher: publisher,
-      userId: userId,
       condition: condition,
       value: value,
       user: user,
@@ -134,8 +125,6 @@ class Book {
         json[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = json[BookAttributes.image.name] ?? '';
     final publisher = json[BookAttributes.publisher.name] ?? '';
-    final userId =
-        json[BookAttributes.userId.name] ?? BookAttributes.userId.name;
     final condition = json[BookAttributes.condition.name] ?? 0;
     final value = json[BookAttributes.value.name] ?? 0;
     final user =
@@ -149,7 +138,6 @@ class Book {
       synopsis: synopsis,
       image: image,
       publisher: publisher,
-      userId: userId,
       condition: condition,
       value: value,
       user: user,
@@ -166,11 +154,10 @@ class Book {
       BookAttributes.synopsis.name: synopsis,
       BookAttributes.image.name: image,
       BookAttributes.publisher.name: publisher,
-      BookAttributes.userId.name: userId,
       BookAttributes.condition.name: condition,
       BookAttributes.value.name: value,
       BookAttributes.status.name: status,
-      'user': user?.toJson(),
+      'user': user.toJson(),
     };
   }
 
@@ -184,11 +171,10 @@ class Book {
       BookAttributes.synopsis.name: synopsis,
       BookAttributes.image.name: image,
       BookAttributes.publisher.name: publisher,
-      BookAttributes.userId.name: userId,
       BookAttributes.condition.name: condition,
       BookAttributes.value.name: value,
       BookAttributes.status.name: status,
-      'user': user?.toJson(),
+      'user': user.toJson(),
     };
   }
 
@@ -202,9 +188,9 @@ class Book {
       synopsis: BookAttributes.synopsis.name,
       image: BookAttributes.image.name,
       publisher: BookAttributes.publisher.name,
-      userId: BookAttributes.userId.name,
       condition: 0,
       value: 0,
+      user: User.empty(),
     );
   }
 
