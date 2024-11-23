@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomSearchDelegate extends SearchDelegate<String> {
+  get bookList => null;
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     // This method is responsible for building actions in the AppBar,

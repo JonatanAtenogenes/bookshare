@@ -1,12 +1,16 @@
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ExchangeScreen extends StatelessWidget {
+import '../../view_models/book/api_book_list_provider.dart';
+
+class ExchangeScreen extends ConsumerWidget {
   const ExchangeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userBooksList = ref.watch(apiUserBookListNotifierProvider).data;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -15,11 +19,11 @@ class ExchangeScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 5.5,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: bookList.length,
+              itemCount: userBooksList!.length,
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {},
-                  book: bookList[index],
+                  book: userBooksList[index],
                 );
               },
             ),
@@ -29,11 +33,11 @@ class ExchangeScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 2,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: bookList.length,
+              itemCount: userBooksList.length,
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {},
-                  book: bookList[index],
+                  book: userBooksList[index],
                 );
               },
             ),
