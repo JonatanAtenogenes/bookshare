@@ -14,7 +14,7 @@ class _BookApiClient implements BookApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.100.94:8000/';
+    baseUrl ??= 'http://192.168.50.42:8000/';
   }
 
   final Dio _dio;
@@ -136,7 +136,7 @@ class _BookApiClient implements BookApiClient {
     )
         .compose(
           _dio.options,
-          'api/books/',
+          'api/books',
           queryParameters: queryParameters,
           data: _data,
         )

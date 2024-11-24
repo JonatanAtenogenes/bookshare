@@ -3,7 +3,9 @@ import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../routes/route_names.dart';
 import '../widgets/text_widgets.dart';
 
 /// **LoadingContentScreen**
@@ -61,9 +63,9 @@ class _LoadingContentScreenState extends ConsumerState<LoadingContentScreen> {
       await ref.read(userDataProvider).getAuthUserInformation();
 
       // Navigate to the main screen after fetching data
-      // if (mounted) {
-      //   context.goNamed(RouteNames.mainScreenRoute);
-      // }
+      if (mounted) {
+        context.goNamed(RouteNames.mainScreenRoute);
+      }
     } catch (e) {
       // Handle any errors during user data fetching
       debugPrint('Error loading user data: $e');

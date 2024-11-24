@@ -65,7 +65,7 @@ class Api {
   static const String retrieveBooks = 'api/books/all/exclude/{userId}';
 
   /// The endpoint to create a new book entry.
-  static const String createBook = 'api/books/';
+  static const String createBook = 'api/books';
 
   /// The endpoint to deactivate a book.
   /// - `{id}`: The unique identifier of the book.

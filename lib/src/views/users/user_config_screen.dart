@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bookshare/src/data/auth_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/auth/api_logout_provider.dart';
@@ -52,12 +53,10 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
             ),
             CustomButton(
                 onPressed: () async {
-                  await ref
-                      .read(apiLogoutNotifierProvider.notifier)
-                      .logoutUser();
+                  await ref.read(authDataProvider).logoutUser();
+
                   WidgetsBinding.instance.addPostFrameCallback((callback) {
                     if (mounted) {
-                      log("Sesion cerrada");
                       context.goNamed(RouteNames.logoutScreenRoute);
                     }
                   });

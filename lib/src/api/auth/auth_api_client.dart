@@ -79,5 +79,5 @@ abstract class AuthApiClient {
   /// await authApiClient.logoutUser();
   /// ```
   @POST(Api.logout)
-  Future<void> logoutUser();
+  Future<AuthResponse> logoutUser(@Body() User user);
 }

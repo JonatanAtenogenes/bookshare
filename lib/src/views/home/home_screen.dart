@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
+import 'package:bookshare/src/view_models/book/book_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../models/book/book.dart';
 import '../../view_models/user/user_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -20,58 +23,38 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
-      retrieveAllBooks();
-    });
     super.initState();
-  }
-
-  Future<void> retrieveAllBooks() async {
-    try {
-      //
-      ref.read(loadingAllBookListProvider.notifier).update((state) => true);
-
-      final userId = ref.read(currentUserProvider).id;
-
-      log('-----------------------------------------------');
-      log(ref.read(currentUserProvider).id);
-      log('-----------------------------------------------');
-
-      await ref
-          .read(apiAllBookListNotifierProvider.notifier)
-          .retrieveBooks(userId);
-
-      log('-----------------------------------------------');
-      log('${ref.read(apiAllBookListNotifierProvider).data}');
-      log('-----------------------------------------------');
-    } catch (e) {
-      //
-      log("Error getting user books ${e.toString()}");
-    } finally {
-      ref.read(loadingAllBookListProvider.notifier).update((state) => false);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final loading = ref.watch(loadingAllBookListProvider);
-    final booksList = ref.watch(apiAllBookListNotifierProvider);
+    final loading = ref.watch(loadingUserBookListProvider);
+    final booksList = ref.watch(userBooksProvider);
 
     if (loading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (!booksList.success) {
-      return const Center(
-        child: Text("Error"),
-      );
-    }
-
-    if (booksList.data!.isEmpty) {
       return Center(
-        child: Text(booksList.message),
+        child: Skeletonizer(
+            child: BookCard(
+          book: Book.empty(),
+          onTap: () {},
+        )),
+      );
+    }
+    //
+    // if (!booksList.success) {
+    //   return const Center(
+    //     child: Text("Error"),
+    //   );
+    // }
+    //
+    // if (booksList.data!.isEmpty) {
+    //   return Center(
+    //     child: Text(booksList.message),
+    //   );
+    // }
+    if (booksList.isEmpty) {
+      return const Center(
+        child: Text('Sin libros'),
       );
     }
 

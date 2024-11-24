@@ -14,7 +14,11 @@ class ApiBookListNotifier extends StateNotifier<BookListResponse> {
     try {
       //
       final retrieveBooksResponse = await _bookApiClient.retrieveBooks(userId);
-      state = retrieveBooksResponse;
+      state = state.copyWith(
+        success: retrieveBooksResponse.success,
+        message: retrieveBooksResponse.message,
+        data: retrieveBooksResponse.data,
+      );
     } catch (e) {
       //
       rethrow;
@@ -26,7 +30,11 @@ class ApiBookListNotifier extends StateNotifier<BookListResponse> {
       //
       final retrieveUserBooksResponse =
           await _bookApiClient.retrieveUserBooks(userId);
-      state = retrieveUserBooksResponse;
+      state = state.copyWith(
+        success: retrieveUserBooksResponse.success,
+        message: retrieveUserBooksResponse.message,
+        data: retrieveUserBooksResponse.data,
+      );
     } catch (e) {
       //
       rethrow;

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:bookshare/src/view_models/auth/api_logout_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -186,6 +189,21 @@ class AuthData {
     } finally {
       // Reset loading state
       ref.read(loadingApiRegisterProvider.notifier).update((state) => false);
+    }
+  }
+
+  Future<void> logoutUser() async {
+    ref.read(loadingApiLogoutProvider.notifier).update((state) => false);
+    try {
+      //
+      final user = ref.read(currentUserProvider);
+      await ref.read(apiLogoutNotifierProvider.notifier).logoutUser(user);
+      log("no errors on logout user");
+    } on DioException catch (e) {
+      //
+    } finally {
+      //
+      ref.read(loadingApiLogoutProvider.notifier).update((state) => false);
     }
   }
 }
