@@ -183,9 +183,9 @@ class AuthData {
     } on DioException catch (e) {
       String message =
           e.response?.data['message'] ?? "An unexpected error has occurred";
-      ref
-          .read(apiRegisterNotifierProvider.notifier)
-          .updateErrorRegister(message);
+      ref.read(apiRegisterNotifierProvider.notifier).updateErrorRegister(
+            message,
+          );
     } finally {
       // Reset loading state
       ref.read(loadingApiRegisterProvider.notifier).update((state) => false);

@@ -42,6 +42,7 @@ class BookInformation extends ConsumerWidget {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Text(
                   book.synopsis,
+                  maxLines: 3,
                   textAlign: TextAlign.justify,
                   overflow: TextOverflow.ellipsis,
                 ),

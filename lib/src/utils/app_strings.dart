@@ -26,7 +26,7 @@ class AppStrings {
   static const String availableBooks = 'Libros Disponibles';
   static const String libraries = 'Bibliotecas';
   static const String booksInMyCollection = 'Libros en mi coleccion';
-  static const String bookRegistration = 'Registro de Libros';
+  static const String bookRegistration = 'Registrar Libro';
   static const String isbn = 'ISBN';
   static const String author = 'Autor';
   static const String book = 'Libro';
@@ -43,4 +43,5 @@ class AppStrings {
   static const String logout = "Cerrar Sesion";
   static const String loggingOut = "Cerrando Sesion";
   static const String loadingContent = "Cargando contenido";
+  static const String searchBook = "Buscar Libro";
 }

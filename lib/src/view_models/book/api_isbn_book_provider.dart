@@ -15,11 +15,16 @@ class ApiIsbnBookNotifier extends StateNotifier<BookResponse> {
     log('Isbn: $isbn');
     try {
       final bookResponse = await _isbnBookApiClient.getIsbnBook(isbn);
+      log('Book response ${bookResponse.data.toString()}');
       state = bookResponse;
     } catch (e) {
       log('Error getting book information: $e');
       rethrow;
     }
+  }
+
+  void updateErrorRetrievingBook(String message) {
+    state = BookResponse.error(message);
   }
 }
 
@@ -28,13 +33,13 @@ final apiIsbnBookNotifierProvider =
   final dio = Dio(
     BaseOptions(contentType: 'application/json'),
   );
-  // dio.interceptors.add(TokenInterceptorInjector());
-  dio.interceptors.addAll(List.of([
-    TokenInterceptorInjector(),
-    LogInterceptor(
-      error: true,
-      responseBody: true,
-    ),
-  ]));
+  dio.interceptors.add(TokenInterceptorInjector());
+  // dio.interceptors.addAll(List.of([
+  //   TokenInterceptorInjector(),
+  //   LogInterceptor(
+  //     error: true,
+  //     responseBody: true,
+  //   ),
+  // ]));
   return ApiIsbnBookNotifier(IsbnBookApiClient(dio));
 });

@@ -29,12 +29,11 @@ class BookResponse extends DataResponse<Book> {
   ///
   /// Returns a new [BookResponse] instance.
   factory BookResponse.fromJson(Map<String, dynamic> json) {
+    log("Book response form json $json");
     return BookResponse(
       success: json['success'] as bool,
       message: json['message'] as String,
-      data: json['data'] != null
-          ? Book.fromJsonWithoutKey(json['data']['book'])
-          : null,
+      data: json['data'] != null ? Book.fromJsonWithoutKey(json['data']) : null,
     );
   }
 

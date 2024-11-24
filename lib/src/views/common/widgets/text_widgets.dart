@@ -15,6 +15,7 @@ class TitleText extends StatelessWidget {
     return Text(
       title,
       textAlign: TextAlign.center,
+      maxLines: 2,
       style: GoogleFonts.lato(
         textStyle: const TextStyle(
           fontSize: 50,

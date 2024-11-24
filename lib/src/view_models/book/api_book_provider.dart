@@ -25,7 +25,11 @@ class ApiBookNotifier extends StateNotifier<BookResponse> {
     try {
       //
       final createBookResponse = await _bookApiClient.createBook(book);
-      state = createBookResponse;
+      state = state.copyWith(
+        success: createBookResponse.success,
+        message: createBookResponse.message,
+        data: createBookResponse.data,
+      );
     } catch (e) {
       //
       rethrow;
@@ -58,6 +62,8 @@ final apiCreateBookNotifierProvider =
   dio.interceptors.add(TokenInterceptorInjector());
   return ApiBookNotifier(BookApiClient(dio));
 });
+
+final loadingCreateBookProvider = StateProvider<bool>((ref) => false);
 
 final apiShowBookNotifierProvider =
     StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
