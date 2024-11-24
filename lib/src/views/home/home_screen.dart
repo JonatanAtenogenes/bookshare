@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
@@ -11,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../models/book/book.dart';
-import '../../view_models/user/user_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,11 +19,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final loading = ref.watch(loadingUserBookListProvider);
     final booksList = ref.watch(userBooksProvider);
@@ -34,10 +26,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (loading) {
       return Center(
         child: Skeletonizer(
-            child: BookCard(
-          book: Book.empty(),
-          onTap: () {},
-        )),
+          child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return BookCard(
+                  book: Book.empty(),
+                  onTap: () {},
+                );
+              }),
+        ),
       );
     }
     //
@@ -67,7 +64,7 @@ class SuccessBookInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final booksList = ref.watch(apiAllBookListNotifierProvider).data;
+    final booksList = ref.watch(userBooksProvider);
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -79,10 +76,13 @@ class SuccessBookInfo extends ConsumerWidget {
             height: MediaQuery.of(context).size.height * 0.7,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: booksList!.length < 20 ? booksList.length : 20,
+              itemCount: booksList.length,
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {
+                    ref
+                        .read(bookInfoProvider.notifier)
+                        .update((state) => booksList[index]),
                     context.pushNamed(RouteNames.bookInformationScreenRoute),
                   },
                   book: booksList[index],

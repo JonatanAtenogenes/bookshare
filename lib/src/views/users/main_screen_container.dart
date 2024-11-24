@@ -5,6 +5,7 @@ import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/providers/providers.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/view_models/book/book_provider.dart';
 import 'package:bookshare/src/views/books/book_screen.dart';
 import 'package:bookshare/src/views/common/screens/page_not_found_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchange_screen.dart';
@@ -25,18 +26,20 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
-    if (mounted) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
-    }
+    });
   }
 
   Future<void> _loadData() async {
+    // await ref.read(bookDataProvider).getUserBooks();
     await ref.read(bookDataProvider).getUserBooks();
   }
 
   @override
   Widget build(BuildContext context) {
     final currentPageIndex = ref.watch(indexContentProvider);
+    final booksList = ref.watch(userBooksProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appTitle),
@@ -45,7 +48,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             onPressed: () async {
               await showSearch(
                 context: context,
-                delegate: CustomSearchDelegate(),
+                delegate: CustomSearchDelegate(booksList, ref),
               );
             },
             icon: const FaIcon(FontAwesomeIcons.magnifyingGlass),

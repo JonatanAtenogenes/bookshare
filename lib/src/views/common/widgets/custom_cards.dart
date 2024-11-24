@@ -26,7 +26,9 @@ class UserInformationCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(child: SubtitleText(subtitle: AppStrings.userProfile)),
+          const Center(
+            child: SubtitleText(subtitle: AppStrings.userProfile),
+          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -46,11 +48,14 @@ class UserInformationCard extends ConsumerWidget {
                       user.image != null && user.image!.isNotEmpty
                           ? '${Api.baseImageUrl}${user.image}'
                           : AssetsAccess.defaultUserImage,
-                      fit: BoxFit
-                          .cover, // Ensure the image covers the circular area
-                      width: MediaQuery.of(context).size.width / 3, // Set width
-                      height:
-                          MediaQuery.of(context).size.width / 3, // Set height
+                      fit: BoxFit.cover,
+                      // Ensure the image covers the circular area
+                      width: MediaQuery.of(context).size.width / 3,
+                      // Set width
+                      height: MediaQuery.of(context).size.width / 3,
+                      // Set height
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          Image.asset(AssetsAccess.defaultUserImage),
                       errorBuilder: (context, error, stackTrace) =>
                           Image.asset(AssetsAccess.defaultUserImage),
                     ),

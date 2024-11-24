@@ -2,11 +2,18 @@ import 'package:bookshare/src/models/book/book.dart';
 import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../routes/route_names.dart';
+import '../../view_models/book/book_provider.dart';
+
 class CustomSearchDelegate extends SearchDelegate<String> {
-  get bookList => null;
+  final List<Book> bookList;
+  final WidgetRef ref;
+
+  CustomSearchDelegate(this.bookList, this.ref);
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -50,7 +57,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               itemCount: searchResult.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  onTap: () => {},
+                  onTap: () => {
+                    ref
+                        .read(bookInfoProvider.notifier)
+                        .update((state) => bookList[index]),
+                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+                  },
                   book: searchResult[index],
                 );
               },
@@ -81,7 +93,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               itemCount: suggestionList.length,
               itemBuilder: (context, index) {
                 return BookCard(
-                  onTap: () => {},
+                  onTap: () => {
+                    ref
+                        .read(bookInfoProvider.notifier)
+                        .update((state) => bookList[index]),
+                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+                  },
                   book: suggestionList[index],
                 );
               },

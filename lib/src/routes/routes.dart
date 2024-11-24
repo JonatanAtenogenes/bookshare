@@ -4,7 +4,7 @@ import 'package:bookshare/src/views/auth/logout_screen.dart';
 import 'package:bookshare/src/views/auth/sign_up/address_register_screen.dart';
 import 'package:bookshare/src/views/auth/sign_up/personal_data_register_screen.dart';
 import 'package:bookshare/src/views/books/adding_book_screen.dart';
-import 'package:bookshare/src/views/books/book_info.dart';
+import 'package:bookshare/src/views/books/book_info_screen.dart';
 import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
 import 'package:bookshare/src/views/users/user_config_screen.dart';

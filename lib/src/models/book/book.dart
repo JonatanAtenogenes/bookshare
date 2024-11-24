@@ -117,24 +117,32 @@ class Book {
 
   /// Factory method to create a `Book` instance from a JSON map without using a key.
   factory Book.fromJsonWithoutKey(Map<String, dynamic> json) {
+    log("json format on book call ${json}");
+
     final id = json[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = json[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
     final title = json[BookAttributes.title.name] ?? BookAttributes.title.name;
-    final authors = List<String>.from(json[BookAttributes.authors.name] ?? []);
+    final authors = json[BookAttributes.authors.name];
+
+    final authorsList = (authors is String)
+        ? [authors] // Wrap the single string in a list
+        : List<String>.from(authors ?? []);
+
     final synopsis =
         json[BookAttributes.synopsis.name] ?? BookAttributes.synopsis.name;
     final image = json[BookAttributes.image.name] ?? '';
     final publisher = json[BookAttributes.publisher.name] ?? '';
     final condition = json[BookAttributes.condition.name] ?? 0;
     final value = json[BookAttributes.value.name] ?? 0;
-    final user =
-        json['user'] != null ? User.fromJson(json['user']) : User.empty();
+    final user = json['user'] != null
+        ? User.fromJsonWithoutKey(json['user'])
+        : User.empty();
 
     return Book(
       id: id,
       isbn: isbn,
       title: title,
-      authors: authors,
+      authors: authorsList,
       synopsis: synopsis,
       image: image,
       publisher: publisher,
@@ -202,5 +210,24 @@ class Book {
   /// Creates a list of [Book] instances from a list of JSON objects without a nested 'book' key.
   static List<Book> fromJsonListWithoutKey(List<dynamic> jsonList) {
     return jsonList.map((json) => Book.fromJsonWithoutKey(json)).toList();
+  }
+
+  /// Provides a string representation of the `Book` instance for debugging or logging purposes.
+  @override
+  String toString() {
+    return '''
+    Book(
+      id: $id,
+      isbn: $isbn,
+      title: $title,
+      authors: ${authors.isNotEmpty ? authors.join(", ") : "N/A"},
+      synopsis: ${synopsis.isNotEmpty ? synopsis : "N/A"},
+      image: ${image.isNotEmpty ? image : "N/A"},
+      publisher: ${publisher.isNotEmpty ? publisher : "N/A"},
+      condition: $condition,
+      value: $value,
+      status: $status,
+    )
+  ''';
   }
 }
