@@ -33,7 +33,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   Future<void> _loadData() async {
     // await ref.read(bookDataProvider).getUserBooks();
-    await ref.read(bookDataProvider).getUserBooks();
+    ref.read(bookDataProvider).getUserBooks();
+    ref.read(bookDataProvider).getBooks();
   }
 
   @override

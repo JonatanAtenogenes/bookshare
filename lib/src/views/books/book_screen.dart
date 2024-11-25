@@ -1,11 +1,14 @@
-import 'dart:developer';
-
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
-import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../models/book/book.dart';
+import '../../routes/route_names.dart';
+import '../../view_models/book/book_provider.dart';
 
 class BookScreen extends ConsumerStatefulWidget {
   const BookScreen({super.key});
@@ -17,43 +20,31 @@ class BookScreen extends ConsumerStatefulWidget {
 class _BookScreenState extends ConsumerState<BookScreen> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((callback) {
-      retrieveUserBooks();
-    });
     super.initState();
-  }
-
-  Future<void> retrieveUserBooks() async {
-    ref.read(loadingUserBookListProvider.notifier).update((state) => true);
-
-    try {
-      //
-      final userId = ref.read(currentUserProvider).id;
-
-      await ref
-          .read(apiUserBookListNotifierProvider.notifier)
-          .retrieveUserBooks(userId);
-
-      log('-----------------------------------------------');
-      log('${ref.read(apiUserBookListNotifierProvider).data}');
-      log('-----------------------------------------------');
-    } catch (e) {
-      //
-      log("Error getting user books ${e.toString()}");
-    } finally {
-      ref.read(loadingUserBookListProvider.notifier).update((state) => false);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final userBooks = ref.watch(apiUserBookListNotifierProvider);
-    if (!userBooks.success) {
-      return const Text('Error');
+    final loading = ref.watch(loadingUserBookListProvider);
+    final booksList = ref.watch(userBooksProvider);
+
+    if (loading) {
+      return Skeletonizer(
+        child: ListView.builder(
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return BookCard(
+                book: Book.empty(),
+                onTap: () {},
+              );
+            }),
+      );
     }
 
-    if (userBooks.data!.isEmpty) {
-      return Center(child: Text(userBooks.message));
+    if (booksList.isEmpty) {
+      return const Center(
+        child: Text('Sin libros'),
+      );
     }
 
     return const SuccessfulRetrievedBooks();
@@ -65,7 +56,7 @@ class SuccessfulRetrievedBooks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userBooksList = ref.watch(apiUserBookListNotifierProvider).data;
+    final booksList = ref.watch(userBooksProvider);
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -77,11 +68,16 @@ class SuccessfulRetrievedBooks extends ConsumerWidget {
             height: MediaQuery.of(context).size.height / 1.4,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: userBooksList!.length < 20 ? userBooksList.length : 20,
+              itemCount: booksList.length < 20 ? booksList.length : 20,
               itemBuilder: (context, index) {
                 return BookCard(
-                  onTap: () => {},
-                  book: userBooksList[index],
+                  onTap: () => {
+                    ref.read(bookInfoProvider.notifier).update(
+                          (state) => booksList[index],
+                        ),
+                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+                  },
+                  book: booksList[index],
                 );
               },
             ),

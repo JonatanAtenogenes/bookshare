@@ -20,8 +20,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final loading = ref.watch(loadingUserBookListProvider);
-    final booksList = ref.watch(userBooksProvider);
+    final loading = ref.watch(loadingAllBookListProvider);
+    final booksList = ref.watch(listOfBooksProvider);
 
     if (loading) {
       return Center(
@@ -64,7 +64,7 @@ class SuccessBookInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final booksList = ref.watch(userBooksProvider);
+    final booksList = ref.watch(listOfBooksProvider);
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -76,13 +76,13 @@ class SuccessBookInfo extends ConsumerWidget {
             height: MediaQuery.of(context).size.height * 0.7,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: booksList.length,
+              itemCount: booksList.length < 20 ? booksList.length : 20,
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {
-                    ref
-                        .read(bookInfoProvider.notifier)
-                        .update((state) => booksList[index]),
+                    ref.read(bookInfoProvider.notifier).update(
+                          (state) => booksList[index],
+                        ),
                     context.pushNamed(RouteNames.bookInformationScreenRoute),
                   },
                   book: booksList[index],

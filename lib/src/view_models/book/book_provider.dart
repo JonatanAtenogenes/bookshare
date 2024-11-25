@@ -4,6 +4,8 @@ import '../../models/book/book.dart';
 
 final userBooksProvider = StateProvider<List<Book>>((ref) => List.empty());
 
+final listOfBooksProvider = StateProvider<List<Book>>((ref) => List.empty());
+
 final bookInfoProvider = StateProvider<Book>((ref) => Book.empty());
 
 final isbnBookRetrievedProvider = StateProvider.autoDispose<Book>(

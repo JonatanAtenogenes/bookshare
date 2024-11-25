@@ -14,7 +14,7 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.50.42:8000/';
+    baseUrl ??= 'http://192.168.100.94:8000/';
   }
 
   final Dio _dio;

@@ -194,7 +194,7 @@ class Book {
       title: BookAttributes.title.name,
       authors: [],
       synopsis: BookAttributes.synopsis.name,
-      image: BookAttributes.image.name,
+      image: "",
       publisher: BookAttributes.publisher.name,
       condition: 0,
       value: 0,

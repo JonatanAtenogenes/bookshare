@@ -1,8 +1,6 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:bookshare/src/data/book_data.dart';
-import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
@@ -104,7 +102,7 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                 visible: isbnNotifierProvider.success,
                 child: Column(
                   children: [
-                    Text(isbnBookProvider.toString()),
+                    // Text(isbnBookProvider.toString()),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -116,9 +114,6 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                           ),
                           child: Image.network(
                             isbnBookProvider.image,
-                            loadingBuilder: (context, child, loadingProgress) =>
-                                const Center(
-                                    child: CircularProgressIndicator()),
                             errorBuilder: (context, error, stack) {
                               return Image.asset(AssetsAccess.defaultBookImage);
                             },

@@ -39,6 +39,8 @@ class SubtitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       subtitle,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 3,
       textAlign: TextAlign.center,
       style: GoogleFonts.lato(
         textStyle: const TextStyle(
