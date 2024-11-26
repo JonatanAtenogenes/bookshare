@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:bookshare/src/view_models/book/book_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../view_models/user/api_show_user_provider.dart';
@@ -67,6 +69,26 @@ class UserData {
     } catch (e) {
       // Handle any errors
       log('Error: ${e.toString()}');
+    }
+  }
+
+  Future<void> getUserInformation() async {
+    ref.read(loadingGetUserProvider.notifier).update((state) => true);
+    try {
+      String id = ref.read(bookInfoProvider).user.id;
+
+      // Fetch user information
+      await ref.read(apiGetUserNotifierProvider.notifier).showUser(id);
+
+      ref
+          .read(selectedUserProvider.notifier)
+          .update((state) => ref.read(apiGetUserNotifierProvider).data!);
+    } on DioException catch (e) {
+      // Handle any errors
+      log('Error: ${e.toString()}');
+    } finally {
+      //
+      ref.read(loadingGetUserProvider.notifier).update((state) => false);
     }
   }
 }

@@ -51,7 +51,7 @@ class Address {
   /// the 'address' key, such as `json['address']['street']`.
   factory Address.fromJson(Map<String, dynamic> json) {
 
-    log('Address ${json}');
+    log('Address $json');
 
     String street = json['address']['street'] ?? "";
     String interiorNumber = json['address']['interiorNumber'] ?? "";

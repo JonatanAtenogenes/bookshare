@@ -13,6 +13,7 @@ import 'package:bookshare/src/views/users/address_information_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
 import 'package:bookshare/src/views/users/personal_information_screen.dart';
 import 'package:bookshare/src/views/users/user_config_screen.dart';
+import 'package:bookshare/src/views/users/user_profile_screen.dart';
 import 'package:bookshare/src/views/welcome/welcome_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,9 +65,14 @@ final routerProvider = Provider<GoRouter>(
         builder: (context, state) => const AddingBookScreen(),
       ),
       GoRoute(
+        path: '/user_config_screen',
+        name: RouteNames.userConfigScreenRoute,
+        builder: (context, state) => const UserConfigScreen(),
+      ),
+      GoRoute(
         path: '/user_profile_screen',
         name: RouteNames.userProfileScreenRoute,
-        builder: (context, state) => const UserConfigScreen(),
+        builder: (context, state) => const UserProfileScreen(),
       ),
       GoRoute(
         path: '/book_information',

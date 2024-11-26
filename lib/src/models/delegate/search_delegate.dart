@@ -79,9 +79,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     final List<Book> suggestionList = query.isEmpty
         ? []
         : bookList
-            .where((book) => book.book[BookAttributes.title.name]
-                .toLowerCase()
-                .contains(query.toLowerCase()))
+            .where(
+              (book) =>
+                  book.book[BookAttributes.title.name].toLowerCase().contains(
+                        query.toLowerCase(),
+                      ),
+            )
             .toList();
     return SingleChildScrollView(
       child: Column(
@@ -94,9 +97,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               itemBuilder: (context, index) {
                 return BookCard(
                   onTap: () => {
-                    ref
-                        .read(bookInfoProvider.notifier)
-                        .update((state) => bookList[index]),
+                    ref.read(bookInfoProvider.notifier).update(
+                          (state) => bookList[index],
+                        ),
                     context.pushNamed(RouteNames.bookInformationScreenRoute),
                   },
                   book: suggestionList[index],

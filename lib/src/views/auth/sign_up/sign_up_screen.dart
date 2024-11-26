@@ -6,14 +6,10 @@ import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/auth/api_register_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../models/enum/enums.dart';
-import '../../../models/models.dart';
-import '../../../view_models/user/user_provider.dart';
 
 /// **SignUpScreen**
 ///

@@ -1,5 +1,7 @@
+import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/utils/assets_access.dart';
 import 'package:bookshare/src/view_models/book/book_provider.dart';
@@ -7,6 +9,7 @@ import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookInformation extends ConsumerWidget {
@@ -95,7 +98,11 @@ class BookInformation extends ConsumerWidget {
                         ),
                         TextLink(
                           text: bookProvider.user.id.substring(12),
-                          onTap: () {},
+                          onTap: () {
+                            context.pushNamed(
+                              RouteNames.userProfileScreenRoute,
+                            );
+                          },
                         ),
                       ],
                     ),

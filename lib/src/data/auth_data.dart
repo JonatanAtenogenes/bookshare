@@ -199,7 +199,7 @@ class AuthData {
       final user = ref.read(currentUserProvider);
       await ref.read(apiLogoutNotifierProvider.notifier).logoutUser(user);
       log("no errors on logout user");
-    } on DioException catch (e) {
+    } on DioException {
       //
     } finally {
       //

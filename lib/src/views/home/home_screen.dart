@@ -72,7 +72,7 @@ class SuccessBookInfo extends ConsumerWidget {
           const SubtitleText(
             subtitle: AppStrings.availableBooks,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SizedBox(

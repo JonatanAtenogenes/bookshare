@@ -11,7 +11,7 @@ class SubmitProblemScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(AppStrings.appTitle),
       ),
-      body: Column(
+      body: const Column(
         children: [
           SubtitleText(
             subtitle: AppStrings.submitProblem,

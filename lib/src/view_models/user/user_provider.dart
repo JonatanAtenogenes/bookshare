@@ -11,6 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// - Returns a [User] object, which represents the current user.
 final currentUserProvider = StateProvider<User>((ref) => User.empty());
 
+final selectedUserProvider = StateProvider<User>((ref) => User.empty());
+
 /// A provider that manages the state of uploaded image response api.
 ///
 /// This provider uses [StateProvider] to hold the response api from the image upload process.

@@ -98,3 +98,14 @@ final apiUserBookListNotifierProvider =
 /// The `loadingUserBookListProvider` holds a boolean value indicating whether
 /// a request to retrieve books for a specific user is in progress. The default value is `false`.
 final loadingUserBookListProvider = StateProvider<bool>((state) => false);
+
+final apiSelectedUserBookListNotifierProvider =
+    StateNotifierProvider<ApiBookListNotifier, BookListResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookListNotifier(BookApiClient(dio));
+});
+
+final loadingSelectedUserBookListProvider = StateProvider<bool>(
+  (state) => false,
+);

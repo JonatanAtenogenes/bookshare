@@ -14,7 +14,7 @@ class _UserApiClient implements UserApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.100.94:8000/';
+    baseUrl ??= 'http://10.228.9.138:8000/';
   }
 
   final Dio _dio;

@@ -43,6 +43,10 @@ class ApiShowUserNotifier extends StateNotifier<UserResponse> {
       rethrow;
     }
   }
+
+  void updateErrorShowingUser(String message) {
+    state = UserResponse.error(message);
+  }
 }
 
 /// A provider for the [ApiShowUserNotifier].
@@ -73,3 +77,13 @@ final apiShowUserNotifierProvider =
 /// final isLoading = ref.watch(loadingShowUserProvider);
 /// ```
 final loadingShowUserProvider = StateProvider<bool>((state) => false);
+
+final apiGetUserNotifierProvider =
+    StateNotifierProvider<ApiShowUserNotifier, UserResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+
+  return ApiShowUserNotifier(UserApiClient(dio));
+});
+
+final loadingGetUserProvider = StateProvider<bool>((state) => false);

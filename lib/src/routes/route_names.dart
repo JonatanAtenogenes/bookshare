@@ -8,6 +8,7 @@ class RouteNames {
   static const String addressRegisterScreenRoute = 'address_register_screen';
   static const String mainScreenRoute = 'main_screen_route';
   static const String addingBookScreenRoute = 'adding_book_screen';
+  static const String userConfigScreenRoute = 'user_config_screen';
   static const String userProfileScreenRoute = 'user_profile_screen';
   static const String personalInformationScreenRoute =
       'personal_information_screen';

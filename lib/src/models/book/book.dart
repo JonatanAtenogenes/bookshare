@@ -117,7 +117,7 @@ class Book {
 
   /// Factory method to create a `Book` instance from a JSON map without using a key.
   factory Book.fromJsonWithoutKey(Map<String, dynamic> json) {
-    log("json format on book call ${json}");
+    log("json format on book call $json");
 
     final id = json[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = json[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;

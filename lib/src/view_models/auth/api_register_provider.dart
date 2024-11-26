@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bookshare/src/api/auth/auth_api_client.dart';
 import 'package:bookshare/src/api/interceptors/token_interceptor.dart';

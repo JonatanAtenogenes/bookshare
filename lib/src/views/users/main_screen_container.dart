@@ -58,7 +58,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             onPressed: () => {
               log('Navigating to User Profile Screen'),
               context.pushNamed(
-                RouteNames.userProfileScreenRoute,
+                RouteNames.userConfigScreenRoute,
               )
             },
             icon: const FaIcon(FontAwesomeIcons.gear),

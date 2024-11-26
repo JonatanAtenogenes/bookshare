@@ -76,6 +76,41 @@ class BookData {
     }
   }
 
+  Future<void> getSelectedUserBooks() async {
+    ref.read(loadingSelectedUserBookListProvider.notifier).update(
+          (state) => true,
+        );
+    try {
+      final userId = ref.read(selectedUserProvider).id;
+
+      log("Selecetde user id = $userId \n");
+
+      await ref
+          .read(apiSelectedUserBookListNotifierProvider.notifier)
+          .retrieveUserBooks(userId);
+
+      ref.read(selectedUserBooksProvider.notifier).update(
+            (state) => ref.read(apiSelectedUserBookListNotifierProvider).data!,
+          );
+
+      log("\n----------------------");
+      log("User Books ${ref.read(selectedUserProvider)}");
+    } on DioException catch (e) {
+      log('Error fetching user books: ${e.toString()}');
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiSelectedUserBookListNotifierProvider.notifier)
+          .updateErrorOnRetrievingBooks(
+            message,
+          );
+    } finally {
+      ref
+          .read(loadingSelectedUserBookListProvider.notifier)
+          .update((state) => false);
+    }
+  }
+
   /// Fetches all books excluding the books of the current user.
   ///
   /// This method:
