@@ -122,7 +122,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Ensure navigation occurs safely after the current frame completes.
                     WidgetsBinding.instance.addPostFrameCallback((duration) {
                       if (mounted) {
-                        context.goNamed(RouteNames.loadingContentScreenRoute);
+                        context.goNamed(RouteNames.mainScreenRoute);
                       }
                     });
                   },

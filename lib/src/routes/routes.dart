@@ -5,8 +5,13 @@ import 'package:bookshare/src/views/auth/sign_up/address_register_screen.dart';
 import 'package:bookshare/src/views/auth/sign_up/personal_data_register_screen.dart';
 import 'package:bookshare/src/views/books/adding_book_screen.dart';
 import 'package:bookshare/src/views/books/book_info_screen.dart';
+import 'package:bookshare/src/views/common/screens/about_screen.dart';
 import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
+import 'package:bookshare/src/views/common/screens/submit_problem_screen.dart';
+import 'package:bookshare/src/views/exchanges/exchanges_info_screen.dart';
+import 'package:bookshare/src/views/users/address_information_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
+import 'package:bookshare/src/views/users/personal_information_screen.dart';
 import 'package:bookshare/src/views/users/user_config_screen.dart';
 import 'package:bookshare/src/views/welcome/welcome_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,6 +77,31 @@ final routerProvider = Provider<GoRouter>(
         path: '/loading_content',
         name: RouteNames.loadingContentScreenRoute,
         builder: (context, state) => const LoadingContentScreen(),
+      ),
+      GoRoute(
+        path: '/exchanges_info',
+        name: RouteNames.exchangesInfoScreenRoute,
+        builder: (context, state) => const ExchangesInfoScreen(),
+      ),
+      GoRoute(
+        path: '/personal_information',
+        name: RouteNames.personalInformationScreenRoute,
+        builder: (context, state) => const PersonalInformationScreen(),
+      ),
+      GoRoute(
+        path: '/address_information',
+        name: RouteNames.addressInformationScreenRoute,
+        builder: (context, state) => const AddressInformationScreen(),
+      ),
+      GoRoute(
+        path: '/submit_problem',
+        name: RouteNames.submitProblemScreenRoute,
+        builder: (context, state) => const SubmitProblemScreen(),
+      ),
+      GoRoute(
+        path: '/about',
+        name: RouteNames.aboutScreenRoute,
+        builder: (context, state) => const AboutScreen(),
       )
     ],
   ),

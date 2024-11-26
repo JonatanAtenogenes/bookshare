@@ -73,6 +73,9 @@ class SuccessBookInfo extends ConsumerWidget {
             subtitle: AppStrings.availableBooks,
           ),
           SizedBox(
+            height: 10,
+          ),
+          SizedBox(
             height: MediaQuery.of(context).size.height * 0.7,
             child: ListView.builder(
               shrinkWrap: true,

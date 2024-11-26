@@ -16,6 +16,7 @@ class AppStrings {
   static const String birthdate = 'Fecha de Nacimiento';
   static const String advance = 'Continuar';
   static const String addressData = 'Direccion';
+  static const String addressInformation = 'Información de Dirección';
   static const String street = 'Calle';
   static const String interiorNumber = 'N. Interior';
   static const String exteriorNumber = 'N. Exterior';
@@ -34,6 +35,7 @@ class AppStrings {
   static const String bookValue = 'Valor del Libro';
   static const String accept = 'Aceptar';
   static const String availableExchanges = 'Intercambios Disponibles';
+  static const String configureExchanges = 'Completa tus Intercambios';
   static const String realizedExchanges = 'Intercambios Realizados';
   static const String availableDonations = 'Donaciones en Espera';
   static const String realizedDonations = 'Donaciones Realizadas';
@@ -44,4 +46,9 @@ class AppStrings {
   static const String loggingOut = "Cerrando Sesion";
   static const String loadingContent = "Cargando contenido";
   static const String searchBook = "Buscar Libro";
+  static const String generalInformation = "Informacion General";
+  static const String supportAndSettings = "Soporte y Configuración";
+  static const String exchanges = "Intercambios";
+  static const String submitProblem = "Reportar Problemas";
+  static const String about = "Acerca de";
 }

@@ -14,7 +14,7 @@ class ExchangeScreen extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SubtitleText(subtitle: AppStrings.availableExchanges),
+          const SubtitleText(subtitle: AppStrings.configureExchanges),
           SizedBox(
             height: MediaQuery.of(context).size.height / 5.5,
             child: ListView.builder(
@@ -28,7 +28,7 @@ class ExchangeScreen extends ConsumerWidget {
               },
             ),
           ),
-          const SubtitleText(subtitle: AppStrings.realizedExchanges),
+          const SubtitleText(subtitle: AppStrings.availableExchanges),
           SizedBox(
             height: MediaQuery.of(context).size.height / 2,
             child: ListView.builder(
