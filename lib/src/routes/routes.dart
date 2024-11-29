@@ -80,6 +80,11 @@ final routerProvider = Provider<GoRouter>(
         builder: (context, state) => const BookInformation(),
       ),
       GoRoute(
+        path: '/exchange_register',
+        name: RouteNames.exchangeRegisterScreenRoute,
+        builder: (context, state) => const BookInformation(),
+      ),
+      GoRoute(
         path: '/loading_content',
         name: RouteNames.loadingContentScreenRoute,
         builder: (context, state) => const LoadingContentScreen(),
