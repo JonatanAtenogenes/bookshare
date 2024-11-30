@@ -107,7 +107,11 @@ class BookInformation extends ConsumerWidget {
                       ],
                     ),
                     CustomButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(
+                          RouteNames.exchangeRegisterScreenRoute,
+                        );
+                      },
                       text: "Proponer Intercambio",
                     ),
                   ],

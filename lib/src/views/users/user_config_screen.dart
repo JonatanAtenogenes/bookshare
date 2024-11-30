@@ -59,6 +59,21 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
                 context.pushNamed(RouteNames.addressInformationScreenRoute);
               },
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SubtitleText(
+              subtitle: AppStrings.exchanges,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ConfigCard(
+              title: AppStrings.exchanges,
+              onTap: () {
+                context.pushNamed(RouteNames.exchangesInfoScreenRoute);
+              },
+            ),
             ConfigCard(
               title: AppStrings.exchanges,
               onTap: () {

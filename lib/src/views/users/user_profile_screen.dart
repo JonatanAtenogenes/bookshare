@@ -40,6 +40,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     final selectedUser = ref.watch(selectedUserProvider);
     final selectedUserBooks =
         ref.watch(apiSelectedUserBookListNotifierProvider).data;
+    final selectedUserBooksApiStatus = ref.watch(
+      apiSelectedUserBookListNotifierProvider,
+    );
 
     if (loadingInformation || loadingBooksInformation) {
       return Scaffold(
@@ -79,6 +82,19 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
               ),
             ],
           ),
+        ),
+      );
+    }
+
+    if (!selectedUserBooksApiStatus.success) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            AppStrings.appTitle,
+          ),
+        ),
+        body: const Center(
+          child: TitleText(title: "Error"),
         ),
       );
     }

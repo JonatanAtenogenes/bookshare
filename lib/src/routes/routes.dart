@@ -8,6 +8,7 @@ import 'package:bookshare/src/views/books/book_info_screen.dart';
 import 'package:bookshare/src/views/common/screens/about_screen.dart';
 import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
 import 'package:bookshare/src/views/common/screens/submit_problem_screen.dart';
+import 'package:bookshare/src/views/exchanges/exchange_register_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchanges_info_screen.dart';
 import 'package:bookshare/src/views/users/address_information_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
@@ -82,7 +83,7 @@ final routerProvider = Provider<GoRouter>(
       GoRoute(
         path: '/exchange_register',
         name: RouteNames.exchangeRegisterScreenRoute,
-        builder: (context, state) => const BookInformation(),
+        builder: (context, state) => const ExchangeRegisterScreen(),
       ),
       GoRoute(
         path: '/loading_content',
