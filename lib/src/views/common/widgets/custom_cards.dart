@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/providers/providers.dart';
@@ -77,6 +80,136 @@ class BookCard extends StatelessWidget {
                       children: [
                         const Text('Valor'),
                         Text(book.book[BookAttributes.value.name].toString()),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ExchangeCard extends StatelessWidget {
+  const ExchangeCard({
+    super.key,
+    required this.exchange,
+    required this.onTap,
+  });
+
+  final Exchange exchange;
+  final GestureTapCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    log(
+      exchange.offeringUser.name != null &&
+              exchange.offeringUser.name!.isNotEmpty
+          ? exchange.offeringUser.name!
+          : exchange.offeringUser.id.substring(10),
+    );
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.inversePrimary,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25),
+            ),
+          ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height / 6,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .inverseSurface),
+                              ),
+                              child: CircleAvatar(
+                                radius: MediaQuery.of(context).size.width / 6,
+                                backgroundColor: Colors
+                                    .transparent, // Ensure background is transparent
+                                child: ClipOval(
+                                  child: Image.network(
+                                    exchange.offeringUser.image != null &&
+                                            exchange
+                                                .offeringUser.image!.isNotEmpty
+                                        ? '${Api.baseImageUrl}${exchange.offeringUser.image}'
+                                        : AssetsAccess.defaultUserImage,
+                                    fit: BoxFit.cover,
+                                    // Ensure the image covers the circular area
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    // Set width
+                                    height:
+                                        MediaQuery.of(context).size.width / 3,
+                                    // Set height
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) =>
+                                            Image.asset(
+                                                AssetsAccess.defaultUserImage),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Image.asset(
+                                                AssetsAccess.defaultUserImage),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          exchange.offeringUser.name != null &&
+                                  exchange.offeringUser.name!.isNotEmpty
+                              ? exchange.offeringUser.name!
+                              : exchange.offeringUser.id.substring(10),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          exchange.receivingUser.name != null &&
+                                  exchange.receivingUser.name!.isNotEmpty
+                              ? exchange.receivingUser.name!
+                              : exchange.receivingUser.id.substring(10),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Valor'),
+                        Text(exchange.status),
                       ],
                     ),
                   ),

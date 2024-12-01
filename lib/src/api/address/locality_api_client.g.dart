@@ -14,7 +14,7 @@ class _LocalityApiClient implements LocalityApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://10.228.9.138:8000/';
+    baseUrl ??= 'http://192.168.50.82:8000/';
   }
 
   final Dio _dio;

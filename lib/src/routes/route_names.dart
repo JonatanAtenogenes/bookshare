@@ -15,6 +15,7 @@ class RouteNames {
   static const String addressInformationScreenRoute =
       'address_information_screen';
   static const String bookInformationScreenRoute = 'book_information_screen';
+  static const String addBookToExchangeScreenRoute = 'add_book_exchange_screen';
   static const String loadingContentScreenRoute = 'loading_content_screen';
   static const String exchangesInfoScreenRoute = 'exchanges_info_screen';
   static const String exchangeRegisterScreenRoute = 'exchange_register_screen';

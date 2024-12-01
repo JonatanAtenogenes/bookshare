@@ -42,7 +42,7 @@ class Exchange {
       exchangeAddress: '',
       exchangeDate: DateTime.now(),
       receivedExchange: false,
-      status: '',
+      status: SwapStatus.pending.name,
     );
   }
 

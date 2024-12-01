@@ -1,6 +1,7 @@
 import 'package:bookshare/src/data/auth_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
+import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
 import 'package:bookshare/src/view_models/user/api_show_user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,8 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
   @override
   Widget build(BuildContext context) {
     final loadingUserInfo = ref.watch(loadingShowUserProvider);
+    final sessionExchanges = ref.watch(sessionExchangesProvider);
+
     if (loadingUserInfo) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -42,6 +45,7 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SubtitleText(subtitle: AppStrings.generalInformation),
             const SizedBox(
@@ -105,16 +109,18 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
               height: 20,
             ),
             CustomButton(
-                onPressed: () async {
-                  await ref.read(authDataProvider).logoutUser();
+              onPressed: () async {
+                await ref.read(authDataProvider).logoutUser();
 
-                  WidgetsBinding.instance.addPostFrameCallback((callback) {
-                    if (mounted) {
-                      context.goNamed(RouteNames.logoutScreenRoute);
-                    }
-                  });
-                },
-                text: AppStrings.logout)
+                WidgetsBinding.instance.addPostFrameCallback((callback) {
+                  if (mounted) {
+                    ref.read(sessionExchangesProvider.notifier).reset();
+                    context.goNamed(RouteNames.logoutScreenRoute);
+                  }
+                });
+              },
+              text: AppStrings.logout,
+            )
           ],
         ),
       ),
