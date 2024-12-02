@@ -51,15 +51,15 @@ class Exchange {
     return Exchange(
       id: json['exchange'][ExchangeAttributes.id.name] ?? '',
       offeringUser: User.fromJson(
-          json['exchange'][ExchangeAttributes.offeringUserId.name] ?? {}),
+          json['exchange'][ExchangeAttributes.offeringUser.name] ?? {}),
       receivingUser: User.fromJson(
-          json['exchange'][ExchangeAttributes.receivingUserId.name] ?? {}),
+          json['exchange'][ExchangeAttributes.receivingUser.name] ?? {}),
       offeredBooks:
-          (json['exchange'][ExchangeAttributes.offeredBooksIds.name] ?? [])
+          (json['exchange'][ExchangeAttributes.offeredBooks.name] ?? [])
               .map<Book>((bookJson) => Book.fromJson(bookJson))
               .toList(),
       offeringUserBooks:
-          (json['exchange'][ExchangeAttributes.offeringUserBooksIds.name] ?? [])
+          (json['exchange'][ExchangeAttributes.offeringUserBooks.name] ?? [])
               .map<Book>((bookJson) => Book.fromJson(bookJson))
               .toList(),
       exchangeAddress:
@@ -96,11 +96,11 @@ class Exchange {
   Map<String, dynamic> toJson() {
     return {
       ExchangeAttributes.id.name: id,
-      ExchangeAttributes.offeringUserId.name: offeringUser.toJson(),
-      ExchangeAttributes.receivingUserId.name: receivingUser.toJson(),
-      ExchangeAttributes.offeredBooksIds.name:
+      ExchangeAttributes.offeringUser.name: offeringUser.toJson(),
+      ExchangeAttributes.receivingUser.name: receivingUser.toJson(),
+      ExchangeAttributes.offeredBooks.name:
           offeredBooks.map((book) => book.toJson()).toList(),
-      ExchangeAttributes.offeringUserBooksIds.name:
+      ExchangeAttributes.offeringUserBooks.name:
           offeringUserBooks.map((book) => book.toJson()).toList(),
       ExchangeAttributes.exchangeAddress.name: exchangeAddress,
       ExchangeAttributes.exchangeDate.name: exchangeDate.toIso8601String(),

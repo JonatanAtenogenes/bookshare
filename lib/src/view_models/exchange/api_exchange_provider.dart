@@ -1,7 +1,10 @@
 import 'package:bookshare/src/api/exchange/exchange_api_client.dart';
 import 'package:bookshare/src/models/exchange/exchange.dart';
 import 'package:bookshare/src/models/response/exchange_response.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../api/interceptors/token_interceptor.dart';
 
 class ApiExchangeNotifier extends StateNotifier<ExchangeResponse> {
   final ExchangeApiClient _exchangeApiClient;
@@ -31,4 +34,17 @@ class ApiExchangeNotifier extends StateNotifier<ExchangeResponse> {
       rethrow;
     }
   }
+
+  void updateOnErrorExchange(String message) {
+    state = ExchangeResponse.error(message);
+  }
 }
+
+final apiCreateExchangeProvider =
+    StateNotifierProvider<ApiExchangeNotifier, ExchangeResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiExchangeNotifier(ExchangeApiClient(dio));
+});
+
+final loadingCreateExchangeProvider = StateProvider<bool>((ref) => false);

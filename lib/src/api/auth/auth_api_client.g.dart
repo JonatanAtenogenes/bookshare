@@ -14,7 +14,8 @@ class _AuthApiClient implements AuthApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.50.82:8000/';
+    baseUrl ??=
+        'https://da39-2806-2f0-9021-ada2-e68a-9253-f0dc-8c81.ngrok-free.app/';
   }
 
   final Dio _dio;

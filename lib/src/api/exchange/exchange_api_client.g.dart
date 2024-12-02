@@ -14,7 +14,8 @@ class _ExchangeApiClient implements ExchangeApiClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.50.82:8000/';
+    baseUrl ??=
+        'https://da39-2806-2f0-9021-ada2-e68a-9253-f0dc-8c81.ngrok-free.app/';
   }
 
   final Dio _dio;
@@ -68,13 +69,13 @@ class _ExchangeApiClient implements ExchangeApiClient {
     final _data = <String, dynamic>{};
     _data.addAll(exchange.toJson());
     final _options = _setStreamType<ExchangeResponse>(Options(
-      method: 'PATCH',
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'api/exchanges/${exchangeId}/status',
+          'api/exchanges/${exchangeId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -128,19 +129,19 @@ class _ExchangeApiClient implements ExchangeApiClient {
   }
 
   @override
-  Future<ExchangeResponse> listProposalExchange(String userId) async {
+  Future<ExchangeListResponse> listExchanges(String userId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<ExchangeResponse>(Options(
+    final _options = _setStreamType<ExchangeListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          'api/exchanges/user/${userId}/proposals',
+          'api/exchanges/user/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -150,9 +151,9 @@ class _ExchangeApiClient implements ExchangeApiClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ExchangeResponse _value;
+    late ExchangeListResponse _value;
     try {
-      _value = ExchangeResponse.fromJson(_result.data!);
+      _value = ExchangeListResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -7,7 +7,8 @@ class Api {
   // Base URLs for the API and images
 
   /// The base URL for the main API.
-  static const String baseUrl = "https://1aea-187-235-111-56.ngrok-free.app/";
+  static const String baseUrl =
+      "https://da39-2806-2f0-9021-ada2-e68a-9253-f0dc-8c81.ngrok-free.app/";
 
   /// The base URL for image resources.
   static const String baseImageUrl = "http://192.168.100.94:3000/";
@@ -68,6 +69,22 @@ class Api {
   /// - `{id}`: The unique identifier of the book.
   static const String deactivateBook = 'api/books/{id}/deactivate';
 
+  /// The endpoint to activate a book.
+  /// - `{id}`: The unique identifier of the book.
+  static const String activateBook = 'api/books/{id}/activate';
+
+  /// The endpoint to deactivate multiple books.
+  static const String deactivateBooks = 'api/books/deactivate';
+
+  /// The endpoint to activate multiple books.
+  static const String activateBooks = 'api/books/activate';
+
+  /// The endpoint to check the status of active books.
+  static const String areBooksActive = 'api/books/status/active';
+
+  /// The endpoint to check the status of inactive books.
+  static const String areBooksInactive = 'api/books/status/inactive';
+
   /// The endpoint to retrieve books owned by a specific user.
   /// - `{id}`: The unique identifier of the user.
   static const String retrieveUserBooks = 'api/users/{id}/books';
@@ -77,14 +94,17 @@ class Api {
   /// The endpoint to initiate a new exchange request.
   static const String createExchange = 'api/exchanges';
 
-  /// The endpoint to update the status of an existing exchange.
+  /// The endpoint to update an existing exchange.
   /// - `{exchangeId}`: The unique identifier of the exchange.
-  static const String updateExchangeStatus =
-      'api/exchanges/{exchangeId}/status';
+  static const String updateExchange = 'api/exchanges/{exchangeId}';
 
+  /// The endpoint to show details of a specific exchange.
+  /// - `{exchangeId}`: The unique identifier of the exchange.
   static const String showExchange = 'api/exchanges/{exchangeId}';
-  static const String listProposalExchange =
-      'api/exchanges/user/{userId}/proposals';
+
+  /// The endpoint to list exchanges for a specific user.
+  /// - `{userId}`: The unique identifier of the user.
+  static const String listExchanges = 'api/exchanges/user/{userId}';
 
   // Localities API Routes
 

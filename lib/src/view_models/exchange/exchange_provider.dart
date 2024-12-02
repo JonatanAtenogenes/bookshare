@@ -28,6 +28,7 @@ class SessionExchangesNotifier extends StateNotifier<List<Exchange>> {
       offeringUser: offeringUser,
       receivingUser: receivingUser,
       offeredBooks: [book],
+      exchangeAddress: "dshbjds",
     );
 
     // Update the global state
@@ -176,6 +177,13 @@ class SessionExchangesNotifier extends StateNotifier<List<Exchange>> {
     );
   }
 
+  double valueOfUserBooks(List<Book> books) {
+    if (books.isEmpty) return 0;
+    double value = 0;
+    books.forEach((book) => value += book.value);
+    return value;
+  }
+
   /// Reset all exchanges
   void reset() {
     state = List.empty();
@@ -193,4 +201,8 @@ final sessionExchangesProvider =
 /// Provider for managing the current exchange session
 final currentSessionExchangeInformation = StateProvider<Exchange>(
   (ref) => Exchange.empty(),
+);
+
+final userExchangesProvider = StateProvider<List<Exchange>>(
+  (ref) => List.empty(),
 );

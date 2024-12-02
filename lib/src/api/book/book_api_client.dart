@@ -9,26 +9,37 @@ part 'book_api_client.g.dart';
 
 /// A client for interacting with the book-related endpoints of the API.
 ///
-/// This client provides methods to fetch details about books, retrieve a list of books,
-/// create new books, and deactivate existing books by sending HTTP requests to the backend.
+/// This client provides methods to:
+/// - Fetch details about a specific book.
+/// - Retrieve a list of books, excluding those owned by a particular user.
+/// - Retrieve all books associated with a specific user.
+/// - Create a new book.
+/// - Deactivate or activate books.
+///
+/// The client communicates with the backend by sending HTTP requests and receiving
+/// responses wrapped in [BookResponse] or [BookListResponse] instances.
 @RestApi(baseUrl: Api.baseUrl)
 abstract class BookApiClient {
   /// Creates an instance of [BookApiClient] using a [Dio] client.
   ///
-  /// This factory constructor allows instantiating the client with a Dio instance for making
-  /// HTTP requests and optionally a custom [baseUrl].
+  /// - [dio]: The Dio client used for sending HTTP requests.
+  /// - [baseUrl]: An optional parameter to override the base URL for API requests.
+  ///
+  /// Returns a new [BookApiClient] instance.
   factory BookApiClient(Dio dio, {String baseUrl}) = _BookApiClient;
 
   /// Fetches the details of a specific book by its unique [id].
   ///
   /// Sends a GET request to retrieve the detailed information of a book.
   ///
-  /// - [id]: The unique identifier of the book.
+  /// - [id]: The unique identifier of the book to retrieve.
   ///
   /// Returns a [BookResponse] containing the book's detailed information, including
   /// its attributes like title, authors, value, and condition.
   @GET(Api.showBook)
-  Future<BookResponse> showBook(@Path('id') String id);
+  Future<BookResponse> showBook(
+    @Path('id') String id,
+  );
 
   /// Retrieves a list of all books excluding those from a specified user.
   ///
@@ -38,7 +49,9 @@ abstract class BookApiClient {
   ///
   /// Returns a [BookListResponse] containing the list of books, excluding the specified user's books.
   @GET(Api.retrieveBooks)
-  Future<BookListResponse> retrieveBooks(@Path('userId') String userId);
+  Future<BookListResponse> retrieveBooks(
+    @Path('userId') String userId,
+  );
 
   /// Retrieves all books associated with a specific user.
   ///
@@ -48,7 +61,9 @@ abstract class BookApiClient {
   ///
   /// Returns a [BookListResponse] containing the list of books belonging to the specified user.
   @GET(Api.retrieveUserBooks)
-  Future<BookListResponse> retrieveUserBooks(@Path('id') String id);
+  Future<BookListResponse> retrieveUserBooks(
+    @Path('id') String id,
+  );
 
   /// Creates a new book entry in the system.
   ///
@@ -58,7 +73,9 @@ abstract class BookApiClient {
   ///
   /// Returns a [BookResponse] indicating the result of the creation operation, including the newly created book's details.
   @POST(Api.createBook)
-  Future<BookResponse> createBook(@Body() Book book);
+  Future<BookResponse> createBook(
+    @Body() Book book,
+  );
 
   /// Deactivates an existing book by its unique [id].
   ///
@@ -68,5 +85,43 @@ abstract class BookApiClient {
   ///
   /// Returns a [BookResponse] indicating the result of the deactivation operation.
   @PATCH(Api.deactivateBook)
-  Future<BookResponse> deactivateBook(@Path('id') String id);
+  Future<BookResponse> deactivateBook(
+    @Path('id') String id,
+  );
+
+  /// Activates a deactivated book by its unique [id].
+  ///
+  /// Sends a PATCH request to reactivate a book, making it available again.
+  ///
+  /// - [id]: The unique identifier of the book to be activated.
+  ///
+  /// Returns a [BookResponse] indicating the result of the activation operation.
+  @PATCH(Api.activateBook)
+  Future<BookResponse> activateBook(
+    @Path('id') String id,
+  );
+
+  /// Deactivates multiple books by their unique [booksIds].
+  ///
+  /// Sends a PATCH request to deactivate a list of books, marking them as unavailable.
+  ///
+  /// - [booksIds]: A list of unique identifiers of the books to be deactivated.
+  ///
+  /// Returns a [BookResponse] indicating the result of the deactivation operation for the list of books.
+  @PATCH(Api.deactivateBooks)
+  Future<BookResponse> deactivateBooks(
+    @Body() List<String> booksIds,
+  );
+
+  /// Activates multiple books by their unique [booksIds].
+  ///
+  /// Sends a PATCH request to reactivate a list of books, making them available again.
+  ///
+  /// - [booksIds]: A list of unique identifiers of the books to be activated.
+  ///
+  /// Returns a [BookResponse] indicating the result of the activation operation for the list of books.
+  @PATCH(Api.activateBooks)
+  Future<BookResponse> activateBooks(
+    @Body() List<String> booksIds,
+  );
 }

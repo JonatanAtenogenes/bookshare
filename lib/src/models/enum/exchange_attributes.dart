@@ -1,9 +1,9 @@
 enum ExchangeAttributes {
   id,
-  offeringUserId,
-  receivingUserId,
-  offeredBooksIds,
-  offeringUserBooksIds,
+  offeringUser,
+  receivingUser,
+  offeredBooks,
+  offeringUserBooks,
   exchangeAddress,
   exchangeDate,
   receivedExchange,

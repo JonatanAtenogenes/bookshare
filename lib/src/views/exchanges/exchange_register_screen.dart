@@ -1,4 +1,5 @@
 import 'package:bookshare/src/data/book_data.dart';
+import 'package:bookshare/src/data/exchange_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
@@ -19,15 +20,15 @@ class ExchangeRegisterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentExchange = ref.watch(currentSessionExchangeInformation);
+    final exchange = ref.watch(currentSessionExchangeInformation);
     final userBooks = ref.watch(userBooksProvider);
     final loadingSelectedBooks = ref.watch(loadingSelectedUserBookListProvider);
     final selectedUserBooks = ref.watch(selectedUserBooksProvider);
     const duration = 3;
-
-    Future<void> getSelectedUserBooks() async {
-      await ref.read(bookDataProvider).getSelectedUserBooks();
-    }
+    final userIdentifier = exchange.offeringUser.name != null &&
+            exchange.offeringUser.name!.isNotEmpty
+        ? exchange.offeringUser.name!
+        : exchange.offeringUser.id.substring(10);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,67 +36,86 @@ class ExchangeRegisterScreen extends ConsumerWidget {
           AppStrings.appTitle,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              const SubtitleText(
-                subtitle: AppStrings.exchanges,
-              ),
-              const Text("User: ${8}"),
-              const Text("Libros seleccionados"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.18,
-                child: Visibility(
-                  visible: currentExchange.offeredBooks.isNotEmpty,
-                  replacement: const Center(
-                    child: Text("No hay libros seleccionados"),
-                  ),
-                  child: ListView.builder(
-                    itemCount: currentExchange.offeredBooks.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return BookCard(
-                        book: currentExchange.offeredBooks[index],
-                        onTap: () {
-                          final bookRemoved = ref
-                              .read(sessionExchangesProvider.notifier)
-                              .removeFromOfferedBooks(
-                                currentExchange.offeredBooks[index],
-                              );
-                          final message = bookRemoved
-                              ? "Libro eliminado correctamente"
-                              : "El libro no se pudo eliminar";
-                          toastification.show(
-                            context: context,
-                            title: Text(message),
-                            type: bookRemoved
-                                ? ToastificationType.success
-                                : ToastificationType.error,
-                            style: ToastificationStyle.flat,
-                            autoCloseDuration: const Duration(
-                              seconds: duration,
-                            ),
-                          );
-                        },
-                      );
-                    },
+      body: Visibility(
+        visible: !loadingSelectedBooks,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                const SubtitleText(
+                  subtitle: AppStrings.exchanges,
+                ),
+                Text(
+                  "User: $userIdentifier",
+                ),
+                Text(
+                  "Valor: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeredBooks)}",
+                ),
+                Text(
+                  "Valor Alcanzado: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeringUserBooks)}",
+                ),
+                const Text("Libros seleccionados"),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.18,
+                  child: Visibility(
+                    visible: exchange.offeredBooks.isNotEmpty,
+                    replacement: const Center(
+                      child: Text("No hay libros seleccionados"),
+                    ),
+                    child: ListView.builder(
+                      itemCount: exchange.offeredBooks.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return BookCard(
+                          book: exchange.offeredBooks[index],
+                          onTap: () {
+                            final bookRemoved = ref
+                                .read(sessionExchangesProvider.notifier)
+                                .removeFromOfferedBooks(
+                                  exchange.offeredBooks[index],
+                                );
+                            final message = bookRemoved
+                                ? "Libro eliminado correctamente"
+                                : "El libro no se pudo eliminar";
+                            toastification.show(
+                              context: context,
+                              title: Text(message),
+                              type: bookRemoved
+                                  ? ToastificationType.success
+                                  : ToastificationType.error,
+                              style: ToastificationStyle.flat,
+                              autoCloseDuration: const Duration(
+                                seconds: duration,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              CustomButton(
-                onPressed: () {
-                  getSelectedUserBooks();
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: Center(
+                TextLink(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.8,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Divider(
+                                thickness: 5,
+                                endIndent: 150,
+                                indent: 150,
+                              ),
                               const SubtitleText(
                                 subtitle: 'Libros del usuario a intercambiar',
                               ),
@@ -105,106 +125,106 @@ class ExchangeRegisterScreen extends ConsumerWidget {
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.36,
-                                child: Visibility(
-                                  visible: !loadingSelectedBooks,
-                                  replacement: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: selectedUserBooks.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return BookCard(
-                                        book: selectedUserBooks[index],
-                                        onTap: () {
-                                          final bookAdded = ref
-                                              .read(sessionExchangesProvider
-                                                  .notifier)
-                                              .addingToOfferedBooks(
-                                                selectedUserBooks[index],
-                                              );
-                                          final message = bookAdded
-                                              ? "Libro agregado correctamente"
-                                              : "El libro ya existe en el intercambio";
-                                          toastification.show(
-                                            context: context,
-                                            title: Text(message),
-                                            type: bookAdded
-                                                ? ToastificationType.success
-                                                : ToastificationType.error,
-                                            style: ToastificationStyle.flat,
-                                            autoCloseDuration: const Duration(
-                                              seconds: duration,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
+                                child: ListView.builder(
+                                  itemCount: selectedUserBooks.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return BookCard(
+                                      book: selectedUserBooks[index],
+                                      onTap: () {
+                                        final bookAdded = ref
+                                            .read(sessionExchangesProvider
+                                                .notifier)
+                                            .addingToOfferedBooks(
+                                              selectedUserBooks[index],
+                                            );
+                                        final message = bookAdded
+                                            ? "Libro agregado correctamente"
+                                            : "El libro ya existe en el intercambio";
+                                        toastification.show(
+                                          context: context,
+                                          title: Text(message),
+                                          type: bookAdded
+                                              ? ToastificationType.success
+                                              : ToastificationType.error,
+                                          style: ToastificationStyle.flat,
+                                          autoCloseDuration: const Duration(
+                                            seconds: duration,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                text: "Agregar Libros",
-              ),
-              const Text("Libros a intercambiar"),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.18,
-                child: Visibility(
-                  visible: currentExchange.offeringUserBooks.isNotEmpty,
-                  replacement: const Center(
-                    child: Text("Agrega libros al intercambio"),
-                  ),
-                  child: ListView.builder(
-                    itemCount: currentExchange.offeringUserBooks.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return BookCard(
-                        book: currentExchange.offeringUserBooks[index],
-                        onTap: () {
-                          final bookRemoved = ref
-                              .read(sessionExchangesProvider.notifier)
-                              .removeFromOfferedUserBooks(
-                                currentExchange.offeringUser,
-                                currentExchange.offeringUserBooks[index],
-                              );
-                          final message = bookRemoved
-                              ? "Libro eliminado correctamente"
-                              : "El libro no se pudo eliminar";
-                          toastification.show(
-                            context: context,
-                            title: Text(message),
-                            type: bookRemoved
-                                ? ToastificationType.success
-                                : ToastificationType.error,
-                            style: ToastificationStyle.flat,
-                            autoCloseDuration: const Duration(
-                              seconds: duration,
-                            ),
-                          );
-                        },
-                      );
-                    },
+                        );
+                      },
+                    );
+                  },
+                  text: "Agregar Libros",
+                ),
+                const Text("Libros a intercambiar"),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.18,
+                  child: Visibility(
+                    visible: exchange.offeringUserBooks.isNotEmpty,
+                    replacement: const Center(
+                      child: Text("Agrega libros al intercambio"),
+                    ),
+                    child: ListView.builder(
+                      itemCount: exchange.offeringUserBooks.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return BookCard(
+                          book: exchange.offeringUserBooks[index],
+                          onTap: () {
+                            final bookRemoved = ref
+                                .read(sessionExchangesProvider.notifier)
+                                .removeFromOfferedUserBooks(
+                                  exchange.offeringUser,
+                                  exchange.offeringUserBooks[index],
+                                );
+                            final message = bookRemoved
+                                ? "Libro eliminado correctamente"
+                                : "El libro no se pudo eliminar";
+                            toastification.show(
+                              context: context,
+                              title: Text(message),
+                              type: bookRemoved
+                                  ? ToastificationType.success
+                                  : ToastificationType.error,
+                              style: ToastificationStyle.flat,
+                              autoCloseDuration: const Duration(
+                                seconds: duration,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              CustomButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: Center(
+                TextLink(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.8,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Divider(
+                                thickness: 5,
+                                endIndent: 150,
+                                indent: 150,
+                              ),
                               const SubtitleText(
                                   subtitle: 'Libros del usuario'),
                               const SizedBox(
@@ -224,7 +244,7 @@ class ExchangeRegisterScreen extends ConsumerWidget {
                                             .read(sessionExchangesProvider
                                                 .notifier)
                                             .addingToOfferedUserBooks(
-                                              currentExchange.offeringUser,
+                                              exchange.offeringUser,
                                               userBooks[index],
                                             );
                                         final message = bookAdded
@@ -248,14 +268,21 @@ class ExchangeRegisterScreen extends ConsumerWidget {
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                text: "Agregar Libros",
-              ),
-            ],
+                        );
+                      },
+                    );
+                  },
+                  text: "Agregar Libros",
+                ),
+                const Divider(),
+                CustomButton(
+                  onPressed: () async {
+                    ref.read(exchangeDataProvider).saveExchange(exchange);
+                  },
+                  text: "Realizar intercambio",
+                ),
+              ],
+            ),
           ),
         ),
       ),

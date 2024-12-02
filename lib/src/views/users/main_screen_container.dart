@@ -41,6 +41,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final currentPageIndex = ref.watch(indexContentProvider);
     final booksList = ref.watch(userBooksProvider);
+    final counter = 4;
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appTitle),
@@ -61,7 +62,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 RouteNames.userConfigScreenRoute,
               )
             },
-            icon: const FaIcon(FontAwesomeIcons.gear),
+            icon: Badge.count(
+              count: counter,
+              isLabelVisible: counter > 0,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              textColor: Theme.of(context).colorScheme.onPrimary,
+              child: const FaIcon(FontAwesomeIcons.gear),
+            ),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:bookshare/src/data/book_data.dart';
 import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
@@ -34,13 +35,16 @@ class ExchangeScreen extends ConsumerWidget {
                 itemCount: sessionExchanges.length,
                 itemBuilder: (context, index) {
                   return ExchangeCard(
-                    onTap: () => {
+                    onTap: () async {
                       ref
                           .read(currentSessionExchangeInformation.notifier)
-                          .update((state) => sessionExchanges[index]),
+                          .update((state) => sessionExchanges[index]);
                       ref.read(selectedUserProvider.notifier).update(
-                          (state) => sessionExchanges[index].offeringUser),
-                      context.pushNamed(RouteNames.exchangeRegisterScreenRoute),
+                          (state) => sessionExchanges[index].offeringUser);
+                      ref.read(bookDataProvider).getSelectedUserBooks();
+                      context.pushNamed(
+                        RouteNames.exchangeRegisterScreenRoute,
+                      );
                     },
                     exchange: sessionExchanges[index],
                   );
@@ -48,7 +52,7 @@ class ExchangeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SubtitleText(subtitle: AppStrings.availableExchanges),
+          const SubtitleText(subtitle: "Intercabios Aceptados"),
           SizedBox(
             height: MediaQuery.of(context).size.height / 2,
             child: ListView.builder(
