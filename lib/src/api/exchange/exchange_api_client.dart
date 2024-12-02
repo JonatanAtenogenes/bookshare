@@ -47,7 +47,7 @@ abstract class ExchangeApiClient {
   ///
   /// Returns a [Future] of [ExchangeResponse], representing the result of the update request.
   @PUT(Api.updateExchange)
-  Future<ExchangeResponse> updateExchangeStatus(
+  Future<ExchangeResponse> updateExchange(
     @Path('exchangeId') String exchangeId,
     @Body() Exchange exchange,
   );

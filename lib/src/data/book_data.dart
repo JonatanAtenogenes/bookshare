@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bookshare/src/models/book/book.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
 import 'package:bookshare/src/view_models/book/api_book_provider.dart';
 import 'package:bookshare/src/view_models/book/book_provider.dart';
@@ -83,7 +84,7 @@ class BookData {
     try {
       final userId = ref.read(selectedUserProvider).id;
 
-      log("Selecetde user id = $userId \n");
+      log("Selected user id = $userId \n");
 
       await ref
           .read(apiSelectedUserBookListNotifierProvider.notifier)
@@ -198,6 +199,160 @@ class BookData {
           );
     } finally {
       ref.read(loadingCreateBookProvider.notifier).update((state) => false);
+    }
+  }
+
+  /// Retrieves detailed information for a specific book by its ID.
+  ///
+  /// This method communicates with the API to fetch detailed information
+  /// about a book specified by the `bookId`. It manages the loading state
+  /// and handles any errors encountered during the API call.
+  ///
+  /// **Parameters**:
+  /// - `bookId`: The ID of the book to be retrieved.
+  ///
+  /// **Steps**:
+  /// 1. Set `loadingShowBookProvider` to `true`.
+  /// 2. Call the `showBook` method in the API provider.
+  /// 3. Handle errors by updating the error state in the provider.
+  /// 4. Reset `loadingShowBookProvider` to `false`.
+  ///
+  /// **Throws**:
+  /// - [DioException]: If the API request fails.
+  Future<void> showBook(String bookId) async {
+    ref.read(loadingShowBookProvider.notifier).update((state) => true);
+    try {
+      await ref.read(apiShowBookNotifierProvider.notifier).showBook(bookId);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref.read(apiShowBookNotifierProvider.notifier).updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref.read(loadingShowBookProvider.notifier).update((state) => false);
+    }
+  }
+
+  /// Deactivates a specific book in the user's collection.
+  ///
+  /// This method sends a request to the API to deactivate a book by its ID.
+  /// It manages the loading state and handles any errors encountered during
+  /// the operation.
+  ///
+  /// **Parameters**:
+  /// - `book`: The book object to be deactivated.
+  ///
+  /// **Throws**:
+  /// - [DioException]: If the API request fails.
+  Future<void> deactivateBook(Book book) async {
+    ref.read(loadingDeactivateBookProvider.notifier).update((state) => true);
+    try {
+      await ref
+          .read(apiDeactivateBookNotifierProvider.notifier)
+          .deactivateBook(book.id);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiDeactivateBookNotifierProvider.notifier)
+          .updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref.read(loadingDeactivateBookProvider.notifier).update((state) => false);
+    }
+  }
+
+  /// Activates a specific book in the user's collection.
+  ///
+  /// This method sends a request to the API to activate a book by its ID.
+  /// It manages the loading state and handles any errors encountered during
+  /// the operation.
+  ///
+  /// **Parameters**:
+  /// - `book`: The book object to be activated.
+  ///
+  /// **Throws**:
+  /// - [DioException]: If the API request fails.
+  Future<void> activateBook(Book book) async {
+    ref.read(loadingActivateBookProvider.notifier).update((state) => true);
+    try {
+      await ref
+          .read(apiActivateBookNotifierProvider.notifier)
+          .activateBook(book.id);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiActivateBookNotifierProvider.notifier)
+          .updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref.read(loadingActivateBookProvider.notifier).update((state) => false);
+    }
+  }
+
+  /// Deactivates multiple books in the user's collection.
+  ///
+  /// This method sends a request to the API to deactivate multiple books
+  /// specified by their IDs. It manages the loading state and handles
+  /// any errors encountered during the operation.
+  ///
+  /// **Parameters**:
+  /// - `booksId`: A list of IDs of the books to be deactivated.
+  ///
+  /// **Throws**:
+  /// - [DioException]: If the API request fails.
+  Future<void> deactivateBooks(List<String> booksId) async {
+    ref.read(loadingDeactivateBooksProvider.notifier).update((state) => true);
+    try {
+      await ref
+          .read(apiDeactivateBooksNotifierProvider.notifier)
+          .deactivateBooks(booksId);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiDeactivateBooksNotifierProvider.notifier)
+          .updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref
+          .read(loadingDeactivateBooksProvider.notifier)
+          .update((state) => false);
+    }
+  }
+
+  /// Activates multiple books in the user's collection.
+  ///
+  /// This method sends a request to the API to activate multiple books
+  /// specified by their IDs. It manages the loading state and handles
+  /// any errors encountered during the operation.
+  ///
+  /// **Parameters**:
+  /// - `booksId`: A list of IDs of the books to be activated.
+  ///
+  /// **Throws**:
+  /// - [DioException]: If the API request fails.
+  Future<void> activateBooks(List<String> booksId) async {
+    ref.read(loadingActivateBooksProvider.notifier).update((state) => true);
+    try {
+      await ref
+          .read(apiActivateBooksNotifierProvider.notifier)
+          .activateBooks(booksId);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiActivateBooksNotifierProvider.notifier)
+          .updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref.read(loadingActivateBooksProvider.notifier).update((state) => false);
     }
   }
 }

@@ -59,7 +59,7 @@ class _ExchangeApiClient implements ExchangeApiClient {
   }
 
   @override
-  Future<ExchangeResponse> updateExchangeStatus(
+  Future<ExchangeResponse> updateExchange(
     String exchangeId,
     Exchange exchange,
   ) async {

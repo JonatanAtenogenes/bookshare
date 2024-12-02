@@ -6,40 +6,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/book/book.dart';
 
-/// A state notifier for managing API interactions related to books.
+/// A state notifier for managing book-related API interactions.
 ///
-/// The `ApiBookNotifier` class provides methods for handling book-related
-/// operations, including fetching a book's details, creating a new book,
-/// and deactivating a book. It updates the state based on the response
-/// received from the `BookApiClient`.
+/// This class handles book-related actions such as retrieving details of a book,
+/// creating new books, deactivating or activating individual books, and batch operations
+/// (activating or deactivating multiple books). It uses [BookApiClient] for API communication
+/// and updates the state based on the operation's result.
 class ApiBookNotifier extends StateNotifier<BookResponse> {
-  /// API client used to interact with book-related endpoints.
+  /// API client for interacting with book-related endpoints.
   final BookApiClient _bookApiClient;
 
-  /// Initializes the notifier with the specified API client.
+  /// Initializes the notifier with the provided [BookApiClient].
   ///
   /// The initial state is set to a successful state with an empty message.
   ApiBookNotifier(this._bookApiClient) : super(BookResponse.success(""));
 
-  /// Fetches details of a specific book by its ID.
+  /// Fetches the details of a specific book by its unique ID.
   ///
-  /// This method calls the `showBook` endpoint and updates the state
-  /// with the response data. If an error occurs, it rethrows the exception
-  /// for external handling.
+  /// - [id]: The unique identifier of the book to retrieve.
+  ///
+  /// Updates the state with the book details on success.
+  /// If an error occurs, the exception is rethrown for external handling.
   Future<void> showBook(String id) async {
     try {
       final showBookResponse = await _bookApiClient.showBook(id);
-      state = showBookResponse;
+      state = state.copyWith(
+        success: showBookResponse.success,
+        message: showBookResponse.message,
+        data: showBookResponse.data,
+      );
     } catch (e) {
       rethrow;
     }
   }
 
-  /// Creates a new book using the provided book details.
+  /// Creates a new book with the provided details.
   ///
-  /// This method sends a request to the `createBook` endpoint and updates
-  /// the state with the response. If an error occurs, it rethrows the exception
-  /// for external handling.
+  /// - [book]: An instance of [Book] containing the book's attributes.
+  ///
+  /// Updates the state with the response on success.
+  /// If an error occurs, the exception is rethrown for external handling.
   Future<void> createBook(Book book) async {
     try {
       final createBookResponse = await _bookApiClient.createBook(book);
@@ -53,35 +59,91 @@ class ApiBookNotifier extends StateNotifier<BookResponse> {
     }
   }
 
-  /// Deactivates a book by its ID.
+  /// Deactivates a book by its unique ID.
   ///
-  /// This method sends a request to the `deactivateBook` endpoint and updates
-  /// the state with the response. If an error occurs, it rethrows the exception
-  /// for external handling.
+  /// - [bookId]: The unique identifier of the book to deactivate.
+  ///
+  /// Updates the state with the response on success.
   Future<void> deactivateBook(String bookId) async {
     try {
       final deactivateBookResponse =
           await _bookApiClient.deactivateBook(bookId);
-      state = deactivateBookResponse;
+      state = state.copyWith(
+        success: deactivateBookResponse.success,
+        message: deactivateBookResponse.message,
+        data: deactivateBookResponse.data,
+      );
     } catch (e) {
       rethrow;
     }
   }
 
-  /// Updates the state to reflect an error during book-related actions.
+  /// Activates a book by its unique ID.
   ///
-  /// This method is used to handle and display error messages when an error
-  /// occurs during operations such as creating, fetching, or deactivating a book.
+  /// - [bookId]: The unique identifier of the book to activate.
+  ///
+  /// Updates the state with the response on success.
+  Future<void> activateBook(String bookId) async {
+    try {
+      final activateBookResponse = await _bookApiClient.activateBook(bookId);
+      state = state.copyWith(
+        success: activateBookResponse.success,
+        message: activateBookResponse.message,
+        data: activateBookResponse.data,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Deactivates multiple books by their unique IDs.
+  ///
+  /// - [bookIds]: A list of unique identifiers of the books to deactivate.
+  ///
+  /// Updates the state with the response on success.
+  Future<void> deactivateBooks(List<String> bookIds) async {
+    try {
+      final deactivatesBookResponse =
+          await _bookApiClient.deactivateBooks(bookIds);
+      state = state.copyWith(
+        success: deactivatesBookResponse.success,
+        message: deactivatesBookResponse.message,
+        data: deactivatesBookResponse.data,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Activates multiple books by their unique IDs.
+  ///
+  /// - [bookIds]: A list of unique identifiers of the books to activate.
+  ///
+  /// Updates the state with the response on success.
+  Future<void> activateBooks(List<String> bookIds) async {
+    try {
+      final activateBooksResponse = await _bookApiClient.activateBooks(bookIds);
+      state = state.copyWith(
+        success: activateBooksResponse.success,
+        message: activateBooksResponse.message,
+        data: activateBooksResponse.data,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Updates the state to reflect an error.
+  ///
+  /// - [message]: The error message to set in the state.
   void updateErrorOnBooksActions(String message) {
     state = BookResponse.error(message);
   }
 }
 
-/// Provides a state notifier for managing book-related actions via the API.
-///
-/// The `apiBookNotifierProvider` is a global provider that creates an
-/// instance of `ApiBookNotifier` configured with a `BookApiClient` and
-/// a `TokenInterceptorInjector` for secure API communication.
+/// Providers for state management and API communication.
+
+/// Global provider for managing book-related API actions.
 final apiBookNotifierProvider =
     StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
@@ -89,11 +151,7 @@ final apiBookNotifierProvider =
   return ApiBookNotifier(BookApiClient(dio));
 });
 
-/// Provides a state notifier for creating a new book.
-///
-/// The `apiCreateBookNotifierProvider` creates an instance of `ApiBookNotifier`
-/// specifically for handling book creation requests. It is configured with
-/// a `BookApiClient` and a `TokenInterceptorInjector`.
+/// Provider for managing book creation actions.
 final apiCreateBookNotifierProvider =
     StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
@@ -101,17 +159,10 @@ final apiCreateBookNotifierProvider =
   return ApiBookNotifier(BookApiClient(dio));
 });
 
-/// A state provider to manage the loading state of book creation requests.
-///
-/// The `loadingCreateBookProvider` holds a boolean value indicating whether
-/// a book creation operation is in progress. The default value is `false`.
+/// Tracks the loading state of book creation operations.
 final loadingCreateBookProvider = StateProvider<bool>((ref) => false);
 
-/// Provides a state notifier for fetching details of a specific book.
-///
-/// The `apiShowBookNotifierProvider` creates an instance of `ApiBookNotifier`
-/// for handling requests to fetch book details. It uses a `BookApiClient`
-/// and a `TokenInterceptorInjector`.
+/// Provider for fetching details of a specific book.
 final apiShowBookNotifierProvider =
     StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
@@ -119,14 +170,49 @@ final apiShowBookNotifierProvider =
   return ApiBookNotifier(BookApiClient(dio));
 });
 
-/// Provides a state notifier for deactivating a book.
-///
-/// The `apiDeactivateBookNotifierProvider` creates an instance of `ApiBookNotifier`
-/// for handling book deactivation requests. It is configured with a `BookApiClient`
-/// and a `TokenInterceptorInjector`.
+/// Tracks the loading state of book details fetching.
+final loadingShowBookProvider = StateProvider<bool>((ref) => false);
+
+/// Provider for deactivating a book.
 final apiDeactivateBookNotifierProvider =
     StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
   dio.interceptors.add(TokenInterceptorInjector());
   return ApiBookNotifier(BookApiClient(dio));
 });
+
+/// Tracks the loading state of book deactivation.
+final loadingDeactivateBookProvider = StateProvider<bool>((ref) => false);
+
+/// Provider for activating a book.
+final apiActivateBookNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+/// Tracks the loading state of book activation.
+final loadingActivateBookProvider = StateProvider<bool>((ref) => false);
+
+/// Provider for deactivating multiple books.
+final apiDeactivateBooksNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+/// Tracks the loading state of multiple books deactivation.
+final loadingDeactivateBooksProvider = StateProvider<bool>((ref) => false);
+
+/// Provider for activating multiple books.
+final apiActivateBooksNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+/// Tracks the loading state of multiple books activation.
+final loadingActivateBooksProvider = StateProvider<bool>((ref) => false);

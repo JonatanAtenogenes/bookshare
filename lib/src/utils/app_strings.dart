@@ -49,6 +49,9 @@ class AppStrings {
   static const String generalInformation = "Informacion General";
   static const String supportAndSettings = "Soporte y Configuración";
   static const String exchanges = "Intercambios";
+  static const String pendingExchanges = "Intercambios Pendientes";
+  static const String rejectedOrCancelledExchanges =
+      "Intercambios Rechazados o Cancelados";
   static const String submitProblem = "Reportar Problemas";
   static const String about = "Acerca de";
 }

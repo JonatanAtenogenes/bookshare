@@ -1,5 +1,4 @@
 import 'package:bookshare/src/data/book_data.dart';
-import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../view_models/book/api_book_list_provider.dart';
-import '../../view_models/book/book_provider.dart';
 
 class ExchangeScreen extends ConsumerWidget {
   const ExchangeScreen({super.key});
@@ -34,19 +32,39 @@ class ExchangeScreen extends ConsumerWidget {
                 shrinkWrap: true,
                 itemCount: sessionExchanges.length,
                 itemBuilder: (context, index) {
-                  return ExchangeCard(
-                    onTap: () async {
+                  return Dismissible(
+                    key: Key(sessionExchanges[index].offeringUser.id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      color: Theme.of(context).colorScheme.error,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                    onDismissed: (direction) {
                       ref
-                          .read(currentSessionExchangeInformation.notifier)
-                          .update((state) => sessionExchanges[index]);
-                      ref.read(selectedUserProvider.notifier).update(
-                          (state) => sessionExchanges[index].offeringUser);
-                      ref.read(bookDataProvider).getSelectedUserBooks();
-                      context.pushNamed(
-                        RouteNames.exchangeRegisterScreenRoute,
-                      );
+                          .read(sessionExchangesProvider.notifier)
+                          .removeExchange(sessionExchanges[index].offeringUser);
                     },
-                    exchange: sessionExchanges[index],
+                    child: ExchangeCard(
+                      onTap: () async {
+                        ref
+                            .read(currentSessionExchangeInformation.notifier)
+                            .update((state) => sessionExchanges[index]);
+                        ref.read(selectedUserProvider.notifier).update(
+                            (state) => sessionExchanges[index].offeringUser);
+                        ref.read(bookDataProvider).getSelectedUserBooks();
+                        context.pushNamed(
+                          RouteNames.exchangeRegisterScreenRoute,
+                        );
+                      },
+                      exchange: sessionExchanges[index],
+                    ),
                   );
                 },
               ),

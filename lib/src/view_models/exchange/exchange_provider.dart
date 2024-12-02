@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -182,6 +180,33 @@ class SessionExchangesNotifier extends StateNotifier<List<Exchange>> {
     double value = 0;
     books.forEach((book) => value += book.value);
     return value;
+  }
+
+  /// Remove an exchange based on the user ID
+  bool removeExchange(User user) {
+    // Find the index of the exchange where the offeringUser has the given userId
+    final index =
+        state.indexWhere((exchange) => exchange.offeringUser.id == user.id);
+
+    if (index == -1) {
+      return false; // Exchange not found
+    }
+
+    // Remove the exchange from the state
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i != index) state[i]
+    ];
+
+    // Clear the current session exchange information if it matches the removed exchange
+    final currentExchange =
+        ref.read(currentSessionExchangeInformation.notifier).state;
+    if (currentExchange.offeringUser.id == user.id) {
+      ref.read(currentSessionExchangeInformation.notifier).state =
+          Exchange.empty();
+    }
+
+    return true;
   }
 
   /// Reset all exchanges

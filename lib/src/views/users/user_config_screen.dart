@@ -73,15 +73,15 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
               height: 20,
             ),
             ConfigCard(
-              title: AppStrings.exchanges,
+              title: AppStrings.pendingExchanges,
               onTap: () {
-                context.pushNamed(RouteNames.exchangesInfoScreenRoute);
+                context.pushNamed(RouteNames.pendingExchangesInfoScreenRoute);
               },
             ),
             ConfigCard(
-              title: AppStrings.exchanges,
+              title: AppStrings.rejectedOrCancelledExchanges,
               onTap: () {
-                context.pushNamed(RouteNames.exchangesInfoScreenRoute);
+                context.pushNamed(RouteNames.rejectedExchangesInfoScreenRoute);
               },
             ),
             const SizedBox(
