@@ -148,8 +148,8 @@ class ExchangeCard extends StatelessWidget {
                               ),
                               child: CircleAvatar(
                                 radius: MediaQuery.of(context).size.width / 6,
-                                backgroundColor: Colors
-                                    .transparent, // Ensure background is transparent
+                                backgroundColor: Colors.transparent,
+                                // Ensure background is transparent
                                 child: ClipOval(
                                   child: Image.network(
                                     exchange.offeringUser.image != null &&
@@ -208,8 +208,8 @@ class ExchangeCard extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Valor'),
-                        Text(exchange.status),
+                        const Text('Estatus'),
+                        SwapStatus.getIconWithColorByName(exchange.status),
                       ],
                     ),
                   ),

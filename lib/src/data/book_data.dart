@@ -130,7 +130,11 @@ class BookData {
             userId,
           );
       ref.read(listOfBooksProvider.notifier).update(
-            (state) => ref.read(apiAllBookListNotifierProvider).data!,
+            (state) => ref
+                .read(apiAllBookListNotifierProvider)
+                .data!
+                .reversed
+                .toList(),
           );
     } on DioException catch (e) {
       log('Error fetching books: ${e.toString()}');

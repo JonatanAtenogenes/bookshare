@@ -228,6 +228,10 @@ final currentSessionExchangeInformation = StateProvider<Exchange>(
   (ref) => Exchange.empty(),
 );
 
+final currentExchangeInformation = StateProvider<Exchange>(
+  (ref) => Exchange.empty(),
+);
+
 final userExchangesProvider = StateProvider<List<Exchange>>(
   (ref) => List.empty(),
 );

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../enum/book_attributes.dart';
 import '../enum/enums.dart';
 import '../user/user.dart';
@@ -82,8 +80,6 @@ class Book {
 
   /// Factory method to create a `Book` instance from a JSON map.
   factory Book.fromJson(Map<String, dynamic> json) {
-    log('json: $json');
-
     final bookData = json['book'];
     final id = bookData[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = bookData[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
@@ -117,8 +113,6 @@ class Book {
 
   /// Factory method to create a `Book` instance from a JSON map without using a key.
   factory Book.fromJsonWithoutKey(Map<String, dynamic> json) {
-    log("json format on book call $json");
-
     final id = json[BookAttributes.id.name] ?? BookAttributes.id.name;
     final isbn = json[BookAttributes.isbn.name] ?? BookAttributes.isbn.name;
     final title = json[BookAttributes.title.name] ?? BookAttributes.title.name;

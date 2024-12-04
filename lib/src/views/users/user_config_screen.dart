@@ -1,8 +1,9 @@
 import 'package:bookshare/src/data/auth_data.dart';
+import 'package:bookshare/src/data/exchange_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
-import 'package:bookshare/src/view_models/user/api_show_user_provider.dart';
+import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,22 +23,22 @@ class UserConfigScreen extends ConsumerStatefulWidget {
 class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
   @override
   void initState() {
-    _loadUserData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
     super.initState();
   }
 
   Future<void> _loadUserData() async {
     await ref.read(userDataProvider).getAuthUserInformation();
+    await ref
+        .read(exchangeDataProvider)
+        .listExchanges(ref.read(currentUserProvider).id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final loadingUserInfo = ref.watch(loadingShowUserProvider);
-    final sessionExchanges = ref.watch(sessionExchangesProvider);
-
-    if (loadingUserInfo) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    const height = 10.0;
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appTitle),
@@ -49,7 +50,7 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
           children: [
             const SubtitleText(subtitle: AppStrings.generalInformation),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             ConfigCard(
               title: AppStrings.personalData,
@@ -64,13 +65,13 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
               },
             ),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             const SubtitleText(
               subtitle: AppStrings.exchanges,
             ),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             ConfigCard(
               title: AppStrings.pendingExchanges,
@@ -79,19 +80,19 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
               },
             ),
             ConfigCard(
-              title: AppStrings.rejectedOrCancelledExchanges,
+              title: AppStrings.allExchanges,
               onTap: () {
-                context.pushNamed(RouteNames.rejectedExchangesInfoScreenRoute);
+                context.pushNamed(RouteNames.allExchangesInfoScreenRoute);
               },
             ),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             const SubtitleText(
               subtitle: AppStrings.supportAndSettings,
             ),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             ConfigCard(
               title: AppStrings.submitProblem,
@@ -106,7 +107,7 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
               },
             ),
             const SizedBox(
-              height: 20,
+              height: height,
             ),
             CustomButton(
               onPressed: () async {
@@ -143,26 +144,35 @@ class ConfigCard extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: onTap,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.08,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.lato(
-                    fontSize: 20,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onPrimary,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
                 ),
-                const Icon(
-                  FontAwesomeIcons.angleRight,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.lato(
+                        fontSize: 20,
+                      ),
+                    ),
+                    const Icon(
+                      FontAwesomeIcons.angleRight,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

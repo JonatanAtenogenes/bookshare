@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/api/exchange/exchange_api_client.dart';
 import 'package:bookshare/src/models/response/exchange_response.dart';
 import 'package:dio/dio.dart';
@@ -34,6 +36,7 @@ class ApiExchangeListNotifier extends StateNotifier<ExchangeListResponse> {
     try {
       final listExchangesResponse =
           await _exchangeApiClient.listExchanges(userId);
+      log("Elementos: ${listExchangesResponse.data}");
       state = state.copyWith(
         success: listExchangesResponse.success,
         message: listExchangesResponse.message,

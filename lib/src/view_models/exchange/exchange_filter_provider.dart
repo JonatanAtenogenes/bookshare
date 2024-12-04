@@ -1,85 +1,60 @@
-import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bookshare/src/models/exchange/exchange.dart';
+
+import '../../models/models.dart';
 
 /// A StateNotifier that manages and filters a list of exchanges based on their status.
 class ExchangeFilterNotifier extends StateNotifier<List<Exchange>> {
-  /// The full list of exchanges (unfiltered).
-  final List<Exchange> _allExchanges;
-
-  /// Constructs an [ExchangeFilterNotifier] with the initial list of exchanges.
-  ///
-  /// The [initialExchanges] represents the complete list of exchanges available
-  /// before any filtering is applied.
-  ExchangeFilterNotifier(this._allExchanges) : super(_allExchanges);
+  /// Constructs an [ExchangeFilterNotifier] that initially provides an empty list.
+  ExchangeFilterNotifier() : super([]);
 
   /// Filters the list of exchanges by the "pending" status.
-  ///
-  /// This updates the state to include only exchanges where the status is `"pending"`.
-  void filterPending() {
-    state = _allExchanges
-        .where((exchange) => exchange.status == "pending")
+  /// This method now accepts a list of exchanges to filter.
+  void filterPending(List<Exchange> exchanges, User user) {
+    log("Tamaño de todos los intercambios: ${exchanges.length}");
+    state = exchanges
+        .where((exchange) =>
+            exchange.status == "pending" && exchange.offeringUser.id == user.id)
         .toList();
   }
 
   /// Filters the list of exchanges by the "accepted" status.
-  ///
-  /// This updates the state to include only exchanges where the status is `"accepted"`.
-  void filterAccepted() {
-    state = _allExchanges
-        .where((exchange) => exchange.status == "accepted")
-        .toList();
+  /// This method now accepts a list of exchanges to filter.
+  void filterAccepted(List<Exchange> exchanges) {
+    state =
+        exchanges.where((exchange) => exchange.status == "accepted").toList();
   }
 
   /// Filters the list of exchanges by either "rejected" or "cancelled" statuses.
-  ///
-  /// This updates the state to include only exchanges where the status is either
-  /// `"rejected"` or `"cancelled"`.
-  void filterRejectedOrCancelled() {
-    state = _allExchanges
+  /// This method now accepts a list of exchanges to filter.
+  void filterRejectedOrCancelled(List<Exchange> exchanges) {
+    state = exchanges
         .where((exchange) =>
             exchange.status == "rejected" || exchange.status == "cancelled")
         .toList();
   }
 
-  /// Resets the state to the full list of exchanges.
-  ///
-  /// This clears any active filters and restores the state to contain
-  /// the original unfiltered list of exchanges.
+  /// Resets the state to an empty list.
   void resetFilter() {
-    state = _allExchanges;
+    state = [];
   }
 }
 
 /// Provider for filtering exchanges with "accepted" status.
-///
-/// This provider uses [ExchangeFilterNotifier] to manage the list of exchanges
-/// and allows filtering based on the "accepted" status.
 final exchangeFilterAcceptedProvider =
     StateNotifierProvider<ExchangeFilterNotifier, List<Exchange>>((ref) {
-  final List<Exchange> initialExchanges =
-      ref.read(userExchangesProvider); // Initialize with your data source.
-  return ExchangeFilterNotifier(initialExchanges);
+  return ExchangeFilterNotifier(); // Initialize with an empty list.
 });
 
 /// Provider for filtering exchanges with "pending" status.
-///
-/// This provider uses [ExchangeFilterNotifier] to manage the list of exchanges
-/// and allows filtering based on the "pending" status.
 final exchangeFilterPendingProvider =
     StateNotifierProvider<ExchangeFilterNotifier, List<Exchange>>((ref) {
-  final List<Exchange> initialExchanges =
-      ref.read(userExchangesProvider); // Initialize with your data source.
-  return ExchangeFilterNotifier(initialExchanges);
+  return ExchangeFilterNotifier(); // Initialize with an empty list.
 });
 
 /// Provider for filtering exchanges with "rejected" or "cancelled" status.
-///
-/// This provider uses [ExchangeFilterNotifier] to manage the list of exchanges
-/// and allows filtering based on the "rejected" or "cancelled" statuses.
 final exchangeFilterRejectedProvider =
     StateNotifierProvider<ExchangeFilterNotifier, List<Exchange>>((ref) {
-  final List<Exchange> initialExchanges =
-      ref.read(userExchangesProvider); // Initialize with your data source.
-  return ExchangeFilterNotifier(initialExchanges);
+  return ExchangeFilterNotifier(); // Initialize with an empty list.
 });

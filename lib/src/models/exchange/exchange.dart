@@ -77,17 +77,17 @@ class Exchange {
   factory Exchange.fromJsonWithoutKey(Map<String, dynamic> json) {
     return Exchange(
       id: json['id'] ?? '',
-      offeringUser: User.fromJson(json['offeringUserId'] ?? {}),
-      receivingUser: User.fromJson(json['receivingUserId'] ?? {}),
-      offeredBooks: (json['offeredBooksIds'] ?? [])
-          .map<Book>((bookJson) => Book.fromJson(bookJson))
+      offeringUser: User.fromJsonWithoutKey(json['offering_user'] ?? {}),
+      receivingUser: User.fromJsonWithoutKey(json['receiving_user'] ?? {}),
+      offeredBooks: (json['offered_books'] ?? [])
+          .map<Book>((bookJson) => Book.fromJsonWithoutKey(bookJson))
           .toList(),
-      offeringUserBooks: (json['offeringUserBooksIds'] ?? [])
-          .map<Book>((bookJson) => Book.fromJson(bookJson))
+      offeringUserBooks: (json['offering_user_books'] ?? [])
+          .map<Book>((bookJson) => Book.fromJsonWithoutKey(bookJson))
           .toList(),
-      exchangeAddress: json['exchangeAddress'] ?? '',
-      exchangeDate: DateTime.tryParse(json['exchangeDate']) ?? DateTime.now(),
-      receivedExchange: json['receivedExchange'] ?? false,
+      exchangeAddress: json['exchange_address'] ?? '',
+      exchangeDate: DateTime.tryParse(json['exchange_date']) ?? DateTime.now(),
+      receivedExchange: json['received_exchange'] ?? false,
       status: json['status'] ?? '',
     );
   }
@@ -142,5 +142,14 @@ class Exchange {
   /// Creates a list of [Exchange] instances from a list of JSON objects without a nested 'exchange' key.
   static List<Exchange> fromJsonListWithoutKey(List<dynamic> jsonList) {
     return jsonList.map((json) => Exchange.fromJsonWithoutKey(json)).toList();
+  }
+
+  /// Converts the [Exchange] instance to a string representation.
+  @override
+  String toString() {
+    return 'Exchange(id: $id, offeringUser: $offeringUser, receivingUser: $receivingUser, '
+        'offeredBooks: $offeredBooks, offeringUserBooks: $offeringUserBooks, '
+        'exchangeAddress: $exchangeAddress, exchangeDate: $exchangeDate, '
+        'receivedExchange: $receivedExchange, status: $status)';
   }
 }

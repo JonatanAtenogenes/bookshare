@@ -8,9 +8,10 @@ import 'package:bookshare/src/views/books/book_info_screen.dart';
 import 'package:bookshare/src/views/common/screens/about_screen.dart';
 import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
 import 'package:bookshare/src/views/common/screens/submit_problem_screen.dart';
+import 'package:bookshare/src/views/exchanges/all_exchanges_info_screen.dart';
+import 'package:bookshare/src/views/exchanges/exchange_information_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchange_register_screen.dart';
 import 'package:bookshare/src/views/exchanges/pending_exchanges_info_screen.dart';
-import 'package:bookshare/src/views/exchanges/rejected_exchanges_info_screen.dart';
 import 'package:bookshare/src/views/users/address_information_screen.dart';
 import 'package:bookshare/src/views/users/main_screen_container.dart';
 import 'package:bookshare/src/views/users/personal_information_screen.dart';
@@ -98,8 +99,13 @@ final routerProvider = Provider<GoRouter>(
       ),
       GoRoute(
         path: '/rejected_exchanges_info',
-        name: RouteNames.rejectedExchangesInfoScreenRoute,
-        builder: (context, state) => const RejectedExchangesInfoScreen(),
+        name: RouteNames.allExchangesInfoScreenRoute,
+        builder: (context, state) => const AllExchangesInfoScreen(),
+      ),
+      GoRoute(
+        path: '/exchanges_information',
+        name: RouteNames.exchangeInformationScreenRoute,
+        builder: (context, state) => const ExchangeInformationScreen(),
       ),
       GoRoute(
         path: '/personal_information',

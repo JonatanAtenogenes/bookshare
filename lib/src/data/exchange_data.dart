@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/view_models/exchange/api_exchange_list_provider.dart';
 import 'package:bookshare/src/view_models/exchange/api_exchange_provider.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_filter_provider.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
+import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,6 +39,7 @@ class ExchangeData {
           .read(apiCreateExchangeProvider.notifier)
           .createExchange(exchange);
     } on DioException catch (e) {
+      log("Mensahe de error: ${e.response?.data['message']}");
       String message =
           e.response?.data['message'] ?? "An unexpected error has occurred";
       ref
@@ -108,12 +112,14 @@ class ExchangeData {
           .update((state) => ref.read(apiListExchangesProvider).data!);
 
       // Apply filters to categorize exchanges.
-      ref.read(exchangeFilterAcceptedProvider.notifier).filterAccepted();
-      ref.read(exchangeFilterPendingProvider.notifier).filterPending();
-      ref
-          .read(exchangeFilterRejectedProvider.notifier)
-          .filterRejectedOrCancelled();
+      // ref.read(exchangeFilterAcceptedProvider.notifier).filterAccepted();
+      ref.read(exchangeFilterPendingProvider.notifier).filterPending(
+          ref.read(userExchangesProvider), ref.read(currentUserProvider));
+      // ref
+      //     .read(exchangeFilterRejectedProvider.notifier)
+      //     .filterRejectedOrCancelled();
     } on DioException catch (e) {
+      log("List error message: ${e.response?.data['message']}");
       String message =
           e.response?.data['message'] ?? "An unexpected error has occurred";
       ref

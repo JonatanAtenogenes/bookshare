@@ -15,12 +15,13 @@ class RouteNames {
   static const String addressInformationScreenRoute =
       'address_information_screen';
   static const String bookInformationScreenRoute = 'book_information_screen';
+  static const String exchangeInformationScreenRoute =
+      'exchange_information_screen';
   static const String addBookToExchangeScreenRoute = 'add_book_exchange_screen';
   static const String loadingContentScreenRoute = 'loading_content_screen';
   static const String pendingExchangesInfoScreenRoute =
       'pending_exchanges_info_screen';
-  static const String rejectedExchangesInfoScreenRoute =
-      'rejected_exchanges_info_screen';
+  static const String allExchangesInfoScreenRoute = 'all_exchanges_info_screen';
   static const String exchangeRegisterScreenRoute = 'exchange_register_screen';
   static const String submitProblemScreenRoute = 'submit_problem_screen';
   static const String aboutScreenRoute = 'about_screen';

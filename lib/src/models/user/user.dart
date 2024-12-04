@@ -187,7 +187,6 @@ class User {
   /// Throws:
   /// - No exceptions are thrown; missing fields default to safe values.
   factory User.fromJsonWithoutKey(Map<String, dynamic> json) {
-    log("user json without key: $json");
     String id = json['id'] ?? "";
     String email = json['email'] ?? "";
     String password = json['password'] ?? "";

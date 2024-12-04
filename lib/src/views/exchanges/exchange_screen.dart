@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../view_models/book/api_book_list_provider.dart';
+import '../../view_models/exchange/exchange_filter_provider.dart';
 
 class ExchangeScreen extends ConsumerWidget {
   const ExchangeScreen({super.key});
@@ -16,6 +17,7 @@ class ExchangeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userBooksList = ref.watch(apiUserBookListNotifierProvider).data;
+    final acceptedExchangeList = ref.watch(exchangeFilterAcceptedProvider);
     final sessionExchanges = ref.watch(sessionExchangesProvider);
     return SingleChildScrollView(
       child: Column(
@@ -73,15 +75,21 @@ class ExchangeScreen extends ConsumerWidget {
           const SubtitleText(subtitle: "Intercabios Aceptados"),
           SizedBox(
             height: MediaQuery.of(context).size.height / 2,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: userBooksList!.length,
-              itemBuilder: (context, index) {
-                return BookCard(
-                  onTap: () => {},
-                  book: userBooksList[index],
-                );
-              },
+            child: Visibility(
+              visible: acceptedExchangeList.isNotEmpty,
+              replacement: const Center(
+                child: Text("No hay intercambios aceptados"),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: acceptedExchangeList.length,
+                itemBuilder: (context, index) {
+                  return ExchangeCard(
+                    onTap: () => {},
+                    exchange: acceptedExchangeList[index],
+                  );
+                },
+              ),
             ),
           ),
         ],

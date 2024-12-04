@@ -1,34 +1,67 @@
-import 'package:bookshare/src/data/book_data.dart';
 import 'package:bookshare/src/data/exchange_data.dart';
-import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
-import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:bookshare/src/views/common/widgets/custom_cards.dart';
 import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:toastification/toastification.dart';
 
 import '../../view_models/book/book_provider.dart';
+import '../../view_models/exchange/api_exchange_provider.dart';
+import '../common/widgets/show_information.dart';
 
-class ExchangeRegisterScreen extends ConsumerWidget {
+class ExchangeRegisterScreen extends ConsumerStatefulWidget {
   const ExchangeRegisterScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExchangeRegisterScreen> createState() =>
+      _ExchangeRegisterScreenState();
+}
+
+class _ExchangeRegisterScreenState
+    extends ConsumerState<ExchangeRegisterScreen> {
+  DateTime _selectedDate = DateTime.now();
+
+  /// Displays a date picker dialog to select a date.
+  ///
+  /// This function allows the user to choose a date from a calendar interface.
+  /// It sets the selected date to `_selectedDate` if the user picks a valid date.
+  ///
+  /// - [context]: The BuildContext used to show the date picker dialog.
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 25)),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextDirection textDirection = TextDirection.ltr;
+    TimeOfDay? selectedTime = TimeOfDay.now();
     final exchange = ref.watch(currentSessionExchangeInformation);
     final userBooks = ref.watch(userBooksProvider);
     final loadingSelectedBooks = ref.watch(loadingSelectedUserBookListProvider);
     final selectedUserBooks = ref.watch(selectedUserBooksProvider);
     const duration = 3;
-    final userIdentifier = exchange.offeringUser.name != null &&
-            exchange.offeringUser.name!.isNotEmpty
+    final userIdentifier = (exchange.offeringUser.name != null &&
+            exchange.offeringUser.name!.isNotEmpty)
         ? exchange.offeringUser.name!
-        : exchange.offeringUser.id.substring(10);
+        : exchange.offeringUser.id.isNotEmpty
+            ? exchange.offeringUser.id.substring(10)
+            : "Desconocido";
 
     return Scaffold(
       appBar: AppBar(
@@ -274,10 +307,76 @@ class ExchangeRegisterScreen extends ConsumerWidget {
                   },
                   text: "Agregar Libros",
                 ),
+                const SizedBox(
+                  height: 25,
+                ),
                 const Divider(),
+                SelectInfoImproved(
+                  data: "Fecha de intercambio",
+                  selectedData: DateFormat('dd-MM-yyyy').format(_selectedDate),
+                  textButton: AppStrings.select,
+                  onPressed: () => _selectDate(context),
+                ),
+                SelectInfoImproved(
+                  data: "Hora de intercambio",
+                  selectedData: selectedTime.format(context),
+                  textButton: AppStrings.select,
+                  onPressed: () async {
+                    final TimeOfDay? time = await showTimePicker(
+                      context: context,
+                      initialTime: selectedTime ?? TimeOfDay.now(),
+                      initialEntryMode: TimePickerEntryMode.inputOnly,
+                      orientation: Orientation.portrait,
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            materialTapTargetSize: MaterialTapTargetSize.padded,
+                          ),
+                          child: Directionality(
+                            textDirection: textDirection,
+                            child: MediaQuery(
+                              data: MediaQuery.of(context).copyWith(
+                                alwaysUse24HourFormat: true,
+                              ),
+                              child: child!,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                    setState(() {
+                      selectedTime = time;
+                    });
+                  },
+                ),
                 CustomButton(
                   onPressed: () async {
-                    ref.read(exchangeDataProvider).saveExchange(exchange);
+                    await ref.read(exchangeDataProvider).saveExchange(exchange);
+                    final exchangeCreated =
+                        ref.read(apiCreateExchangeProvider).success;
+                    final message = exchangeCreated
+                        ? "Intercambio guardado con exito"
+                        : ref.read(apiCreateExchangeProvider).message;
+                    toastification.show(
+                      title: Text(message),
+                      type: exchangeCreated
+                          ? ToastificationType.success
+                          : ToastificationType.error,
+                      style: ToastificationStyle.flat,
+                      autoCloseDuration: const Duration(
+                        seconds: duration,
+                      ),
+                    );
+
+                    if (!exchangeCreated) return;
+
+                    WidgetsBinding.instance.addPostFrameCallback((callback) {
+                      ref
+                          .read(sessionExchangesProvider.notifier)
+                          .removeExchange(exchange.offeringUser);
+
+                      context.pop();
+                    });
                   },
                   text: "Realizar intercambio",
                 ),

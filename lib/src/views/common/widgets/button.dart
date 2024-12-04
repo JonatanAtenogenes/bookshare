@@ -19,8 +19,9 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: GoogleFonts.lato(
-            fontSize: 20,
+            fontSize: 18,
           ),
         ),
       ),

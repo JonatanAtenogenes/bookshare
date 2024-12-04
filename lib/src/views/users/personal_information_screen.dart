@@ -1,5 +1,6 @@
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
+import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +8,6 @@ import 'package:intl/intl.dart';
 import '../../api/api.dart';
 import '../../models/enum/enums.dart';
 import '../../utils/assets_access.dart';
-import '../common/widgets/show_information.dart';
 import '../common/widgets/text_widgets.dart';
 
 class PersonalInformationScreen extends ConsumerWidget {
@@ -16,69 +16,109 @@ class PersonalInformationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
+    final imageSize = MediaQuery.of(context).size.width / 3;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appTitle),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Center(
-            child: SubtitleText(
-              subtitle: AppStrings.userProfile,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Center(
+              child: SubtitleText(
+                subtitle: AppStrings.userProfile,
+              ),
             ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Theme.of(context).colorScheme.inverseSurface),
-                ),
-                child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width / 6,
-                  backgroundColor:
-                      Colors.transparent, // Ensure background is transparent
-                  child: ClipOval(
-                    child: Image.network(
-                      currentUser.image != null && currentUser.image!.isNotEmpty
-                          ? '${Api.baseImageUrl}${currentUser.image}'
-                          : AssetsAccess.defaultUserImage,
-                      fit: BoxFit.cover,
-                      // Ensure the image covers the circular area
-                      width: MediaQuery.of(context).size.width / 3,
-                      // Set width
-                      height: MediaQuery.of(context).size.width / 3,
-                      // Set height
-                      loadingBuilder: (context, child, loadingProgress) =>
-                          Image.asset(AssetsAccess.defaultUserImage),
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset(AssetsAccess.defaultUserImage),
-                    ),
+            const SizedBox(height: 20.0),
+            Center(
+              child: CircleAvatar(
+                radius: imageSize / 2,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                child: ClipOval(
+                  child: Image.network(
+                    currentUser.image != null && currentUser.image!.isNotEmpty
+                        ? '${Api.baseImageUrl}${currentUser.image}'
+                        : AssetsAccess.defaultUserImage,
+                    fit: BoxFit.cover,
+                    width: imageSize,
+                    height: imageSize,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                        Image.asset(AssetsAccess.defaultUserImage),
+                    errorBuilder: (context, error, stackTrace) =>
+                        Image.asset(AssetsAccess.defaultUserImage),
                   ),
                 ),
               ),
             ),
-          ),
-          VisualizeData(
+            const SizedBox(height: 20.0),
+            _buildInformationRow(
+              context,
               title: AppStrings.name,
-              data: currentUser.name ?? UserAttributes.name.attributeName),
-          VisualizeData(
+              data: currentUser.name ?? UserAttributes.name.attributeName,
+            ),
+            _buildInformationRow(
+              context,
               title: AppStrings.paternalSurname,
               data: currentUser.paternalSurname ??
-                  UserAttributes.paternalSurname.attributeName),
-          VisualizeData(
+                  UserAttributes.paternalSurname.attributeName,
+            ),
+            _buildInformationRow(
+              context,
               title: AppStrings.maternalSurname,
               data: currentUser.maternalSurname ??
-                  UserAttributes.paternalSurname.attributeName),
-          VisualizeData(title: AppStrings.email, data: currentUser.email),
-          VisualizeData(
+                  UserAttributes.maternalSurname.attributeName,
+            ),
+            _buildInformationRow(
+              context,
+              title: AppStrings.email,
+              data: currentUser.email,
+            ),
+            _buildInformationRow(
+              context,
               title: AppStrings.birthdate,
               data: DateFormat('dd-MM-yyyy')
-                  .format(currentUser.birthdate ?? DateTime.now())),
+                  .format(currentUser.birthdate ?? DateTime.now()),
+            ),
+            const SizedBox(height: 30.0),
+            Center(
+              child: CustomButton(
+                onPressed: () {
+                  // Navigate to the screen to update personal information
+                  //
+                },
+                text: 'Actualizar información personal',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Helper method to build rows for displaying user information
+  Widget _buildInformationRow(BuildContext context,
+      {required String title, required String data}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$title: ',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          Expanded(
+            child: Text(
+              data,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
         ],
       ),
     );

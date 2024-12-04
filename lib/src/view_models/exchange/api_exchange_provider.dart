@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bookshare/src/api/exchange/exchange_api_client.dart';
 import 'package:bookshare/src/models/exchange/exchange.dart';
 import 'package:bookshare/src/models/response/exchange_response.dart';
@@ -36,14 +38,17 @@ class ApiExchangeNotifier extends StateNotifier<ExchangeResponse> {
   ///   higher-level error handling.
   Future<void> createExchange(Exchange exchange) async {
     try {
-      final createExchangeResponse =
-          await _exchangeApiClient.createExchange(exchange);
+      final createExchangeResponse = await _exchangeApiClient.createExchange(
+        exchange,
+      );
+      log("Elementos: ${createExchangeResponse.data}");
       state = state.copyWith(
         success: createExchangeResponse.success,
         message: createExchangeResponse.message,
         data: createExchangeResponse.data,
       );
     } catch (e) {
+      log("Error al definir la creacion ${e.toString()}");
       rethrow;
     }
   }
@@ -114,7 +119,16 @@ class ApiExchangeNotifier extends StateNotifier<ExchangeResponse> {
 final apiCreateExchangeProvider =
     StateNotifierProvider<ApiExchangeNotifier, ExchangeResponse>((ref) {
   final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
-  dio.interceptors.add(TokenInterceptorInjector());
+  dio.interceptors.addAll(
+    List.of([
+      TokenInterceptorInjector(),
+      LogInterceptor(
+        responseBody: true,
+      )
+      // CleanResponseInterceptor(),
+    ]),
+  );
+  // dio.interceptors.add(TokenInterceptorInjector());
   return ApiExchangeNotifier(ExchangeApiClient(dio));
 });
 
