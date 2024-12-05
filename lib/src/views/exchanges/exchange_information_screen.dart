@@ -1,8 +1,13 @@
+import 'package:bookshare/src/models/enum/enums.dart';
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
+import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../utils/app_strings.dart';
 import '../common/widgets/custom_cards.dart';
@@ -13,6 +18,7 @@ class ExchangeInformationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exchange = ref.watch(currentExchangeInformation);
+    final currentUser = ref.watch(currentUserProvider);
     final userIdentifier = (exchange.offeringUser.name != null &&
             exchange.offeringUser.name!.isNotEmpty)
         ? exchange.offeringUser.name!
@@ -33,15 +39,45 @@ class ExchangeInformationScreen extends ConsumerWidget {
               subtitle: "Intercambio",
             ),
             Text(
-              "User: $userIdentifier",
+              "Usuario: $userIdentifier",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             Text(
               "Valor: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeredBooks)}",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
             ),
             Text(
               "Valor Alcanzado: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeringUserBooks)}",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
             ),
-            const Text("Libros seleccionados"),
+            Text(
+              "Fecha del Intercambio: ${DateFormat('dd-MM-yyyy HH:mm').format(exchange.exchangeDate)}",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            TextLink(
+              text: "Direccion del Intercambio",
+              onTap: () =>
+                  context.pushNamed(RouteNames.locationVisualizerScreen),
+            ),
+            const Text(
+              "Libros seleccionados",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.18,
               child: Visibility(
@@ -61,7 +97,13 @@ class ExchangeInformationScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const Text("Libros a intercambiar"),
+            const Text(
+              "Libros a intercambiar",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.18,
               child: Visibility(
@@ -82,12 +124,34 @@ class ExchangeInformationScreen extends ConsumerWidget {
               ),
             ),
             Visibility(
-              visible: exchange.status == "pending",
-              child: Column(
-                children: [
-                  CustomButton(onPressed: () {}, text: "Aceptar Intercambio"),
-                  CustomButton(onPressed: () {}, text: "Rechazar Intercambio"),
-                ],
+              visible: exchange.receivingUser.id == currentUser.id &&
+                  exchange.status != SwapStatus.rejected.name,
+              child: CustomButton(
+                onPressed: () {},
+                text: "Cancelar Intercambio",
+              ),
+            ),
+            Visibility(
+              visible: exchange.receivingUser.id != currentUser.id,
+              child: Visibility(
+                visible: exchange.status == SwapStatus.pending.name,
+                replacement: Visibility(
+                  visible: exchange.status == SwapStatus.accepted.name,
+                  child: CustomButton(
+                      onPressed: () {}, text: "Cancelar Intercambio"),
+                ),
+                child: Column(
+                  children: [
+                    CustomButton(
+                      onPressed: () {},
+                      text: "Aceptar Intercambio",
+                    ),
+                    CustomButton(
+                      onPressed: () {},
+                      text: "Rechazar Intercambio",
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

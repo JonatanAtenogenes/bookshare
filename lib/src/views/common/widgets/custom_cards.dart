@@ -188,17 +188,11 @@ class ExchangeCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          exchange.offeringUser.name != null &&
-                                  exchange.offeringUser.name!.isNotEmpty
-                              ? exchange.offeringUser.name!
-                              : exchange.offeringUser.id.substring(10),
+                          "Usuario: ${exchange.offeringUser.name != null && exchange.offeringUser.name!.isNotEmpty ? exchange.offeringUser.name! : exchange.offeringUser.id.substring(10)}",
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          exchange.receivingUser.name != null &&
-                                  exchange.receivingUser.name!.isNotEmpty
-                              ? exchange.receivingUser.name!
-                              : exchange.receivingUser.id.substring(10),
+                          "Total de libros: ${exchange.offeredBooks.length}",
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],

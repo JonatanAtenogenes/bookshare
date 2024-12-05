@@ -1,6 +1,7 @@
 import 'package:bookshare/src/models/models.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SessionExchangesNotifier extends StateNotifier<List<Exchange>> {
   SessionExchangesNotifier(this.ref) : super([]);
@@ -26,7 +27,6 @@ class SessionExchangesNotifier extends StateNotifier<List<Exchange>> {
       offeringUser: offeringUser,
       receivingUser: receivingUser,
       offeredBooks: [book],
-      exchangeAddress: "dshbjds",
     );
 
     // Update the global state
@@ -235,3 +235,6 @@ final currentExchangeInformation = StateProvider<Exchange>(
 final userExchangesProvider = StateProvider<List<Exchange>>(
   (ref) => List.empty(),
 );
+
+// Define the provider for managing the selected location
+final selectedLocationProvider = StateProvider<LatLng?>((ref) => null);

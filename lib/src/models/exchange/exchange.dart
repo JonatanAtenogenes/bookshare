@@ -1,9 +1,10 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../book/book.dart';
 import '../enum/enums.dart';
 import '../user/user.dart';
 
 /// Represents a book exchange between two users.
-///
 /// This class contains information about the exchange details, including
 /// the users involved, the list of books offered and requested,
 /// the address and date of the exchange, and its status.
@@ -13,7 +14,7 @@ class Exchange {
   final User receivingUser;
   final List<Book> offeredBooks;
   final List<Book> offeringUserBooks;
-  final String exchangeAddress;
+  final LatLng exchangeAddress;
   final DateTime exchangeDate;
   final bool receivedExchange;
   final String status;
@@ -39,7 +40,8 @@ class Exchange {
       receivingUser: User.empty(),
       offeredBooks: [],
       offeringUserBooks: [],
-      exchangeAddress: '',
+      exchangeAddress: const LatLng(19.28786, -99.65324),
+      // Default address
       exchangeDate: DateTime.now(),
       receivedExchange: false,
       status: SwapStatus.pending.name,
@@ -63,7 +65,13 @@ class Exchange {
               .map<Book>((bookJson) => Book.fromJson(bookJson))
               .toList(),
       exchangeAddress:
-          json['exchange'][ExchangeAttributes.exchangeAddress.name] ?? '',
+          json['exchange'][ExchangeAttributes.exchangeAddress.name] != null
+              ? LatLng(
+                  json['exchange'][ExchangeAttributes.exchangeAddress.name][0],
+                  json['exchange'][ExchangeAttributes.exchangeAddress.name][1],
+                )
+              : LatLng(19.28786, -99.65324),
+      // Default address
       exchangeDate: DateTime.tryParse(
               json['exchange'][ExchangeAttributes.exchangeDate.name]) ??
           DateTime.now(),
@@ -85,7 +93,13 @@ class Exchange {
       offeringUserBooks: (json['offering_user_books'] ?? [])
           .map<Book>((bookJson) => Book.fromJsonWithoutKey(bookJson))
           .toList(),
-      exchangeAddress: json['exchange_address'] ?? '',
+      exchangeAddress: json['exchange_address'] != null
+          ? LatLng(
+              json['exchange_address'][0],
+              json['exchange_address'][1],
+            )
+          : LatLng(19.28786, -99.65324),
+      // Default address
       exchangeDate: DateTime.tryParse(json['exchange_date']) ?? DateTime.now(),
       receivedExchange: json['received_exchange'] ?? false,
       status: json['status'] ?? '',
@@ -102,7 +116,10 @@ class Exchange {
           offeredBooks.map((book) => book.toJson()).toList(),
       ExchangeAttributes.offeringUserBooks.name:
           offeringUserBooks.map((book) => book.toJson()).toList(),
-      ExchangeAttributes.exchangeAddress.name: exchangeAddress,
+      ExchangeAttributes.exchangeAddress.name: [
+        exchangeAddress.latitude,
+        exchangeAddress.longitude
+      ],
       ExchangeAttributes.exchangeDate.name: exchangeDate.toIso8601String(),
       ExchangeAttributes.receivedExchange.name: receivedExchange,
       ExchangeAttributes.status.name: status,
@@ -116,7 +133,7 @@ class Exchange {
     User? receivingUser,
     List<Book>? offeredBooks,
     List<Book>? offeringUserBooks,
-    String? exchangeAddress,
+    LatLng? exchangeAddress,
     DateTime? exchangeDate,
     bool? receivedExchange,
     String? status,

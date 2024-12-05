@@ -1,9 +1,11 @@
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
 import 'package:bookshare/src/views/common/widgets/custom_cards.dart';
 import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AllExchangesInfoScreen extends ConsumerWidget {
   const AllExchangesInfoScreen({super.key});
@@ -35,7 +37,13 @@ class AllExchangesInfoScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return ExchangeCard(
                       exchange: userExchanges[index],
-                      onTap: () {},
+                      onTap: () {
+                        ref
+                            .read(currentExchangeInformation.notifier)
+                            .update((state) => userExchanges[index]);
+                        context.pushNamed(
+                            RouteNames.exchangeInformationScreenRoute);
+                      },
                     );
                   },
                 ),

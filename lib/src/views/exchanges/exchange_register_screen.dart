@@ -1,7 +1,9 @@
 import 'package:bookshare/src/data/exchange_data.dart';
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
+import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:bookshare/src/views/common/widgets/custom_cards.dart';
 import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
@@ -11,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:toastification/toastification.dart';
 
+import '../../data/book_data.dart';
 import '../../view_models/book/book_provider.dart';
 import '../../view_models/exchange/api_exchange_provider.dart';
 import '../common/widgets/show_information.dart';
@@ -43,6 +46,17 @@ class _ExchangeRegisterScreenState
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        ref.read(currentSessionExchangeInformation.notifier).update(
+              (state) => state.copyWith(
+                exchangeDate: DateTime(
+                  _selectedDate.year,
+                  _selectedDate.month,
+                  _selectedDate.day,
+                  state.exchangeDate.hour,
+                  state.exchangeDate.minute,
+                ),
+              ),
+            );
       });
     }
   }
@@ -83,14 +97,32 @@ class _ExchangeRegisterScreenState
                 ),
                 Text(
                   "User: $userIdentifier",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 Text(
                   "Valor: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeredBooks)}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
                 Text(
                   "Valor Alcanzado: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeringUserBooks)}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
-                const Text("Libros seleccionados"),
+                const Text(
+                  "Libros seleccionados",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.18,
                   child: Visibility(
@@ -198,7 +230,13 @@ class _ExchangeRegisterScreenState
                   },
                   text: "Agregar Libros",
                 ),
-                const Text("Libros a intercambiar"),
+                const Text(
+                  "Libros a intercambiar",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.18,
                   child: Visibility(
@@ -319,7 +357,8 @@ class _ExchangeRegisterScreenState
                 ),
                 SelectInfoImproved(
                   data: "Hora de intercambio",
-                  selectedData: selectedTime.format(context),
+                  selectedData:
+                      DateFormat('HH:mm').format(exchange.exchangeDate),
                   textButton: AppStrings.select,
                   onPressed: () async {
                     final TimeOfDay? time = await showTimePicker(
@@ -347,11 +386,33 @@ class _ExchangeRegisterScreenState
                     setState(() {
                       selectedTime = time;
                     });
+                    ref.read(currentSessionExchangeInformation.notifier).update(
+                          (state) => state.copyWith(
+                            exchangeDate: DateTime(
+                              state.exchangeDate.year,
+                              state.exchangeDate.month,
+                              state.exchangeDate.day,
+                              selectedTime!.hour,
+                              selectedTime!.minute,
+                            ),
+                          ),
+                        );
                   },
+                ),
+                SelectInfoImproved(
+                  data: "Ubicacion de intercambio",
+                  selectedData:
+                      "${exchange.exchangeAddress.latitude.toString().substring(0, 8)}, ${exchange.exchangeAddress.longitude.toString().substring(0, 8)}",
+                  textButton: AppStrings.select,
+                  onPressed: () => context.pushNamed(
+                    RouteNames.locationSelectionScreen,
+                  ),
                 ),
                 CustomButton(
                   onPressed: () async {
-                    await ref.read(exchangeDataProvider).saveExchange(exchange);
+                    await ref.read(exchangeDataProvider).saveExchange(
+                          ref.read(currentSessionExchangeInformation),
+                        );
                     final exchangeCreated =
                         ref.read(apiCreateExchangeProvider).success;
                     final message = exchangeCreated
@@ -369,6 +430,13 @@ class _ExchangeRegisterScreenState
                     );
 
                     if (!exchangeCreated) return;
+
+                    // Update the book data
+                    ref.read(bookDataProvider).getUserBooks();
+                    ref.read(bookDataProvider).getBooks();
+                    ref
+                        .read(exchangeDataProvider)
+                        .listExchanges(ref.read(currentUserProvider).id);
 
                     WidgetsBinding.instance.addPostFrameCallback((callback) {
                       ref

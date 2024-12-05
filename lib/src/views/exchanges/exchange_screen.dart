@@ -72,7 +72,7 @@ class ExchangeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SubtitleText(subtitle: "Intercabios Aceptados"),
+          const SubtitleText(subtitle: "Intercambios Aceptados"),
           SizedBox(
             height: MediaQuery.of(context).size.height / 2,
             child: Visibility(

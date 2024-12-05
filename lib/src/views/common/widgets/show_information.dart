@@ -96,7 +96,10 @@ class SelectInfoImproved extends SelectInfo {
                 Column(
                   children: [
                     Text(data),
-                    Text(selectedData),
+                    Text(
+                      selectedData,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
                 const SizedBox(
