@@ -15,7 +15,7 @@ class _IsbnBookApiClient implements IsbnBookApiClient {
     this.errorLogger,
   }) {
     baseUrl ??=
-        'https://8f96-2806-2f0-9021-ada2-a404-e469-ed75-3b76.ngrok-free.app/';
+        'https://25e0-2806-2f0-9021-ada2-9e54-a6f5-9a6b-9f79.ngrok-free.app/';
   }
 
   final Dio _dio;

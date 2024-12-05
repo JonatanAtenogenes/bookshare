@@ -8,7 +8,7 @@ class Api {
 
   /// The base URL for the main API.
   static const String baseUrl =
-      "https://8f96-2806-2f0-9021-ada2-a404-e469-ed75-3b76.ngrok-free.app/";
+      "https://25e0-2806-2f0-9021-ada2-9e54-a6f5-9a6b-9f79.ngrok-free.app/";
 
   /// The base URL for image resources.
   static const String baseImageUrl = "http://192.168.100.94:3000/";

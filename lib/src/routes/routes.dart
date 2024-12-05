@@ -7,6 +7,7 @@ import 'package:bookshare/src/views/books/adding_book_screen.dart';
 import 'package:bookshare/src/views/books/book_info_screen.dart';
 import 'package:bookshare/src/views/common/screens/about_screen.dart';
 import 'package:bookshare/src/views/common/screens/loading_content_screen.dart';
+import 'package:bookshare/src/views/common/screens/location_selection_screen.dart';
 import 'package:bookshare/src/views/common/screens/submit_problem_screen.dart';
 import 'package:bookshare/src/views/exchanges/all_exchanges_info_screen.dart';
 import 'package:bookshare/src/views/exchanges/exchange_information_screen.dart';
@@ -106,6 +107,11 @@ final routerProvider = Provider<GoRouter>(
         path: '/exchanges_information',
         name: RouteNames.exchangeInformationScreenRoute,
         builder: (context, state) => const ExchangeInformationScreen(),
+      ),
+      GoRoute(
+        path: '/location_selection',
+        name: RouteNames.locationSelectionScreen,
+        builder: (context, state) => const LocationSelectionScreen(),
       ),
       GoRoute(
         path: '/personal_information',

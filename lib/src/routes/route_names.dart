@@ -22,6 +22,7 @@ class RouteNames {
   static const String pendingExchangesInfoScreenRoute =
       'pending_exchanges_info_screen';
   static const String allExchangesInfoScreenRoute = 'all_exchanges_info_screen';
+  static const String locationSelectionScreen = 'location_selection_screen';
   static const String exchangeRegisterScreenRoute = 'exchange_register_screen';
   static const String submitProblemScreenRoute = 'submit_problem_screen';
   static const String aboutScreenRoute = 'about_screen';

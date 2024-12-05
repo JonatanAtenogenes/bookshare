@@ -3,17 +3,18 @@ import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SubmitProblemScreen extends StatefulWidget {
-  const SubmitProblemScreen({super.key});
+class LocationSelectionScreen extends StatefulWidget {
+  const LocationSelectionScreen({super.key});
 
   // Define the initial center as a static constant
   static const LatLng center = LatLng(19.28786, -99.65324);
 
   @override
-  State<SubmitProblemScreen> createState() => _SubmitProblemScreenState();
+  State<LocationSelectionScreen> createState() =>
+      _LocationSelectionScreenState();
 }
 
-class _SubmitProblemScreenState extends State<SubmitProblemScreen> {
+class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
   GoogleMapController? mapController;
 
   // State variables to handle the selected position and markers
@@ -74,7 +75,7 @@ class _SubmitProblemScreenState extends State<SubmitProblemScreen> {
             child: GoogleMap(
               onMapCreated: onMapCreated,
               initialCameraPosition: const CameraPosition(
-                target: SubmitProblemScreen.center,
+                target: LocationSelectionScreen.center,
                 zoom: 15,
               ),
               onTap: onMapTapped,

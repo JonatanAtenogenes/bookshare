@@ -106,6 +106,7 @@ class AuthData {
           );
     } on DioException catch (e) {
       // Handle login error
+      log(e.response?.data['message']);
       String message =
           e.response?.data['message'] ?? "An unexpected error has occurred";
       ref.read(apiLoginNotifierProvider.notifier).updateErrorLogin(message);
