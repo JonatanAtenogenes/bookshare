@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/exchange_data.dart';
+
 class AddingBookScreen extends ConsumerStatefulWidget {
   const AddingBookScreen({super.key});
 
@@ -237,8 +239,12 @@ class _AddingBookScreenState extends ConsumerState<AddingBookScreen> {
                               .success) {
                             return;
                           }
-
+                          // Update the book data
                           ref.read(bookDataProvider).getUserBooks();
+                          ref.read(bookDataProvider).getBooks();
+                          ref
+                              .read(exchangeDataProvider)
+                              .listExchanges(ref.read(currentUserProvider).id);
 
                           WidgetsBinding.instance
                               .addPostFrameCallback((callback) {

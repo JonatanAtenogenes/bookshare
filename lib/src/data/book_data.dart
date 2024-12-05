@@ -341,12 +341,12 @@ class BookData {
   ///
   /// **Throws**:
   /// - [DioException]: If the API request fails.
-  Future<void> activateBooks(List<String> booksId) async {
+  Future<void> activateBooks(List<Book> books) async {
     ref.read(loadingActivateBooksProvider.notifier).update((state) => true);
     try {
       await ref
           .read(apiActivateBooksNotifierProvider.notifier)
-          .activateBooks(booksId);
+          .activateBooks(books);
     } on DioException catch (e) {
       String message =
           e.response?.data['message'] ?? "An unexpected error has occurred";
@@ -357,6 +357,25 @@ class BookData {
           );
     } finally {
       ref.read(loadingActivateBooksProvider.notifier).update((state) => false);
+    }
+  }
+
+  Future<void> areBooksActive(List<Book> books) async {
+    ref.read(loadingAreBooksActiveProvider.notifier).update((state) => true);
+    try {
+      await ref
+          .read(apiAreBooksActiveNotifierProvider.notifier)
+          .areBooksActive(books);
+    } on DioException catch (e) {
+      String message =
+          e.response?.data['message'] ?? "An unexpected error has occurred";
+      ref
+          .read(apiAreBooksActiveNotifierProvider.notifier)
+          .updateErrorOnBooksActions(
+            message,
+          );
+    } finally {
+      ref.read(loadingAreBooksActiveProvider.notifier).update((state) => false);
     }
   }
 }

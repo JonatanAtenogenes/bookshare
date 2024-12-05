@@ -112,7 +112,9 @@ class ExchangeData {
           .update((state) => ref.read(apiListExchangesProvider).data!);
 
       // Apply filters to categorize exchanges.
-      // ref.read(exchangeFilterAcceptedProvider.notifier).filterAccepted();
+      ref
+          .read(exchangeFilterAcceptedProvider.notifier)
+          .filterAccepted(ref.read(userExchangesProvider));
       ref.read(exchangeFilterPendingProvider.notifier).filterPending(
           ref.read(userExchangesProvider), ref.read(currentUserProvider));
       // ref

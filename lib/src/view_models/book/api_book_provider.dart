@@ -120,13 +120,26 @@ class ApiBookNotifier extends StateNotifier<BookResponse> {
   /// - [bookIds]: A list of unique identifiers of the books to activate.
   ///
   /// Updates the state with the response on success.
-  Future<void> activateBooks(List<String> bookIds) async {
+  Future<void> activateBooks(List<Book> books) async {
     try {
-      final activateBooksResponse = await _bookApiClient.activateBooks(bookIds);
+      final activateBooksResponse = await _bookApiClient.activateBooks(books);
       state = state.copyWith(
         success: activateBooksResponse.success,
         message: activateBooksResponse.message,
         data: activateBooksResponse.data,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> areBooksActive(List<Book> books) async {
+    try {
+      final areBooksActiveResponse = await _bookApiClient.areBooksActive(books);
+      state = state.copyWith(
+        success: areBooksActiveResponse.success,
+        message: areBooksActiveResponse.message,
+        data: areBooksActiveResponse.data,
       );
     } catch (e) {
       rethrow;
@@ -216,3 +229,13 @@ final apiActivateBooksNotifierProvider =
 
 /// Tracks the loading state of multiple books activation.
 final loadingActivateBooksProvider = StateProvider<bool>((ref) => false);
+
+final apiAreBooksActiveNotifierProvider =
+    StateNotifierProvider<ApiBookNotifier, BookResponse>((ref) {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  dio.interceptors.add(TokenInterceptorInjector());
+  return ApiBookNotifier(BookApiClient(dio));
+});
+
+/// Tracks the loading state of multiple books activation.
+final loadingAreBooksActiveProvider = StateProvider<bool>((ref) => false);

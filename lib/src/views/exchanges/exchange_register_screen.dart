@@ -2,6 +2,7 @@ import 'package:bookshare/src/data/exchange_data.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/book/api_book_list_provider.dart';
+import 'package:bookshare/src/view_models/book/api_book_provider.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
@@ -47,7 +48,8 @@ class _ExchangeRegisterScreenState
       setState(() {
         _selectedDate = picked;
         ref.read(currentSessionExchangeInformation.notifier).update(
-              (state) => state.copyWith(
+              (state) =>
+              state.copyWith(
                 exchangeDate: DateTime(
                   _selectedDate.year,
                   _selectedDate.month,
@@ -56,7 +58,7 @@ class _ExchangeRegisterScreenState
                   state.exchangeDate.minute,
                 ),
               ),
-            );
+        );
       });
     }
   }
@@ -71,11 +73,11 @@ class _ExchangeRegisterScreenState
     final selectedUserBooks = ref.watch(selectedUserBooksProvider);
     const duration = 3;
     final userIdentifier = (exchange.offeringUser.name != null &&
-            exchange.offeringUser.name!.isNotEmpty)
+        exchange.offeringUser.name!.isNotEmpty)
         ? exchange.offeringUser.name!
         : exchange.offeringUser.id.isNotEmpty
-            ? exchange.offeringUser.id.substring(10)
-            : "Desconocido";
+        ? exchange.offeringUser.id.substring(10)
+        : "Desconocido";
 
     return Scaffold(
       appBar: AppBar(
@@ -103,14 +105,17 @@ class _ExchangeRegisterScreenState
                   ),
                 ),
                 Text(
-                  "Valor: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeredBooks)}",
+                  "Valor: ${ref.read(sessionExchangesProvider.notifier)
+                      .valueOfUserBooks(exchange.offeredBooks)}",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
                 Text(
-                  "Valor Alcanzado: ${ref.read(sessionExchangesProvider.notifier).valueOfUserBooks(exchange.offeringUserBooks)}",
+                  "Valor Alcanzado: ${ref.read(
+                      sessionExchangesProvider.notifier).valueOfUserBooks(
+                      exchange.offeringUserBooks)}",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w300,
@@ -124,7 +129,10 @@ class _ExchangeRegisterScreenState
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.18,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.18,
                   child: Visibility(
                     visible: exchange.offeredBooks.isNotEmpty,
                     replacement: const Center(
@@ -140,8 +148,8 @@ class _ExchangeRegisterScreenState
                             final bookRemoved = ref
                                 .read(sessionExchangesProvider.notifier)
                                 .removeFromOfferedBooks(
-                                  exchange.offeredBooks[index],
-                                );
+                              exchange.offeredBooks[index],
+                            );
                             final message = bookRemoved
                                 ? "Libro eliminado correctamente"
                                 : "El libro no se pudo eliminar";
@@ -168,7 +176,10 @@ class _ExchangeRegisterScreenState
                       context: context,
                       builder: (BuildContext context) {
                         return SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.8,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.8,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -189,7 +200,10 @@ class _ExchangeRegisterScreenState
                               ),
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.36,
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height * 0.36,
                                 child: ListView.builder(
                                   itemCount: selectedUserBooks.length,
                                   shrinkWrap: true,
@@ -199,10 +213,10 @@ class _ExchangeRegisterScreenState
                                       onTap: () {
                                         final bookAdded = ref
                                             .read(sessionExchangesProvider
-                                                .notifier)
+                                            .notifier)
                                             .addingToOfferedBooks(
-                                              selectedUserBooks[index],
-                                            );
+                                          selectedUserBooks[index],
+                                        );
                                         final message = bookAdded
                                             ? "Libro agregado correctamente"
                                             : "El libro ya existe en el intercambio";
@@ -238,7 +252,10 @@ class _ExchangeRegisterScreenState
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.18,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.18,
                   child: Visibility(
                     visible: exchange.offeringUserBooks.isNotEmpty,
                     replacement: const Center(
@@ -254,9 +271,9 @@ class _ExchangeRegisterScreenState
                             final bookRemoved = ref
                                 .read(sessionExchangesProvider.notifier)
                                 .removeFromOfferedUserBooks(
-                                  exchange.offeringUser,
-                                  exchange.offeringUserBooks[index],
-                                );
+                              exchange.offeringUser,
+                              exchange.offeringUserBooks[index],
+                            );
                             final message = bookRemoved
                                 ? "Libro eliminado correctamente"
                                 : "El libro no se pudo eliminar";
@@ -283,7 +300,10 @@ class _ExchangeRegisterScreenState
                       context: context,
                       builder: (BuildContext context) {
                         return SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.8,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.8,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -303,7 +323,10 @@ class _ExchangeRegisterScreenState
                               ),
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.36,
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height * 0.36,
                                 child: ListView.builder(
                                   itemCount: userBooks.length,
                                   shrinkWrap: true,
@@ -313,11 +336,11 @@ class _ExchangeRegisterScreenState
                                       onTap: () {
                                         final bookAdded = ref
                                             .read(sessionExchangesProvider
-                                                .notifier)
+                                            .notifier)
                                             .addingToOfferedUserBooks(
-                                              exchange.offeringUser,
-                                              userBooks[index],
-                                            );
+                                          exchange.offeringUser,
+                                          userBooks[index],
+                                        );
                                         final message = bookAdded
                                             ? "Libro agregado correctamente"
                                             : "El libro ya existe en el intercambio";
@@ -358,7 +381,7 @@ class _ExchangeRegisterScreenState
                 SelectInfoImproved(
                   data: "Hora de intercambio",
                   selectedData:
-                      DateFormat('HH:mm').format(exchange.exchangeDate),
+                  DateFormat('HH:mm').format(exchange.exchangeDate),
                   textButton: AppStrings.select,
                   onPressed: () async {
                     final TimeOfDay? time = await showTimePicker(
@@ -387,7 +410,8 @@ class _ExchangeRegisterScreenState
                       selectedTime = time;
                     });
                     ref.read(currentSessionExchangeInformation.notifier).update(
-                          (state) => state.copyWith(
+                          (state) =>
+                          state.copyWith(
                             exchangeDate: DateTime(
                               state.exchangeDate.year,
                               state.exchangeDate.month,
@@ -396,28 +420,60 @@ class _ExchangeRegisterScreenState
                               selectedTime!.minute,
                             ),
                           ),
-                        );
+                    );
                   },
                 ),
                 SelectInfoImproved(
                   data: "Ubicacion de intercambio",
                   selectedData:
-                      "${exchange.exchangeAddress.latitude.toString().substring(0, 8)}, ${exchange.exchangeAddress.longitude.toString().substring(0, 8)}",
+                  "${exchange.exchangeAddress.latitude.toString().substring(
+                      0, 8)}, ${exchange.exchangeAddress.longitude.toString()
+                      .substring(0, 8)}",
                   textButton: AppStrings.select,
-                  onPressed: () => context.pushNamed(
-                    RouteNames.locationSelectionScreen,
-                  ),
+                  onPressed: () =>
+                      context.pushNamed(
+                        RouteNames.locationSelectionScreen,
+                      ),
                 ),
                 CustomButton(
                   onPressed: () async {
+                    // Before saving, the books has to be active
+                    await ref.read(bookDataProvider).areBooksActive(ref
+                        .read(currentSessionExchangeInformation)
+                        .offeredBooks);
+                    final booksActive =
+                        ref
+                            .read(apiAreBooksActiveNotifierProvider)
+                            .success;
+                    if (!booksActive) {
+                      final messageActive =
+                          ref
+                              .read(apiAreBooksActiveNotifierProvider)
+                              .message;
+                      toastification.show(
+                        title: Text(messageActive),
+                        type: ToastificationType.error,
+                        style: ToastificationStyle.flat,
+                        autoCloseDuration: const Duration(
+                          seconds: duration,
+                        ),
+                      );
+                      return;
+                    }
+
+                    // Saving Exchange
                     await ref.read(exchangeDataProvider).saveExchange(
-                          ref.read(currentSessionExchangeInformation),
-                        );
+                      ref.read(currentSessionExchangeInformation),
+                    );
                     final exchangeCreated =
-                        ref.read(apiCreateExchangeProvider).success;
+                        ref
+                            .read(apiCreateExchangeProvider)
+                            .success;
                     final message = exchangeCreated
                         ? "Intercambio guardado con exito"
-                        : ref.read(apiCreateExchangeProvider).message;
+                        : ref
+                        .read(apiCreateExchangeProvider)
+                        .message;
                     toastification.show(
                       title: Text(message),
                       type: exchangeCreated
@@ -436,7 +492,9 @@ class _ExchangeRegisterScreenState
                     ref.read(bookDataProvider).getBooks();
                     ref
                         .read(exchangeDataProvider)
-                        .listExchanges(ref.read(currentUserProvider).id);
+                        .listExchanges(ref
+                        .read(currentUserProvider)
+                        .id);
 
                     WidgetsBinding.instance.addPostFrameCallback((callback) {
                       ref

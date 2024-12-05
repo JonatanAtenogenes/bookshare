@@ -73,6 +73,7 @@ class ApiExchangeNotifier extends StateNotifier<ExchangeResponse> {
         data: updateExchangeResponse.data,
       );
     } catch (e) {
+      log("Error ${e}");
       rethrow;
     }
   }

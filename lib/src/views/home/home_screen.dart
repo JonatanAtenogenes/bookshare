@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../models/book/book.dart';
+import '../../data/book_data.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -23,20 +23,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final loading = ref.watch(loadingAllBookListProvider);
     final booksList = ref.watch(listOfBooksProvider);
 
-    if (loading) {
-      return Center(
-        child: Skeletonizer(
-          child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return BookCard(
-                  book: Book.empty(),
-                  onTap: () {},
-                );
-              }),
-        ),
-      );
-    }
     //
     // if (!booksList.success) {
     //   return const Center(
@@ -49,11 +35,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     //     child: Text(booksList.message),
     //   );
     // }
-    if (booksList.isEmpty) {
-      return const Center(
-        child: Text('Sin libros'),
-      );
-    }
+    // if (booksList.isEmpty) {
+    //   return const Center(
+    //     child: Text('Sin libros'),
+    //   );
+    // }
 
     return const SuccessBookInfo();
   }
@@ -65,35 +51,45 @@ class SuccessBookInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final booksList = ref.watch(listOfBooksProvider);
+    final loading = ref.watch(loadingAllBookListProvider);
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SubtitleText(
-            subtitle: AppStrings.availableBooks,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: booksList.length < 20 ? booksList.length : 20,
-              itemBuilder: (context, index) {
-                return BookCard(
-                  onTap: () => {
-                    ref.read(bookInfoProvider.notifier).update(
-                          (state) => booksList[index],
-                        ),
-                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          ref.read(bookDataProvider).getBooks();
+        },
+        child: Skeletonizer(
+          enabled: loading,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SubtitleText(
+                subtitle: AppStrings.availableBooks,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: booksList.length < 20 ? booksList.length : 20,
+                  itemBuilder: (context, index) {
+                    return BookCard(
+                      onTap: () => {
+                        ref.read(bookInfoProvider.notifier).update(
+                              (state) => booksList[index],
+                            ),
+                        context
+                            .pushNamed(RouteNames.bookInformationScreenRoute),
+                      },
+                      book: booksList[index],
+                    );
                   },
-                  book: booksList[index],
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

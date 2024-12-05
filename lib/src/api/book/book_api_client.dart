@@ -122,6 +122,11 @@ abstract class BookApiClient {
   /// Returns a [BookResponse] indicating the result of the activation operation for the list of books.
   @PATCH(Api.activateBooks)
   Future<BookResponse> activateBooks(
-    @Body() List<String> booksIds,
+    @Body() List<Book> books,
+  );
+
+  @GET(Api.areBooksActive)
+  Future<BookResponse> areBooksActive(
+    @Body() List<Book> booksIds,
   );
 }

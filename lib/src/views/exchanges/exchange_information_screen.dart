@@ -1,3 +1,5 @@
+import 'package:bookshare/src/data/book_data.dart';
+import 'package:bookshare/src/data/exchange_data.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/view_models/exchange/exchange_provider.dart';
@@ -125,9 +127,38 @@ class ExchangeInformationScreen extends ConsumerWidget {
             ),
             Visibility(
               visible: exchange.receivingUser.id == currentUser.id &&
-                  exchange.status != SwapStatus.rejected.name,
+                  exchange.status != SwapStatus.rejected.name &&
+                  exchange.status != SwapStatus.cancelled.name &&
+                  exchange.exchangeDate.isBefore(DateTime.now()),
               child: CustomButton(
-                onPressed: () {},
+                onPressed: () async {
+                  // Books are becoming active
+                  await ref
+                      .read(bookDataProvider)
+                      .activateBooks(exchange.offeredBooks);
+                  await ref
+                      .read(bookDataProvider)
+                      .activateBooks(exchange.offeringUserBooks);
+
+                  // Exchange update to set cancelled state
+                  await ref.read(exchangeDataProvider).updateExchange(
+                      ref.read(currentExchangeInformation).copyWith(
+                            status: SwapStatus.cancelled.name,
+                          ));
+
+                  // Update the current information
+                  ref.read(currentExchangeInformation.notifier).update(
+                        (state) =>
+                            state.copyWith(status: SwapStatus.cancelled.name),
+                      );
+
+                  // Update the book data
+                  ref.read(bookDataProvider).getUserBooks();
+                  ref.read(bookDataProvider).getBooks();
+                  ref
+                      .read(exchangeDataProvider)
+                      .listExchanges(ref.read(currentUserProvider).id);
+                },
                 text: "Cancelar Intercambio",
               ),
             ),
@@ -135,19 +166,60 @@ class ExchangeInformationScreen extends ConsumerWidget {
               visible: exchange.receivingUser.id != currentUser.id,
               child: Visibility(
                 visible: exchange.status == SwapStatus.pending.name,
-                replacement: Visibility(
-                  visible: exchange.status == SwapStatus.accepted.name,
-                  child: CustomButton(
-                      onPressed: () {}, text: "Cancelar Intercambio"),
-                ),
                 child: Column(
                   children: [
                     CustomButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        // Exchange update to set cancelled state
+                        await ref.read(exchangeDataProvider).updateExchange(
+                            ref.read(currentExchangeInformation).copyWith(
+                                  status: SwapStatus.accepted.name,
+                                ));
+
+                        // Update the current information
+                        ref.read(currentExchangeInformation.notifier).update(
+                              (state) => state.copyWith(
+                                  status: SwapStatus.accepted.name),
+                            );
+
+                        // Update the book data
+                        ref.read(bookDataProvider).getUserBooks();
+                        ref.read(bookDataProvider).getBooks();
+                        ref
+                            .read(exchangeDataProvider)
+                            .listExchanges(ref.read(currentUserProvider).id);
+                      },
                       text: "Aceptar Intercambio",
                     ),
                     CustomButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        // Books are becoming active
+                        await ref
+                            .read(bookDataProvider)
+                            .activateBooks(exchange.offeredBooks);
+                        await ref
+                            .read(bookDataProvider)
+                            .activateBooks(exchange.offeringUserBooks);
+
+                        // Exchange update to set cancelled state
+                        await ref.read(exchangeDataProvider).updateExchange(
+                            ref.read(currentExchangeInformation).copyWith(
+                                  status: SwapStatus.rejected.name,
+                                ));
+
+                        // Update the current information
+                        ref.read(currentExchangeInformation.notifier).update(
+                              (state) => state.copyWith(
+                                  status: SwapStatus.rejected.name),
+                            );
+
+                        // Update the book data
+                        ref.read(bookDataProvider).getUserBooks();
+                        ref.read(bookDataProvider).getBooks();
+                        ref
+                            .read(exchangeDataProvider)
+                            .listExchanges(ref.read(currentUserProvider).id);
+                      },
                       text: "Rechazar Intercambio",
                     ),
                   ],

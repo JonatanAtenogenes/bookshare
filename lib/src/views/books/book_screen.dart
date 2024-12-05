@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../models/book/book.dart';
+import '../../data/book_data.dart';
 import '../../routes/route_names.dart';
 import '../../view_models/book/book_provider.dart';
 
@@ -25,21 +25,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loading = ref.watch(loadingUserBookListProvider);
     final booksList = ref.watch(userBooksProvider);
-
-    if (loading) {
-      return Skeletonizer(
-        child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return BookCard(
-                book: Book.empty(),
-                onTap: () {},
-              );
-            }),
-      );
-    }
 
     if (booksList.isEmpty) {
       return const Center(
@@ -56,33 +42,43 @@ class SuccessfulRetrievedBooks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loading = ref.watch(loadingUserBookListProvider);
     final booksList = ref.watch(userBooksProvider);
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SubtitleText(
-            subtitle: AppStrings.booksInMyCollection,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 1.4,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: booksList.length < 20 ? booksList.length : 20,
-              itemBuilder: (context, index) {
-                return BookCard(
-                  onTap: () => {
-                    ref.read(bookInfoProvider.notifier).update(
-                          (state) => booksList[index],
-                        ),
-                    context.pushNamed(RouteNames.bookInformationScreenRoute),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          ref.read(bookDataProvider).getUserBooks();
+        },
+        child: Skeletonizer(
+          enabled: loading,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SubtitleText(
+                subtitle: AppStrings.booksInMyCollection,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 1.4,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: booksList.length < 20 ? booksList.length : 20,
+                  itemBuilder: (context, index) {
+                    return BookCard(
+                      onTap: () => {
+                        ref.read(bookInfoProvider.notifier).update(
+                              (state) => booksList[index],
+                            ),
+                        context
+                            .pushNamed(RouteNames.bookInformationScreenRoute),
+                      },
+                      book: booksList[index],
+                    );
                   },
-                  book: booksList[index],
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

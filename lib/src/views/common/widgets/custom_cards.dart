@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bookshare/src/api/api.dart';
 import 'package:bookshare/src/models/enum/enums.dart';
 import 'package:bookshare/src/models/models.dart';
@@ -105,12 +103,10 @@ class ExchangeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(
-      exchange.offeringUser.name != null &&
-              exchange.offeringUser.name!.isNotEmpty
-          ? exchange.offeringUser.name!
-          : exchange.offeringUser.id.substring(10),
-    );
+    final userId = exchange.offeringUser.name != null &&
+            exchange.offeringUser.name!.isNotEmpty
+        ? exchange.offeringUser.name!
+        : exchange.offeringUser.id.substring(10);
 
     return GestureDetector(
       onTap: onTap,
@@ -188,7 +184,7 @@ class ExchangeCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Usuario: ${exchange.offeringUser.name != null && exchange.offeringUser.name!.isNotEmpty ? exchange.offeringUser.name! : exchange.offeringUser.id.substring(10)}",
+                          "Usuario: $userId",
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
