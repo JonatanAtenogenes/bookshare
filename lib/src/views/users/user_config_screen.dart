@@ -94,12 +94,12 @@ class _UserConfigScreenState extends ConsumerState<UserConfigScreen> {
             const SizedBox(
               height: height,
             ),
-            ConfigCard(
-              title: AppStrings.submitProblem,
-              onTap: () {
-                context.pushNamed(RouteNames.submitProblemScreenRoute);
-              },
-            ),
+            // ConfigCard(
+            //   title: AppStrings.submitProblem,
+            //   onTap: () {
+            //     context.pushNamed(RouteNames.submitProblemScreenRoute);
+            //   },
+            // ),
             ConfigCard(
               title: AppStrings.about,
               onTap: () {

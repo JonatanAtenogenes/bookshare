@@ -24,7 +24,7 @@ class FileResponse {
   /// - `success` is a boolean indicating the operation success,
   /// - `message` provides feedback related to the file operation.
   factory FileResponse.fromJson(Map<String, dynamic> json) {
-    final fileData = json['api'];
+    final fileData = json['data'];
     final status = json['success'] as bool;
     final message = json['message'];
     final filePath = fileData['filePath'];

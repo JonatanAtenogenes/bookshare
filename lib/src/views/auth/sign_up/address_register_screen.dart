@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data/user_data.dart';
 import '../../../models/address/locality.dart';
 import '../../../models/models.dart';
 import '../../../providers/validation/input_validation_provider.dart';
@@ -32,6 +33,24 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
   final _localityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final user = ref.read(currentUserProvider);
+    final updateInformation = ref.read(addressUpdateInProgress);
+
+    if (updateInformation) {
+      _postalCodeController.text = user.address?.postalCode ?? "";
+      _streetController.text = user.address?.street ?? "";
+      _intNumberController.text = user.address?.interiorNumber ?? "";
+      _extNumberController.text = user.address?.exteriorNumber ?? "";
+      _localityController.text = user.address?.locality ?? "";
+      _cityController.text = user.address?.city ?? "";
+      _stateController.text = user.address?.state ?? "";
+    }
+  }
 
   @override
   void dispose() {
@@ -125,6 +144,7 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
   Widget build(BuildContext context) {
     // Provider
     final localitiesApiProvider = ref.watch(apiLocalitiesNotifierProvider);
+    final user = ref.watch(currentUserProvider);
     // Field Control Providers
     final streetProvider = ref.watch(streetValidationNotifierProvider);
     final extNumberProvider =
@@ -135,6 +155,8 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
     // Form Control Provider
     final updatedAddressInfoProv = ref.watch(updatedAddressInfoProvider);
     final localitiesInfoProvider = ref.watch(localitiesInfoRetrievedProvider);
+    // Update or register
+    final updateInformation = ref.watch(addressUpdateInProgress);
 
     /// Validates the postal code entered by the user.
     ///
@@ -196,154 +218,163 @@ class _AddressRegisterScreenState extends ConsumerState<AddressRegisterScreen> {
       }
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.appTitle),
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                const SubtitleText(subtitle: AppStrings.addressData),
-                CustomTextField(
-                  label: AppStrings.street,
-                  controller: _streetController,
-                  error: streetProvider.message,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: NumberTextField(
-                        label: AppStrings.interiorNumber,
-                        maxLength: 5,
-                        controller: _intNumberController,
-                      ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.appTitle),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SubtitleText(subtitle: AppStrings.addressData),
+              CustomTextField(
+                label: AppStrings.street,
+                controller: _streetController,
+                error: streetProvider.message,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: NumberTextField(
+                      label: AppStrings.interiorNumber,
+                      maxLength: 5,
+                      controller: _intNumberController,
                     ),
-                    Expanded(
-                      child: NumberTextField(
-                        label: AppStrings.exteriorNumber,
-                        maxLength: 5,
-                        controller: _extNumberController,
-                        error: extNumberProvider.message,
-                      ),
+                  ),
+                  Expanded(
+                    child: NumberTextField(
+                      label: AppStrings.exteriorNumber,
+                      maxLength: 5,
+                      controller: _extNumberController,
+                      error: extNumberProvider.message,
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Spacer(flex: 1),
-                    Expanded(
-                      flex: 2,
-                      child: NumberTextField(
-                        label: AppStrings.postalCode,
-                        maxLength: 5,
-                        error: postalCodeProvider.message,
-                        controller: _postalCodeController,
-                        onSubmitted: (String postalCode) async {
-                          if (!validPostalCode()) return;
-                          await _retrieveLocalities();
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 2,
+                    child: NumberTextField(
+                      label: AppStrings.postalCode,
+                      maxLength: 5,
+                      error: postalCodeProvider.message,
+                      controller: _postalCodeController,
+                      onSubmitted: (String postalCode) async {
+                        if (!validPostalCode()) return;
+                        await _retrieveLocalities();
+                      },
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
+              ),
+              Visibility(
+                visible: !localitiesInfoProvider.success,
+                child: ErrorText(text: localitiesInfoProvider.message),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(AppStrings.locality),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownMenu(
+                      enabled: localitiesInfoProvider.success,
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      controller: _localityController,
+                      onSelected: (Locality? locality) {
+                        _stateController.text = locality!.state;
+                        _cityController.text = locality.city;
+                      },
+                      dropdownMenuEntries: localitiesApiProvider.localities
+                          .map<DropdownMenuEntry<Locality>>(
+                        (Locality locality) {
+                          return DropdownMenuEntry<Locality>(
+                            value: locality,
+                            label: locality.locality,
+                          );
                         },
-                      ),
+                      ).toList(),
                     ),
-                    const Spacer(flex: 1),
-                  ],
-                ),
-                Visibility(
-                  visible: !localitiesInfoProvider.success,
-                  child: ErrorText(text: localitiesInfoProvider.message),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(AppStrings.locality),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Expanded(
+                    flex: 1,
+                    child: Text(
+                      AppStrings.city,
+                      textAlign: TextAlign.end,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownMenu(
-                        enabled: localitiesInfoProvider.success,
-                        width: MediaQuery.of(context).size.width * 0.55,
-                        controller: _localityController,
-                        onSelected: (Locality? locality) {
-                          _stateController.text = locality!.state;
-                          _cityController.text = locality.city;
-                        },
-                        dropdownMenuEntries: localitiesApiProvider.localities
-                            .map<DropdownMenuEntry<Locality>>(
-                          (Locality locality) {
-                            return DropdownMenuEntry<Locality>(
-                              value: locality,
-                              label: locality.locality,
-                            );
-                          },
-                        ).toList(),
-                      ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: DisabledTextField(
+                      label: AppStrings.city,
+                      controller: _cityController,
+                      error: cityProvider.message,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Expanded(
-                      flex: 1,
-                      child: Text(
-                        AppStrings.city,
-                        textAlign: TextAlign.end,
-                      ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Expanded(
+                    flex: 1,
+                    child: Text(
+                      AppStrings.state,
+                      textAlign: TextAlign.end,
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: DisabledTextField(
-                        label: AppStrings.city,
-                        controller: _cityController,
-                        error: cityProvider.message,
-                      ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: DisabledTextField(
+                      label: AppStrings.state,
+                      controller: _stateController,
+                      error: stateProvider.message,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Expanded(
-                      flex: 1,
-                      child: Text(
-                        AppStrings.state,
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: DisabledTextField(
-                        label: AppStrings.state,
-                        controller: _stateController,
-                        error: stateProvider.message,
-                      ),
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: !updatedAddressInfoProv.success,
-                  child: ErrorText(text: updatedAddressInfoProv.message),
-                ),
-                CustomButton(
-                  onPressed: () async {
-                    if (!validFields()) return;
-                    await updateAddressInformation();
-                    if (!updatedAddressInfoProv.success) return;
+                  ),
+                ],
+              ),
+              Visibility(
+                visible: !updatedAddressInfoProv.success,
+                child: ErrorText(text: updatedAddressInfoProv.message),
+              ),
+              CustomButton(
+                onPressed: () async {
+                  if (!validFields()) return;
+                  await updateAddressInformation();
+                  if (!updatedAddressInfoProv.success) return;
 
-                    Future.delayed(const Duration(milliseconds: 500));
+                  Future.delayed(const Duration(milliseconds: 500));
 
+                  if (updateInformation) {
+                    ref
+                        .read(addressUpdateInProgress.notifier)
+                        .update((state) => false);
+                    await ref.read(userDataProvider).getAuthUserInformation();
                     WidgetsBinding.instance.addPostFrameCallback((callback) {
-                      context.goNamed(RouteNames.mainScreenRoute);
+                      context.pop();
                     });
-                  },
-                  text: AppStrings.advance,
-                ),
-              ],
-            ),
+                    return;
+                  }
+
+                  WidgetsBinding.instance.addPostFrameCallback((callback) {
+                    context.goNamed(RouteNames.mainScreenRoute);
+                  });
+                },
+                text: AppStrings.advance,
+              ),
+            ],
           ),
         ),
       ),

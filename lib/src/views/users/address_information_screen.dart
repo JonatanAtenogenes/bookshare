@@ -1,8 +1,10 @@
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../common/widgets/text_widgets.dart';
 
@@ -60,8 +62,10 @@ class AddressInformationScreen extends ConsumerWidget {
             Center(
               child: CustomButton(
                 onPressed: () {
-                  // Navegar a la pantalla de actualización de dirección
-                  Navigator.pushNamed(context, '/updateAddress');
+                  ref
+                      .read(addressUpdateInProgress.notifier)
+                      .update((state) => true);
+                  context.pushNamed(RouteNames.addressRegisterScreenRoute);
                 },
                 text: 'Actualizar información de dirección',
               ),

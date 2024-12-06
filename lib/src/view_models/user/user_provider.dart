@@ -42,3 +42,6 @@ final updatedAddressInfoProvider = StateProvider<ApiResponse>(
 final localitiesInfoRetrievedProvider = StateProvider<ApiResponse>(
   (ref) => ApiResponse.success(),
 );
+
+final addressUpdateInProgress = StateProvider<bool>((ref) => false);
+final personalInformationUpdateInProgress = StateProvider<bool>((ref) => false);

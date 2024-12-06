@@ -8,7 +8,11 @@ import 'package:bookshare/src/views/common/widgets/custom_cards.dart';
 import 'package:bookshare/src/views/common/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../routes/route_names.dart';
+import '../../view_models/book/book_provider.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({super.key});
@@ -43,6 +47,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       apiSelectedUserBookListNotifierProvider,
     );
 
+    final userIdentifier =
+        (selectedUser.name != null && selectedUser.name!.isNotEmpty)
+            ? selectedUser.name!
+            : selectedUser.id.isNotEmpty
+                ? selectedUser.id.substring(10)
+                : "Desconocido";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -63,12 +74,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   const TitleText(
                     title: AppStrings.userProfile,
                   ),
-                  Visibility(
-                    visible: selectedUser.name!.isNotEmpty,
-                    child: SubtitleText(subtitle: selectedUser.name!),
+                  SubtitleText(
+                    subtitle: "Usuario: $userIdentifier",
                   ),
                   Text(
-                    selectedUser.id.substring(8),
+                    "Libros en coleccion: ${selectedUserBooks!.length}",
+                    style: const TextStyle(
+                      fontSize: 22,
+                    ),
                   ),
                   const SizedBox(
                     height: 50,
@@ -88,7 +101,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                     height: 30,
                   ),
                   Visibility(
-                    visible: selectedUserBooks != null,
+                    visible: selectedUserBooks.isNotEmpty,
                     replacement: const Center(
                       child: Text("No se encontraron libros "),
                     ),
@@ -96,11 +109,17 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       height: MediaQuery.of(context).size.height * 0.53,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: selectedUserBooks!.length,
+                        itemCount: selectedUserBooks.length,
                         itemBuilder: (context, index) {
                           return BookCard(
                             book: selectedUserBooks[index],
-                            onTap: () {},
+                            onTap: () {
+                              ref.read(bookInfoProvider.notifier).update(
+                                    (state) => selectedUserBooks[index],
+                                  );
+                              context.pushNamed(
+                                  RouteNames.bookInformationScreenRoute);
+                            },
                           );
                         },
                       ),

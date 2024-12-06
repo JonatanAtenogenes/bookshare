@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:bookshare/src/routes/route_names.dart';
 import 'package:bookshare/src/utils/app_strings.dart';
 import 'package:bookshare/src/view_models/user/user_provider.dart';
 import 'package:bookshare/src/views/common/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../api/api.dart';
@@ -17,6 +21,8 @@ class PersonalInformationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
     final imageSize = MediaQuery.of(context).size.width / 3;
+
+    log("Imagen link: ${Api.baseImageUrl}${currentUser.image}");
 
     return Scaffold(
       appBar: AppBar(
@@ -45,8 +51,6 @@ class PersonalInformationScreen extends ConsumerWidget {
                     fit: BoxFit.cover,
                     width: imageSize,
                     height: imageSize,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        Image.asset(AssetsAccess.defaultUserImage),
                     errorBuilder: (context, error, stackTrace) =>
                         Image.asset(AssetsAccess.defaultUserImage),
                   ),
@@ -86,8 +90,10 @@ class PersonalInformationScreen extends ConsumerWidget {
             Center(
               child: CustomButton(
                 onPressed: () {
-                  // Navigate to the screen to update personal information
-                  //
+                  ref
+                      .read(personalInformationUpdateInProgress.notifier)
+                      .update((update) => true);
+                  context.pushNamed(RouteNames.personalDataRegisterScreenRoute);
                 },
                 text: 'Actualizar información personal',
               ),

@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../data/user_data.dart';
 import '../../../routes/route_names.dart';
 import '../../../view_models/user/api_update_personal_information_provider.dart';
 
@@ -33,6 +34,20 @@ class _PersonalDataRegisterScreenState
   final _paternalSurnameController = TextEditingController();
   final _maternalSurnameController = TextEditingController();
   final _birthdateController = TextEditingController();
+
+  @override
+  void initState() {
+    final user = ref.read(currentUserProvider);
+    final updateInformation = ref.read(personalInformationUpdateInProgress);
+
+    if (updateInformation) {
+      _nameController.text = user.name!;
+      _paternalSurnameController.text = user.paternalSurname!;
+      _maternalSurnameController.text = user.maternalSurname!;
+      _selectedDate = user.birthdate!;
+    }
+    super.initState();
+  }
 
   // Image Picker
   final ImagePicker _imagePicker = ImagePicker();
@@ -128,7 +143,9 @@ class _PersonalDataRegisterScreenState
   Widget build(BuildContext context) {
     // Provider
     final uploadImageDataProvider = ref.watch(uploadedImageDataProvider);
-    final updatedInformationProvier = ref.watch(updatedPersonalInfoProvider);
+    final updatedInformationProvider = ref.watch(updatedPersonalInfoProvider);
+    final updateInformation = ref.watch(personalInformationUpdateInProgress);
+    final user = ref.watch(currentUserProvider);
 
     // TextField Providers
     final nameValidProv = ref.watch(nameValidationNotifierProvider);
@@ -183,7 +200,7 @@ class _PersonalDataRegisterScreenState
         await ref
             .read(apiUpdatePersonalInfoNotifierProvider.notifier)
             .updatePersonalInformation(user);
-        log("Updated state: ${updatedInformationProvier.message}");
+        log("Updated state: ${updatedInformationProvider.message}");
 
         ref.read(updatedPersonalInfoProvider.notifier).update(
               (state) => state = ApiResponse.success(),
@@ -191,7 +208,7 @@ class _PersonalDataRegisterScreenState
         log("Final de actualizacion");
       } on DioException catch (e) {
         //
-        log("Error tryng to update information");
+        log("Error trying to update information");
         ref.read(updatedPersonalInfoProvider.notifier).update(
               (state) => state = ApiResponse.error(
                 e.toString(),
@@ -286,15 +303,26 @@ class _PersonalDataRegisterScreenState
                 onPressed: () => _selectDate(context),
               ),
               Visibility(
-                visible: !updatedInformationProvier.success,
-                child: ErrorText(text: updatedInformationProvier.message),
+                visible: !updatedInformationProvider.success,
+                child: ErrorText(text: updatedInformationProvider.message),
               ),
               CustomButton(
                 onPressed: () async {
                   // log('Personal Data Register Screen: Navigation to Address Register Screen');
                   if (!validFields()) return;
                   await updatePersonalInfo();
-                  if (!updatedInformationProvier.success) return;
+                  if (!updatedInformationProvider.success) return;
+
+                  if (updateInformation) {
+                    ref
+                        .read(personalInformationUpdateInProgress.notifier)
+                        .update((state) => false);
+                    await ref.read(userDataProvider).getAuthUserInformation();
+                    WidgetsBinding.instance.addPostFrameCallback((callback) {
+                      context.pop();
+                    });
+                    return;
+                  }
 
                   WidgetsBinding.instance.addPostFrameCallback((callback) {
                     context.pushNamed(RouteNames.addressRegisterScreenRoute);

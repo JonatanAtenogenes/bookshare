@@ -1,4 +1,3 @@
-import 'package:bookshare/src/models/delegate/search_delegate.dart';
 import 'package:bookshare/src/models/enum/book_attributes.dart';
 import 'package:bookshare/src/models/enum/book_conditions.dart';
 import 'package:bookshare/src/routes/route_names.dart';
@@ -21,7 +20,6 @@ class BookInformation extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bookInformation = ref.watch(bookInfoProvider);
     final userProvider = ref.watch(currentUserProvider);
-    final sessionExchanges = ref.watch(sessionExchangesProvider);
     const duration = 3;
 
     return Scaffold(
